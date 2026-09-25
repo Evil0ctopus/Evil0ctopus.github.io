@@ -1,0 +1,238 @@
+{
+  "$schemaNote": "Evil0ctopus Flash catalog. v1 = ESP family only. mcuFamily + installMethod leave room for non-ESP installers later (e.g. uf2, link-out toolchains).",
+  "version": 1,
+  "updated": "2026-09-25",
+  "defaults": {
+    "authorizedUseNote": "Authorized use only. Flash firmware you own or are explicitly permitted to install. Third-party entries are catalog placeholders \u2014 not wired into this site's Install button until reviewed."
+  },
+  "categories": [
+    {
+      "id": "evil0ctopus",
+      "label": "Evil0ctopus"
+    },
+    {
+      "id": "cyd",
+      "label": "CYD"
+    },
+    {
+      "id": "wireless",
+      "label": "Wireless"
+    },
+    {
+      "id": "desk",
+      "label": "Desk / display"
+    },
+    {
+      "id": "other",
+      "label": "Other"
+    }
+  ],
+  "installMethods": [
+    {
+      "id": "esp-web-tools",
+      "label": "ESP Web Tools",
+      "mcuFamilies": [
+        "esp32"
+      ],
+      "notes": "Browser Web Serial install via esp-web-install-button + manifestUrl"
+    },
+    {
+      "id": "link-out",
+      "label": "Upstream installer",
+      "mcuFamilies": [
+        "esp32",
+        "other"
+      ],
+      "notes": "Open upstreamUrl; no local manifest"
+    },
+    {
+      "id": "coming-soon",
+      "label": "Coming soon",
+      "mcuFamilies": [
+        "esp32",
+        "other"
+      ],
+      "notes": "Placeholder until firmware / packaging ships"
+    },
+    {
+      "id": "uf2",
+      "label": "UF2 drag-drop (future)",
+      "mcuFamilies": [
+        "other"
+      ],
+      "notes": "Reserved for RP2040 / nRF / other UF2 boards \u2014 not used in v1"
+    }
+  ],
+  "items": [
+    {
+      "id": "wigglefish",
+      "name": "wigglefish",
+      "shortDescription": "Passive Wi-Fi / BLE field scanner for ESP32-C5. Metadata-only observation for authorized environments \u2014 no joining networks, deauth, or injection.",
+      "category": "evil0ctopus",
+      "boardLabel": "ESP32-C5 (wigglefish target)",
+      "chipFamily": "ESP32-C5",
+      "chipNote": "ESP32-C5 \u00b7 dual-band capable target board",
+      "mcuFamily": "esp32",
+      "installMethod": "esp-web-tools",
+      "manifestUrl": "firmware/wigglefish/manifest.json",
+      "upstreamUrl": "https://github.com/Evil0ctopus/wigglefish",
+      "license": "See repository",
+      "authorizedUseNote": "Authorized environments only. Metadata-only / passive observation \u2014 no joining networks, deauth, or injection.",
+      "status": "pending",
+      "tags": [
+        "evil0ctopus",
+        "wireless",
+        "esp32-c5",
+        "passive",
+        "own-project"
+      ]
+    },
+    {
+      "id": "cores3_weather_console",
+      "name": "cores3_weather_console",
+      "shortDescription": "M5Stack CoreS3 (ESP32-S3) weather console: live atmospheric data, radar-style UI, and touch display as embedded systems practice.",
+      "category": "desk",
+      "boardLabel": "M5Stack CoreS3",
+      "chipFamily": "ESP32-S3",
+      "chipNote": "ESP32-S3 \u00b7 CoreS3",
+      "mcuFamily": "esp32",
+      "installMethod": "coming-soon",
+      "manifestUrl": null,
+      "upstreamUrl": "https://github.com/Evil0ctopus/cores3_weather_console",
+      "license": "See repository",
+      "authorizedUseNote": "Flash only hardware you own. Firmware packaging for ESP Web Tools is not published yet.",
+      "status": "coming-soon",
+      "tags": [
+        "evil0ctopus",
+        "weather",
+        "cores3",
+        "esp32-s3",
+        "own-project"
+      ]
+    },
+    {
+      "id": "Pocket-Pirate-CYD",
+      "name": "Pocket-Pirate-CYD",
+      "shortDescription": "ESP32-S3 CYD (2.8\u2033 touch) firmware with a modular UI, asset packs, and a handheld utility dashboard.",
+      "category": "cyd",
+      "boardLabel": "ESP32-S3 CYD 2.8\u2033",
+      "chipFamily": "ESP32-S3",
+      "chipNote": "ESP32-S3 \u00b7 Cheap Yellow Display class",
+      "mcuFamily": "esp32",
+      "installMethod": "coming-soon",
+      "manifestUrl": null,
+      "upstreamUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD",
+      "license": "See repository",
+      "authorizedUseNote": "Flash only hardware you own. Local Install will activate when a published manifest ships.",
+      "status": "coming-soon",
+      "tags": [
+        "evil0ctopus",
+        "cyd",
+        "esp32-s3",
+        "handheld",
+        "own-project"
+      ]
+    },
+    {
+      "id": "cyd-aura",
+      "name": "Aura (CYD weather widget)",
+      "shortDescription": "DRAFT / not wired. Third-party open-source weather forecast widget for classic ESP32-2432S028R CYD boards. Catalog placeholder only.",
+      "category": "cyd",
+      "boardLabel": "ESP32-2432S028R (CYD 2.8\u2033)",
+      "chipFamily": "ESP32",
+      "chipNote": "Classic CYD \u00b7 ESP32-WROOM \u00b7 ILI9341",
+      "mcuFamily": "esp32",
+      "installMethod": "link-out",
+      "manifestUrl": null,
+      "upstreamUrl": "https://surrey-homeware.github.io/aura-installer/",
+      "repoUrl": "https://github.com/Surrey-Homeware/Aura",
+      "license": "See upstream repository",
+      "authorizedUseNote": "Third-party draft entry. Not reviewed or wired into Evil0ctopus Install. Use the upstream installer on hardware you own.",
+      "status": "link-out",
+      "tags": [
+        "cyd",
+        "weather",
+        "third-party",
+        "draft",
+        "not-wired"
+      ]
+    },
+    {
+      "id": "cyd-wifi-scanner-docbigs",
+      "name": "CYD WiFi Scanner (DocBigs Lab)",
+      "shortDescription": "DRAFT / not wired. Touch-driven 2.4 GHz WLAN scanner for ESP32-2432S028R with list, detail, RSSI compare, and channel views.",
+      "category": "wireless",
+      "boardLabel": "ESP32-2432S028R (CYD 2.8\u2033)",
+      "chipFamily": "ESP32",
+      "chipNote": "Classic CYD \u00b7 ILI9341 / ST7789 variants",
+      "mcuFamily": "esp32",
+      "installMethod": "link-out",
+      "manifestUrl": null,
+      "upstreamUrl": "https://docbigs-lab.github.io/CYD-Wifi-Scanner/",
+      "repoUrl": "https://github.com/DocBigs-Lab/CYD-Wifi-Scanner",
+      "license": "MIT (upstream)",
+      "authorizedUseNote": "Third-party draft entry. Not reviewed or wired into Evil0ctopus Install. Authorized networks / environments only.",
+      "status": "link-out",
+      "tags": [
+        "cyd",
+        "wifi",
+        "scanner",
+        "third-party",
+        "draft",
+        "not-wired"
+      ]
+    },
+    {
+      "id": "cyd-braino-gume",
+      "name": "Braino! / Gume",
+      "shortDescription": "DRAFT / not wired. Open-source educational game console firmware for CYD boards \u2014 ~40 learning games, browser flasher, no telemetry.",
+      "category": "cyd",
+      "boardLabel": "CYD family (2.8\u2033 / 3.2\u2033 / 4\u2033)",
+      "chipFamily": "ESP32",
+      "chipNote": "ESP32 + ESP32-S3 CYD variants (board picked in upstream installer)",
+      "mcuFamily": "esp32",
+      "installMethod": "link-out",
+      "manifestUrl": null,
+      "upstreamUrl": "https://iamankushpandit.github.io/Gume/",
+      "repoUrl": "https://github.com/iamankushpandit/Gume",
+      "license": "GPL-3.0 (upstream)",
+      "authorizedUseNote": "Third-party draft entry. Not reviewed or wired into Evil0ctopus Install. Flash only hardware you own via the upstream page.",
+      "status": "link-out",
+      "tags": [
+        "cyd",
+        "education",
+        "games",
+        "third-party",
+        "draft",
+        "not-wired",
+        "braino",
+        "gume"
+      ]
+    },
+    {
+      "id": "cyd-diagnostic-henryscat",
+      "name": "CYD Diagnostic Tool",
+      "shortDescription": "DRAFT / not wired. Hardware diagnostic & configuration utility for Cheap Yellow Display boards \u2014 identify variants, test display/touch/SD, export a hardware report.",
+      "category": "cyd",
+      "boardLabel": "ESP32-2432S028 family",
+      "chipFamily": "ESP32",
+      "chipNote": "Classic CYD family \u00b7 runtime ILI9341 / ST7789 switching",
+      "mcuFamily": "esp32",
+      "installMethod": "link-out",
+      "manifestUrl": null,
+      "upstreamUrl": "https://henryscat.github.io/ESP32-2432S028-CYD-Diagnostic-Tool/",
+      "repoUrl": "https://github.com/HenrysCat/ESP32-2432S028-CYD-Diagnostic-Tool",
+      "license": "MIT (upstream)",
+      "authorizedUseNote": "Third-party draft entry. Not reviewed or wired into Evil0ctopus Install. Useful for identifying unknown CYD clones you own.",
+      "status": "link-out",
+      "tags": [
+        "cyd",
+        "diagnostic",
+        "hardware",
+        "third-party",
+        "draft",
+        "not-wired"
+      ]
+    }
+  ]
+}

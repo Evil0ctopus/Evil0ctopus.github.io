@@ -2,6 +2,14 @@
 
 Release binaries and manifests for the Flash section on [evil0ctopus.github.io](https://evil0ctopus.github.io/) live here.
 
+## Catalog
+
+`firmware/firmware-catalog.json` powers the Flash hub on the homepage (filters, cards, detail panel).
+
+- Entries with `status: "ready"` and a resolvable `manifestUrl` enable ESP Web Tools Install.
+- `pending` / `coming-soon` keep Install disabled.
+- `link-out` opens an upstream installer (third-party drafts) — no local Install.
+
 ## Layout
 
 ```
