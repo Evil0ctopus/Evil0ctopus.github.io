@@ -37,6 +37,8 @@ html {
 
 body {
   margin: 0;
+  position: relative;
+  overflow-x: hidden;
   font-family: var(--font);
   font-size: 1.0625rem;
   line-height: 1.65;
@@ -706,4 +708,83 @@ a:hover {
 .muted.small,
 .small.muted {
   font-size: 0.9rem;
+}
+
+
+/* Hex pulse animated background */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.site-bg-hex {
+  position: absolute;
+  inset: -20%;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(30deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
+    linear-gradient(150deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
+    linear-gradient(30deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
+    linear-gradient(150deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
+    linear-gradient(60deg, rgba(8, 145, 178, 0.2) 25%, transparent 25.5%, transparent 75%, rgba(8, 145, 178, 0.2) 75%, rgba(8, 145, 178, 0.2)),
+    linear-gradient(60deg, rgba(8, 145, 178, 0.2) 25%, transparent 25.5%, transparent 75%, rgba(8, 145, 178, 0.2) 75%, rgba(8, 145, 178, 0.2));
+  background-size: 40px 70px, 40px 70px, 40px 70px, 40px 70px, 40px 70px, 40px 70px;
+  background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+  animation: site-hex-pulse 8s ease-in-out infinite;
+}
+
+.site-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 30%, rgba(11, 15, 20, 0.75) 100%);
+}
+
+.site-bg-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(34, 211, 238, 0.45);
+  border-radius: 2px;
+  background: rgba(34, 211, 238, 0.12);
+  animation: site-node-pulse 8s ease-in-out infinite;
+}
+
+.site-bg-node.n1 { top: 18%; left: 14%; animation-delay: 0s; }
+.site-bg-node.n2 { top: 32%; right: 18%; animation-delay: 1.5s; }
+.site-bg-node.n3 { bottom: 22%; left: 22%; animation-delay: 3s; }
+.site-bg-node.n4 { bottom: 28%; right: 12%; animation-delay: 4.5s; }
+.site-bg-node.n5 { top: 55%; left: 48%; animation-delay: 2s; }
+
+@keyframes site-hex-pulse {
+  0%, 100% { opacity: 0.14; filter: brightness(0.9); }
+  50% { opacity: 0.28; filter: brightness(1.15); }
+}
+
+@keyframes site-node-pulse {
+  0%, 100% { opacity: 0.35; box-shadow: 0 0 0 transparent; }
+  50% { opacity: 0.9; box-shadow: 0 0 12px rgba(34, 211, 238, 0.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg-hex {
+    animation: none;
+    opacity: 0.18;
+    filter: none;
+  }
+  .site-bg-node {
+    animation: none;
+    opacity: 0.45;
+    box-shadow: none;
+  }
+}
+
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
 }
