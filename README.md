@@ -1,6 +1,6 @@
 # Evil0ctopus.github.io
 
-Personal brand site for Josh Lorson (GitHub: [Evil0ctopus](https://github.com/Evil0ctopus)).
+Personal brand site for [Evil0ctopus](https://github.com/Evil0ctopus).
 
 **Live:** [https://evil0ctopus.github.io/](https://evil0ctopus.github.io/)
 
