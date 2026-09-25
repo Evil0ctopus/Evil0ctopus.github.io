@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Josh Lorson — Aspiring Cybersecurity Analyst. Hands-on cybersecurity practice, built in public.">
+  <title>Josh Lorson · Cybersecurity Analyst</title>
+  <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#top">
+        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="">
+        <span class="logo-text">Evil0ctopus</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#flash">Flash</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero" aria-labelledby="hero-name">
+      <div class="hero-inner">
+        <p class="eyebrow">Hands-on cybersecurity practice, built in public.</p>
+        <h1 id="hero-name">Josh Lorson</h1>
+        <p class="hero-role">Aspiring Cybersecurity Analyst · CompTIA A+ · Southeast Missouri</p>
+        <p class="hero-lead">
+          I build real tools for network awareness and embedded systems — and I put the work where hiring managers can see it.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#projects">View my projects</a>
+          <a class="btn btn-secondary" href="#flash">Flash firmware</a>
+        </div>
+      </div>
+      <div class="hero-accent">
+        <img
+          class="hero-brand"
+          src="assets/brand-icon.jpg"
+          width="768"
+          height="1368"
+          alt="Evil0ctopus brand mark — stylized octopus with tagline CODE. CRAFT. CONQUER."
+        >
+      </div>
+    </section>
+
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <div class="section-inner">
+        <h2 id="about-heading">About</h2>
+        <div class="prose">
+          <p>
+            I’m aiming for cybersecurity analyst roles (SOC, network defense, junior cyber) with a CompTIA A+ foundation and a habit of shipping. My public work lives on ESP32 hardware and Android: passive wireless observation, touch UIs, and field-usable firmware. I care about authorized use, clear docs, and tools people can actually run — not just screenshots on a résumé.
+          </p>
+          <p class="muted">
+            Based in Southeast Missouri. Open to remote or regional roles.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section section-alt" aria-labelledby="projects-heading">
+      <div class="section-inner">
+        <h2 id="projects-heading">Projects</h2>
+        <p class="section-intro">Public work on GitHub — hardware, firmware, and field tools.</p>
+        <ul class="project-grid">
+          <li class="project-card project-card--featured">
+            <div class="card-meta">
+              <span class="badge">Centerpiece</span>
+              <span class="card-tag">ESP32-C5 · Android</span>
+            </div>
+            <h3><a href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">wigglefish</a></h3>
+            <p>
+              Passive Wi-Fi and BLE field scanner: ESP32-C5 plus an Android USB controller. Metadata-only observation for authorized environments — no joining networks, deauth, or injection. Built to practice wireless awareness the right way.
+            </p>
+            <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">View on GitHub →</a>
+          </li>
+          <li class="project-card">
+            <div class="card-meta">
+              <span class="card-tag">ESP32-S3 · PlatformIO</span>
+            </div>
+            <h3><a href="https://github.com/Evil0ctopus/cores3_weather_console" rel="noopener noreferrer">cores3_weather_console</a></h3>
+            <p>
+              M5Stack CoreS3 (ESP32-S3) weather console in PlatformIO/C++: live atmospheric data, radar-style UI, and touch display as embedded systems practice.
+            </p>
+            <a class="card-link" href="https://github.com/Evil0ctopus/cores3_weather_console" rel="noopener noreferrer">View on GitHub →</a>
+          </li>
+          <li class="project-card">
+            <div class="card-meta">
+              <span class="card-tag">ESP32-S3 CYD</span>
+            </div>
+            <h3><a href="https://github.com/Evil0ctopus/Pocket-Pirate-CYD" rel="noopener noreferrer">Pocket-Pirate-CYD</a></h3>
+            <p>
+              ESP32-S3 CYD (2.8″ touch) firmware with a modular UI, asset packs, and a handheld utility dashboard.
+            </p>
+            <a class="card-link" href="https://github.com/Evil0ctopus/Pocket-Pirate-CYD" rel="noopener noreferrer">View on GitHub →</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="flash" class="section" aria-labelledby="flash-heading">
+      <div class="section-inner">
+        <h2 id="flash-heading">Flash firmware</h2>
+        <p>
+          Install supported firmware from this page over USB (Chrome or Edge). No desktop flasher required.
+        </p>
+        <p>
+          First board: <strong>wigglefish</strong> (ESP32-C5). Connect the board → choose the build → flash.
+        </p>
+
+        <div class="flash-panel" role="region" aria-labelledby="flash-panel-title">
+          <div class="flash-panel-header">
+            <h3 id="flash-panel-title">wigglefish · ESP32-C5</h3>
+            <span class="status-pill" aria-label="Status: coming soon">Coming soon</span>
+          </div>
+          <p class="flash-note">
+            No release build is published yet. The live ESP Web Tools flasher will land here once a firmware <code>.bin</code> is available. This draft does not include a working flasher or firmware URLs.
+          </p>
+          <div class="flash-controls">
+            <label class="field-label" for="build-select">Build</label>
+            <select id="build-select" class="field-select" disabled aria-disabled="true">
+              <option>Release build — not available yet</option>
+            </select>
+            <button type="button" class="btn btn-primary" disabled aria-disabled="true">
+              Connect &amp; flash
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-alt" aria-labelledby="contact-heading">
+      <div class="section-inner">
+        <h2 id="contact-heading">Hire me / Contact</h2>
+        <p>
+          Looking for entry-level cybersecurity analyst and related roles.
+        </p>
+        <p>
+          <a class="contact-link" href="https://github.com/Evil0ctopus" rel="noopener noreferrer">GitHub: Evil0ctopus</a>
+        </p>
+        <p class="muted small">
+          Public email / LinkedIn can be added here.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="draft-note">Evil0ctopus · built in public</p>
+      <p class="copyright">© Josh Lorson · Evil0ctopus</p>
+    </div>
+  </footer>
+</body>
+</html>
