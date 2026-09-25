@@ -960,3 +960,18 @@ main,
   position: relative;
   z-index: 1;
 }
+
+
+.footer-support {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+}
+
+.footer-support a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.footer-support a:hover {
+  color: var(--accent);
+}
