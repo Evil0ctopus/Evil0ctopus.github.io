@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Flash ESP firmware from the Evil0ctopus multi-chip catalog with ESP Web Tools.">
+  <title>Flash firmware · Evil0ctopus</title>
+  <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="flash-catalog.css">
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg-hex"></div>
+    <div class="site-bg-vignette"></div>
+    <span class="site-bg-node n1"></span>
+    <span class="site-bg-node n2"></span>
+    <span class="site-bg-node n3"></span>
+    <span class="site-bg-node n4"></span>
+    <span class="site-bg-node n5"></span>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="">
+        <span class="logo-text">Evil0ctopus</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About</a>
+        <a href="education.html">Education</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="flash.html" aria-current="page">Flash</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="flash" class="section" aria-labelledby="flash-heading">
+      <div class="section-inner flash-catalog">
+        <h2 id="flash-heading">Flash firmware</h2>
+        <p class="section-intro">
+          Browse the multi-chip firmware catalog, filter by category, then install over USB with
+          <a href="https://esphome.github.io/esp-web-tools/" rel="noopener noreferrer">ESP Web Tools</a>
+          when a release is ready.
+          <strong>Chrome or Edge required</strong> (Web Serial). No desktop flasher needed.
+        </p>
+        <p class="catalog-auth" role="note">
+          <strong>Authorized use only.</strong>
+          Flash firmware you own or are explicitly permitted to install.
+          <strong>wigglefish</strong> is for metadata-only / passive observation in authorized environments — no joining networks, deauth, or injection.
+          Third-party CYD picks are <em>draft / not wired</em> placeholders — they open an upstream installer and do not activate the local Install button.
+        </p>
+
+        <p id="catalog-load-error" class="catalog-auth" hidden></p>
+
+        <div class="catalog-toolbar">
+          <div class="catalog-search-wrap">
+            <label for="catalog-search">Search firmware</label>
+            <input
+              id="catalog-search"
+              class="catalog-search"
+              type="search"
+              placeholder="Search name, chip, tags…"
+              autocomplete="off"
+              spellcheck="false"
+            >
+          </div>
+          <div id="catalog-filters" class="catalog-filters" role="toolbar" aria-label="Category filters"></div>
+        </div>
+
+        <div class="catalog-meta-bar">
+          <span id="catalog-count" class="count">Loading catalog…</span>
+          <span>Data · <code>firmware/firmware-catalog.json</code></span>
+        </div>
+
+        <div class="catalog-layout">
+          <section aria-labelledby="list-heading">
+            <h3 id="list-heading" class="visually-hidden">Firmware list</h3>
+            <ul id="firmware-list" class="firmware-list" aria-label="Firmware catalog"></ul>
+          </section>
+
+          <aside id="catalog-detail" class="catalog-detail" aria-live="polite" aria-labelledby="detail-heading">
+            <p class="detail-kicker">Flash hub · detail</p>
+            <div class="detail-placeholder">Loading…</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="draft-note">Evil0ctopus · built in public</p>
+      <p class="footer-support"><a href="https://paypal.me/Evil0ctopus" rel="noopener noreferrer">Support this work on PayPal</a></p>
+      <p class="copyright">© Evil0ctopus</p>
+    </div>
+  </footer>
+
+  <script
+    type="module"
+    src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+  ></script>
+  <script src="flash-catalog.js" defer></script>
+</body>
+</html>
