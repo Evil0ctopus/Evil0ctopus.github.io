@@ -131,9 +131,10 @@ a:hover {
   height: 40px;
   flex-shrink: 0;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
   border: 1px solid var(--border);
   background: #0a0e14;
+  display: block;
 }
 
 .logo-text {
@@ -246,6 +247,54 @@ a:hover {
   box-shadow: var(--shadow);
 }
 
+.hero-octopus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  padding: 1rem 1rem 1.35rem;
+  border-radius: var(--radius);
+  background: #0a0e14;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.hero-octopus-mark {
+  max-width: 20rem;
+  max-height: min(360px, 48vh);
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-wordmark {
+  margin: 0.15rem 0 0;
+  font-family: var(--font);
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  color: #e8f9fc;
+  background: linear-gradient(180deg, #f0fdff 0%, #67e8f9 45%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.55));
+}
+
+.hero-tagline {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
+}
+
 @media (min-width: 860px) {
   .hero-accent {
     max-width: 26rem;
@@ -254,6 +303,11 @@ a:hover {
 
   .hero-brand {
     max-height: min(560px, 72vh);
+  }
+
+  .hero-octopus-mark {
+    max-width: 22rem;
+    max-height: min(400px, 52vh);
   }
 }
 
@@ -780,6 +834,19 @@ a:hover {
 
   .hero-brand {
     max-height: 360px;
+  }
+
+  .hero-octopus-mark {
+    max-height: 280px;
+  }
+
+  .hero-wordmark {
+    font-size: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
   }
 }
 

@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" role="img" aria-labelledby="eo-title">
+  <title id="eo-title">Evil0ctopus brand mark — stylized navy octopus with glowing cyan eyes inside a hex frame</title>
+  <defs>
+    <filter id="cyanGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="hexHalo" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="mantleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e4570"/>
+      <stop offset="40%" stop-color="#143556"/>
+      <stop offset="100%" stop-color="#0a1f38"/>
+    </linearGradient>
+    <linearGradient id="tentTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#184066"/>
+      <stop offset="100%" stop-color="#0c243c"/>
+    </linearGradient>
+    <linearGradient id="tentUnder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9a7548"/>
+      <stop offset="50%" stop-color="#c49a5e"/>
+      <stop offset="100%" stop-color="#7e5e36"/>
+    </linearGradient>
+    <radialGradient id="hexFill" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#152030"/>
+      <stop offset="100%" stop-color="#070b10"/>
+    </radialGradient>
+    <clipPath id="hexClip">
+      <polygon points="260,26 460,140 460,380 260,494 60,380 60,140"/>
+    </clipPath>
+  </defs>
+
+  <style><![CDATA[
+    .ring{fill:none;stroke:#22d3ee;stroke-width:2.4;filter:url(#cyanGlow);animation:glowPulse 3.2s ease-in-out infinite}
+    .spot{fill:#22d3ee;filter:url(#cyanGlow);animation:glowPulse 3.2s ease-in-out infinite}
+    .sucker{fill:#22d3ee;filter:url(#cyanGlow);animation:glowPulse 2.8s ease-in-out infinite}
+    .eye{fill:#22d3ee;filter:url(#cyanGlow);animation:eyePulse 2.4s ease-in-out infinite}
+    .eyelid{fill:#0c243c;transform-box:fill-box;transform-origin:50% 0%;animation:blink 5.6s ease-in-out infinite}
+    .eyelid-r{animation-delay:.1s}
+    .hex-stroke{fill:none;stroke:#22d3ee;stroke-width:5.5;filter:url(#hexHalo);animation:glowPulse 4s ease-in-out infinite}
+    .hex-stroke-inner{fill:none;stroke:#67e8f9;stroke-width:1.6;opacity:.8;animation:glowPulse 4s ease-in-out infinite}
+    .circuit{fill:none;stroke:#1a3854;stroke-width:1.5}
+    .circuit-node{fill:#22d3ee;opacity:.4;animation:glowPulse 5s ease-in-out infinite}
+    .body{transform-origin:260px 220px;animation:breathe 4.5s ease-in-out infinite}
+    .t1{transform-origin:188px 275px;animation:sway1 3.4s ease-in-out infinite}
+    .t2{transform-origin:222px 295px;animation:sway2 3.8s ease-in-out infinite;animation-delay:-.45s}
+    .t3{transform-origin:260px 300px;animation:sway3 3.2s ease-in-out infinite;animation-delay:-.95s}
+    .t4{transform-origin:298px 295px;animation:sway4 3.6s ease-in-out infinite;animation-delay:-1.35s}
+    .t5{transform-origin:332px 275px;animation:sway5 3.5s ease-in-out infinite;animation-delay:-.65s}
+    .t6{transform-origin:168px 250px;animation:sway6 4.1s ease-in-out infinite;animation-delay:-1.15s}
+    .t7{transform-origin:352px 250px;animation:sway7 3.9s ease-in-out infinite;animation-delay:-.25s}
+    .t8{transform-origin:260px 290px;animation:sway8 4.4s ease-in-out infinite;animation-delay:-1.75s}
+    @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3.5px) scale(1.015)}}
+    @keyframes sway1{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+    @keyframes sway2{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-7deg)}}
+    @keyframes sway3{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(4deg) translateY(2px)}}
+    @keyframes sway4{0%,100%{transform:rotate(5deg)}50%{transform:rotate(-6deg)}}
+    @keyframes sway5{0%,100%{transform:rotate(6deg)}50%{transform:rotate(-5deg)}}
+    @keyframes sway6{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(4deg)}}
+    @keyframes sway7{0%,100%{transform:rotate(9deg)}50%{transform:rotate(-4deg)}}
+    @keyframes sway8{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(3px)}}
+    @keyframes blink{0%,87%,100%{transform:scaleY(0)}89%,93%{transform:scaleY(1)}95%{transform:scaleY(0)}}
+    @keyframes glowPulse{0%,100%{opacity:.82}50%{opacity:1}}
+    @keyframes eyePulse{0%,100%{opacity:.9}50%{opacity:1}}
+    @media (prefers-reduced-motion:reduce){
+      .body,.t1,.t2,.t3,.t4,.t5,.t6,.t7,.t8,.eyelid,.eyelid-r,.ring,.spot,.sucker,.eye,.hex-stroke,.hex-stroke-inner,.circuit-node{animation:none!important}
+      .eyelid,.eyelid-r{transform:scaleY(0)}
+    }
+  ]]></style>
+
+  <rect width="520" height="520" fill="none"/>
+  <polygon points="260,26 460,140 460,380 260,494 60,380 60,140" fill="#22d3ee" opacity=".1" filter="url(#softGlow)"/>
+
+  <g clip-path="url(#hexClip)">
+    <polygon points="260,26 460,140 460,380 260,494 60,380 60,140" fill="url(#hexFill)"/>
+    <g class="circuit" opacity=".75">
+      <path d="M88 195 H155 V150 H205"/>
+      <path d="M432 195 H365 V150 H315"/>
+      <path d="M95 350 H165 V395 H235"/>
+      <path d="M425 350 H355 V395 H285"/>
+      <path d="M155 245 H195 V295"/>
+      <path d="M365 245 H325 V295"/>
+      <path d="M195 105 H260 V72"/>
+      <path d="M325 105 H260"/>
+      <path d="M130 275 H175"/>
+      <path d="M390 275 H345"/>
+      <path d="M210 430 H260 V465"/>
+      <path d="M310 430 H260"/>
+      <path d="M105 245 H128 V210"/>
+      <path d="M415 245 H392 V210"/>
+    </g>
+    <g>
+      <circle class="circuit-node" cx="155" cy="195" r="3.2"/>
+      <circle class="circuit-node" cx="365" cy="195" r="3.2"/>
+      <circle class="circuit-node" cx="165" cy="350" r="3.2"/>
+      <circle class="circuit-node" cx="355" cy="350" r="3.2"/>
+      <circle class="circuit-node" cx="205" cy="150" r="2.6"/>
+      <circle class="circuit-node" cx="315" cy="150" r="2.6"/>
+      <circle class="circuit-node" cx="260" cy="72" r="2.6"/>
+      <circle class="circuit-node" cx="260" cy="465" r="2.6"/>
+      <circle class="circuit-node" cx="195" cy="295" r="2.6"/>
+      <circle class="circuit-node" cx="325" cy="295" r="2.6"/>
+    </g>
+  </g>
+
+  <polygon class="hex-stroke" points="260,26 460,140 460,380 260,494 60,380 60,140"/>
+  <polygon class="hex-stroke-inner" points="260,40 447,146 447,374 260,480 73,374 73,146"/>
+
+  <g class="body">
+    <!-- Far left tentacle -->
+    <g class="t6">
+      <path d="M175 255 C118 262 78 310 72 368 C68 400 95 428 128 414 C152 404 158 370 168 338 C176 312 182 282 190 262 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.8" stroke-linejoin="round"/>
+      <path d="M168 265 C125 275 95 318 90 360 C87 385 105 405 125 396 C142 388 148 362 156 338 C163 318 172 290 182 268 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.4"/>
+      <circle class="sucker" cx="105" cy="350" r="4.2"/><circle class="sucker" cx="115" cy="375" r="3.6"/><circle class="sucker" cx="132" cy="395" r="3.2"/><circle class="sucker" cx="140" cy="330" r="3.6"/>
+      <circle class="ring" cx="148" cy="295" r="7.5"/><circle class="ring" cx="125" cy="335" r="5.5"/>
+    </g>
+    <!-- Far right tentacle -->
+    <g class="t7">
+      <path d="M345 255 C402 262 442 310 448 368 C452 400 425 428 392 414 C368 404 362 370 352 338 C344 312 338 282 330 262 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.8" stroke-linejoin="round"/>
+      <path d="M352 265 C395 275 425 318 430 360 C433 385 415 405 395 396 C378 388 372 362 364 338 C357 318 348 290 338 268 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.4"/>
+      <circle class="sucker" cx="415" cy="350" r="4.2"/><circle class="sucker" cx="405" cy="375" r="3.6"/><circle class="sucker" cx="388" cy="395" r="3.2"/><circle class="sucker" cx="380" cy="330" r="3.6"/>
+      <circle class="ring" cx="372" cy="295" r="7.5"/><circle class="ring" cx="395" cy="335" r="5.5"/>
+    </g>
+    <!-- Left front curl -->
+    <g class="t1">
+      <path d="M195 280 C155 310 125 365 145 415 C158 445 205 448 222 415 C232 395 228 360 224 330 C221 308 210 288 200 278 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.8" stroke-linejoin="round"/>
+      <path d="M200 292 C168 318 145 360 158 402 C166 422 195 425 208 408 C216 395 214 365 212 340 C210 318 208 298 205 288 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.4"/>
+      <circle class="sucker" cx="168" cy="370" r="4.2"/><circle class="sucker" cx="180" cy="395" r="3.6"/><circle class="sucker" cx="198" cy="412" r="3.2"/><circle class="sucker" cx="185" cy="345" r="3.6"/>
+      <circle class="ring" cx="178" cy="315" r="6.5"/><circle class="spot" cx="195" cy="350" r="3.2"/>
+    </g>
+    <!-- Right front curl -->
+    <g class="t5">
+      <path d="M325 280 C365 310 395 365 375 415 C362 445 315 448 298 415 C288 395 292 360 296 330 C299 308 310 288 320 278 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.8" stroke-linejoin="round"/>
+      <path d="M320 292 C352 318 375 360 362 402 C354 422 325 425 312 408 C304 395 306 365 308 340 C310 318 312 298 315 288 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.4"/>
+      <circle class="sucker" cx="352" cy="370" r="4.2"/><circle class="sucker" cx="340" cy="395" r="3.6"/><circle class="sucker" cx="322" cy="412" r="3.2"/><circle class="sucker" cx="335" cy="345" r="3.6"/>
+      <circle class="ring" cx="342" cy="315" r="6.5"/><circle class="spot" cx="325" cy="350" r="3.2"/>
+    </g>
+    <!-- Mid-left -->
+    <g class="t2">
+      <path d="M225 295 C195 340 182 395 215 440 C232 462 270 455 272 420 C273 395 260 365 252 335 C247 315 238 300 230 294 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.6" stroke-linejoin="round"/>
+      <path d="M230 308 C208 345 200 390 225 425 C236 440 255 436 258 418 C260 398 252 372 246 345 C242 325 236 310 233 304 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.3"/>
+      <circle class="sucker" cx="218" cy="380" r="4"/><circle class="sucker" cx="230" cy="405" r="3.4"/><circle class="sucker" cx="245" cy="422" r="3"/><circle class="sucker" cx="235" cy="355" r="3.4"/>
+      <circle class="ring" cx="225" cy="330" r="5.8"/>
+    </g>
+    <!-- Mid-right -->
+    <g class="t4">
+      <path d="M295 295 C325 340 338 395 305 440 C288 462 250 455 248 420 C247 395 260 365 268 335 C273 315 282 300 290 294 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.6" stroke-linejoin="round"/>
+      <path d="M290 308 C312 345 320 390 295 425 C284 440 265 436 262 418 C260 398 268 372 274 345 C278 325 284 310 287 304 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.3"/>
+      <circle class="sucker" cx="302" cy="380" r="4"/><circle class="sucker" cx="290" cy="405" r="3.4"/><circle class="sucker" cx="275" cy="422" r="3"/><circle class="sucker" cx="285" cy="355" r="3.4"/>
+      <circle class="ring" cx="295" cy="330" r="5.8"/>
+    </g>
+    <!-- Center lower -->
+    <g class="t8">
+      <path d="M248 300 C238 350 248 405 260 450 C268 468 282 462 280 432 C278 400 274 360 270 330 C268 312 260 300 254 298 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.2" stroke-linejoin="round"/>
+      <path d="M255 312 C248 350 255 400 262 435 C266 450 276 446 275 428 C273 402 270 365 268 338 C267 322 262 310 258 308 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.2"/>
+      <circle class="sucker" cx="258" cy="375" r="3.5"/><circle class="sucker" cx="262" cy="400" r="3"/><circle class="sucker" cx="266" cy="422" r="2.6"/>
+    </g>
+    <!-- Center front -->
+    <g class="t3">
+      <path d="M242 288 C230 335 238 385 255 425 C262 442 280 438 282 412 C284 388 276 348 272 320 C270 305 260 290 252 286 Z" fill="url(#tentTop)" stroke="#05080c" stroke-width="3.4" stroke-linejoin="round"/>
+      <path d="M250 300 C242 338 248 380 260 412 C265 424 276 422 277 408 C278 390 274 355 271 328 C270 314 262 300 256 298 Z" fill="url(#tentUnder)" stroke="#05080c" stroke-width="1.2"/>
+      <circle class="sucker" cx="255" cy="355" r="3.6"/><circle class="sucker" cx="260" cy="380" r="3.2"/><circle class="sucker" cx="266" cy="400" r="2.8"/>
+      <circle class="ring" cx="252" cy="320" r="5.2"/>
+    </g>
+
+    <!-- Mantle / head -->
+    <g class="mantle">
+      <ellipse cx="260" cy="198" rx="98" ry="108" fill="url(#mantleGrad)" stroke="#05080c" stroke-width="4.8"/>
+      <!-- Heavy brow ridge -->
+      <path d="M178 188 Q210 148 260 145 Q310 148 342 188 Q325 162 260 158 Q195 162 178 188 Z" fill="#0a1f38" stroke="#05080c" stroke-width="2.8"/>
+      <path d="M185 195 Q225 168 260 166 Q295 168 335 195" fill="none" stroke="#05080c" stroke-width="3.2" stroke-linecap="round"/>
+
+      <!-- Rings & spots -->
+      <circle class="ring" cx="215" cy="160" r="15"/><circle class="ring" cx="305" cy="160" r="15"/>
+      <circle class="ring" cx="260" cy="128" r="12"/><circle class="ring" cx="190" cy="210" r="11"/>
+      <circle class="ring" cx="330" cy="210" r="11"/><circle class="ring" cx="230" cy="235" r="9"/>
+      <circle class="ring" cx="290" cy="235" r="9"/><circle class="ring" cx="260" cy="188" r="8"/>
+      <circle class="spot" cx="242" cy="150" r="3.8"/><circle class="spot" cx="278" cy="150" r="3.8"/>
+      <circle class="spot" cx="205" cy="192" r="3.2"/><circle class="spot" cx="315" cy="192" r="3.2"/>
+      <circle class="spot" cx="250" cy="250" r="2.8"/><circle class="spot" cx="178" cy="175" r="2.6"/><circle class="spot" cx="342" cy="175" r="2.6"/>
+
+      <!-- Angular slanted glowing eyes -->
+      <g class="eyes">
+        <path class="eye" d="M198 198 L250 208 L244 232 L190 224 Z"/>
+        <path class="eye" d="M322 198 L270 208 L276 232 L330 224 Z"/>
+        <rect class="eyelid" x="188" y="194" width="66" height="42" rx="2"/>
+        <rect class="eyelid eyelid-r" x="266" y="194" width="66" height="42" rx="2"/>
+      </g>
+
+      <circle cx="251" cy="238" r="2.4" fill="#05080c"/>
+      <circle cx="269" cy="238" r="2.4" fill="#05080c"/>
+      <!-- Asymmetric smirk -->
+      <path d="M228 255 Q258 270 292 248" fill="none" stroke="#05080c" stroke-width="3.4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Craft mark: stylus + prompt -->
+    <g opacity=".8" transform="translate(260 468)">
+      <path d="M-5 -12 L0 -20 L5 -12 L1.5 -10 L1.5 4 L-1.5 4 L-1.5 -10 Z" fill="#e8eef6" stroke="#22d3ee" stroke-width=".9"/>
+      <text x="-11" y="18" font-family="ui-monospace,SF Mono,Consolas,monospace" font-size="12" fill="#22d3ee" font-weight="700">&gt;_</text>
+    </g>
+  </g>
+</svg>
