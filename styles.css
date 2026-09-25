@@ -460,6 +460,52 @@ a:hover {
   text-decoration: underline;
 }
 
+.apk-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.3rem;
+  padding: 0.95rem 1rem;
+  background: var(--accent-soft);
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  border-radius: var(--radius-sm);
+}
+
+.apk-cta-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+}
+
+.apk-status {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fef3c7;
+}
+
+.apk-copy,
+.apk-note {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.apk-copy {
+  font-size: 0.92rem;
+}
+
+.apk-note {
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.apk-download {
+  align-self: flex-start;
+}
+
 /* Flash section */
 .flash-auth-note {
   margin: 0 0 1.5rem;
