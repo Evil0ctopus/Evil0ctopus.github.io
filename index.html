@@ -186,29 +186,106 @@
     <section id="flash" class="section" aria-labelledby="flash-heading">
       <div class="section-inner">
         <h2 id="flash-heading">Flash firmware</h2>
-        <p>
-          Install supported firmware from this page over USB (Chrome or Edge). No desktop flasher required.
+        <p class="section-intro">
+          Install supported firmware over USB with
+          <a href="https://esphome.github.io/esp-web-tools/" rel="noopener noreferrer">ESP Web Tools</a>.
+          <strong>Chrome or Edge required</strong> (Web Serial). No desktop flasher needed.
         </p>
-        <p>
-          First board: <strong>wigglefish</strong> (ESP32-C5). Connect the board → choose the build → flash.
+        <p class="flash-auth-note" role="note">
+          <strong>Authorized use only.</strong> Flash firmware you own or are explicitly permitted to install.
+          <strong>wigglefish</strong> is for metadata-only / passive observation in authorized environments — no joining networks, deauth, or injection.
         </p>
 
-        <div class="flash-panel" role="region" aria-labelledby="flash-panel-title">
+        <fieldset class="board-picker" aria-labelledby="board-picker-legend">
+          <legend id="board-picker-legend" class="field-label">Board</legend>
+          <div class="board-options" role="radiogroup" aria-label="Select board to flash">
+            <label class="board-option" data-board="wigglefish">
+              <input
+                type="radio"
+                name="flash-board"
+                value="wigglefish"
+                checked
+                data-title="wigglefish · ESP32-C5"
+                data-chip="ESP32-C5"
+                data-manifest="firmware/wigglefish/manifest.json"
+                data-blurb="Passive Wi-Fi / BLE field scanner firmware for ESP32-C5. Metadata-only observation for authorized environments."
+              >
+              <span class="board-option-body">
+                <span class="board-option-name">wigglefish</span>
+                <span class="board-option-chip">ESP32-C5</span>
+                <span class="board-option-badge board-option-badge--default">Default</span>
+              </span>
+            </label>
+            <label class="board-option board-option--soon" data-board="cores3_weather_console">
+              <input
+                type="radio"
+                name="flash-board"
+                value="cores3_weather_console"
+                disabled
+                aria-disabled="true"
+                data-title="cores3_weather_console · ESP32-S3"
+                data-chip="ESP32-S3"
+              >
+              <span class="board-option-body">
+                <span class="board-option-name">cores3_weather_console</span>
+                <span class="board-option-chip">ESP32-S3 · CoreS3</span>
+                <span class="board-option-badge">Coming soon</span>
+              </span>
+            </label>
+            <label class="board-option board-option--soon" data-board="Pocket-Pirate-CYD">
+              <input
+                type="radio"
+                name="flash-board"
+                value="Pocket-Pirate-CYD"
+                disabled
+                aria-disabled="true"
+                data-title="Pocket-Pirate-CYD · ESP32-S3"
+                data-chip="ESP32-S3"
+              >
+              <span class="board-option-body">
+                <span class="board-option-name">Pocket-Pirate-CYD</span>
+                <span class="board-option-chip">ESP32-S3 · CYD</span>
+                <span class="board-option-badge">Coming soon</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="flash-panel" role="region" aria-labelledby="flash-panel-title" aria-live="polite">
           <div class="flash-panel-header">
             <h3 id="flash-panel-title">wigglefish · ESP32-C5</h3>
-            <span class="status-pill" aria-label="Status: coming soon">Coming soon</span>
+            <span id="flash-status" class="status-pill" aria-label="Status: firmware not published yet">Firmware not published yet</span>
           </div>
-          <p class="flash-note">
-            No release build is published yet. The live ESP Web Tools flasher will land here once a firmware <code>.bin</code> is available. A working flasher and firmware URLs will appear here when a release build is ready.
+          <p id="flash-blurb" class="flash-blurb">
+            Passive Wi-Fi / BLE field scanner firmware for ESP32-C5. Metadata-only observation for authorized environments.
           </p>
-          <div class="flash-controls">
-            <label class="field-label" for="build-select">Build</label>
-            <select id="build-select" class="field-select" disabled aria-disabled="true">
-              <option>Release build — not available yet</option>
-            </select>
-            <button type="button" class="btn btn-primary" disabled aria-disabled="true">
-              Connect &amp; flash
+          <p id="flash-note" class="flash-note">
+            No release <code>.bin</code> or <code>manifest.json</code> is published yet.
+            When Repo Builder ships <code>firmware/wigglefish/manifest.json</code> (and its bins), the Install button below activates automatically — no page rewrite required.
+          </p>
+
+          <div id="flash-ready" class="flash-ready" hidden>
+            <p class="flash-browser-note muted small">
+              Use <strong>Chrome</strong> or <strong>Edge</strong> on desktop. Connect the board over USB, then click Install.
+            </p>
+            <esp-web-install-button id="esp-install" class="esp-install">
+              <button type="button" slot="activate" class="btn btn-primary">
+                Connect &amp; install
+              </button>
+              <span slot="unsupported" class="flash-slot-msg">
+                Web Serial is not available in this browser. Open this page in <strong>Chrome</strong> or <strong>Edge</strong> on a desktop computer.
+              </span>
+              <span slot="not-allowed" class="flash-slot-msg">
+                Flashing requires HTTPS (or localhost). Open the live site over HTTPS to install.
+              </span>
+            </esp-web-install-button>
+          </div>
+
+          <div id="flash-pending" class="flash-controls">
+            <button type="button" class="btn btn-primary" disabled aria-disabled="true" aria-describedby="flash-note">
+              Connect &amp; install
             </button>
+            <p class="muted small flash-pending-hint">Install stays inactive until a real firmware manifest is published.</p>
           </div>
         </div>
       </div>
@@ -244,5 +321,120 @@
       <p class="copyright">© Josh Lorson · Evil0ctopus</p>
     </div>
   </footer>
+
+  <script
+    type="module"
+    src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+  ></script>
+  <script>
+    (function () {
+      var statusEl = document.getElementById("flash-status");
+      var titleEl = document.getElementById("flash-panel-title");
+      var blurbEl = document.getElementById("flash-blurb");
+      var noteEl = document.getElementById("flash-note");
+      var readyEl = document.getElementById("flash-ready");
+      var pendingEl = document.getElementById("flash-pending");
+      var installBtn = document.getElementById("esp-install");
+      var radios = document.querySelectorAll('input[name="flash-board"]');
+      var manifestCache = Object.create(null);
+
+      function setStatus(kind, label) {
+        statusEl.textContent = label;
+        statusEl.setAttribute("aria-label", "Status: " + label.toLowerCase());
+        statusEl.className = "status-pill" + (kind ? " status-pill--" + kind : "");
+      }
+
+      function showPending(messageHtml) {
+        readyEl.hidden = true;
+        pendingEl.hidden = false;
+        installBtn.removeAttribute("manifest");
+        if (messageHtml) noteEl.innerHTML = messageHtml;
+      }
+
+      function showReady(manifestUrl) {
+        pendingEl.hidden = true;
+        readyEl.hidden = false;
+        installBtn.setAttribute("manifest", manifestUrl);
+        noteEl.innerHTML =
+          "Release firmware detected. Connect your board over USB, then use <strong>Connect &amp; install</strong>. Chrome or Edge required.";
+        setStatus("ready", "Ready to install");
+      }
+
+      function probeManifest(url) {
+        if (manifestCache[url] !== undefined) {
+          return Promise.resolve(manifestCache[url]);
+        }
+        return fetch(url, { method: "GET", cache: "no-store" })
+          .then(function (res) {
+            if (!res.ok) {
+              manifestCache[url] = false;
+              return false;
+            }
+            return res.json().then(function (data) {
+              var ok = data && Array.isArray(data.builds) && data.builds.length > 0;
+              manifestCache[url] = ok ? url : false;
+              return manifestCache[url];
+            });
+          })
+          .catch(function () {
+            manifestCache[url] = false;
+            return false;
+          });
+      }
+
+      function selectBoard(input) {
+        if (!input || input.disabled) return;
+        var title = input.getAttribute("data-title") || input.value;
+        var blurb = input.getAttribute("data-blurb") || "";
+        var manifest = input.getAttribute("data-manifest");
+
+        titleEl.textContent = title;
+        blurbEl.textContent = blurb;
+
+        document.querySelectorAll(".board-option").forEach(function (el) {
+          el.classList.toggle("is-selected", el.contains(input) && input.checked);
+        });
+
+        if (!manifest) {
+          setStatus("soon", "Coming soon");
+          showPending(
+            "Firmware for this board is not wired up yet. Pick <strong>wigglefish</strong> when a release is published, or check back later."
+          );
+          return;
+        }
+
+        setStatus("", "Checking firmware…");
+        showPending(
+          "Looking for <code>" +
+            manifest +
+            "</code>… Install stays inactive until a real manifest and bins are published."
+        );
+
+        probeManifest(manifest).then(function (found) {
+          if (!input.checked) return;
+          if (found) {
+            showReady(found);
+          } else {
+            setStatus("", "Firmware not published yet");
+            showPending(
+              "No release <code>.bin</code> or <code>manifest.json</code> is published yet. " +
+                "When Repo Builder ships <code>" +
+                manifest +
+                "</code> (and its bins), the Install button activates automatically — no page rewrite required."
+            );
+          }
+        });
+      }
+
+      radios.forEach(function (radio) {
+        radio.addEventListener("change", function () {
+          selectBoard(radio);
+        });
+      });
+
+      var initial = document.querySelector('input[name="flash-board"]:checked');
+      selectBoard(initial);
+    })();
+  </script>
 </body>
 </html>
