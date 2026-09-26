@@ -4,22 +4,41 @@ Personal brand site for [Evil0ctopus](https://github.com/Evil0ctopus).
 
 **Live:** [https://evil0ctopus.github.io/](https://evil0ctopus.github.io/)
 
-Static HTML/CSS hiring-facing landing page, published via GitHub Pages from the `main` branch root.
+Static multi-page HTML/CSS hiring-facing site, published via GitHub Pages from the `main` branch root.
 
-## Files
+## Pages
 
-- `index.html` — single-page site (includes ESP Web Tools Flash UI)
-- `styles.css` — dark cyan theme styles
-- `assets/` — brand mark, icon, and favicon
-- `firmware/` — release manifests and bins for the Flash section (see `firmware/README.md`)
-- `README.md` — this note
+| Page | File | What it is |
+|------|------|------------|
+| Home | `index.html` | Hero, role line, CTAs to Projects and Flash |
+| About | `about.html` | Background, goals, Southeast Missouri base |
+| Education | `education.html` | WGU B.S. Cybersecurity & Information Assurance (in progress) |
+| Skills | `skills.html` | Skills & certifications (incl. CompTIA A+, lab practice) |
+| Projects | `projects.html` | Cards for wigglefish, cores3_weather_console, Pocket-Pirate-CYD, poseidon_adv, OctoBuddy (+ APK CTA) |
+| Flash | `flash.html` | Multi-board ESP Web Tools flash hub driven by `firmware/firmware-catalog.json` |
+| Tools | `tools.html` | Browser-only experiments — **Birth Sky** (planetarium + classic wheel + on-this-day; no accounts / no backend) |
+| Contact | `contact.html` | Hire / contact — GitHub, PayPal, Discord (GitHub-only social until a vanity profile URL) |
 
-## Flash section
+Shared chrome: `styles.css`, `assets/` (brand mark, icon, favicon), site background nodes.
 
-Multi-board Flash UI powered by [ESP Web Tools](https://esphome.github.io/esp-web-tools/) (Chrome/Edge, Web Serial).
+## Flash hub
 
-- **wigglefish (ESP32-C5)** is selected by default.
-- **cores3_weather_console** and **Pocket-Pirate-CYD** are listed as Coming soon / disabled until firmware exists.
-- The page probes `firmware/<board>/manifest.json`. Until a real manifest (and bins) is published, Install stays inactive with a clear “Firmware not published yet” state — no placeholder `.bin` files.
+Multi-board Flash UI powered by [ESP Web Tools](https://esphome.github.io/esp-web-tools/) (Chrome/Edge, Web Serial). Catalog lives in `firmware/firmware-catalog.json`; `flash-catalog.js` drives the card + detail UI.
 
-Authorized-use and metadata-only / passive observation framing for wigglefish is shown on the page.
+- Own projects (wigglefish, cores3_weather_console, Pocket-Pirate-CYD, and others) appear with status **ready** / **pending** / **coming-soon** depending on whether a resolvable `manifest.json` (and bins) is published under `firmware/<board>/`.
+- Install stays inactive with a clear “Firmware not published yet” / “Coming soon” state until a real manifest exists — no placeholder `.bin` files.
+- Authorized-use notes are shown per catalog item (e.g. wigglefish: metadata-only / passive observation in authorized environments).
+
+## Tools · Birth Sky
+
+`tools.html` + `birth-sky.js` / `tools.css` / `bg-ocean.js`: birth date/time and place stay in the browser; geocoding via OpenStreetMap Nominatim; optional Wikimedia/Wikipedia on-this-day. Curiosity tool — not scientific prediction.
+
+## Other assets
+
+- `downloads/` — OctoBuddy release APK served from this site
+- `firmware/` — release manifests and bins for Flash (see `firmware/README.md`)
+- `previews/` — static preview assets
+
+## Identity
+
+Public identity on this site is **Evil0ctopus** only.
