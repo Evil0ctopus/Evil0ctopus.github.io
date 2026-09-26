@@ -23,7 +23,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="logo" href="index.html">
-        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="">
+        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="" role="presentation">
         <span class="logo-text">Evil0ctopus</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
@@ -32,6 +32,7 @@
         <a href="skills.html">Skills</a>
         <a href="projects.html" aria-current="page">Projects</a>
         <a href="flash.html">Flash</a>
+        <a href="tools.html">Tools</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
@@ -70,7 +71,7 @@
             </div>
             <h3><a href="https://github.com/Evil0ctopus/Pocket-Pirate-CYD" rel="noopener noreferrer">Pocket-Pirate-CYD</a></h3>
             <p>
-              ESP32-S3 CYD (2.8″ touch) firmware with a modular UI, asset packs, and a handheld utility dashboard.
+              ESP32-S3 CYD (2.8″ touch) handheld firmware: modular UI, asset packs, and a utility dashboard for field practice.
             </p>
             <a class="card-link" href="https://github.com/Evil0ctopus/Pocket-Pirate-CYD" rel="noopener noreferrer">View on GitHub →</a>
           </li>
@@ -81,17 +82,17 @@
             </div>
             <h3><a href="https://github.com/Evil0ctopus/octobuddy" rel="noopener noreferrer">OctoBuddy</a></h3>
             <p>
-              Free Android pet companion featuring the Evil0ctopus brand octopus. Tap to cheer them up, feed when hungry, play and rest as Hunger, Mood, and Energy drift — local-only, no ads. Kotlin · Jetpack Compose · Material 3.
+              Free Android pet companion with the Evil0ctopus brand octopus. Tap to cheer them up, feed when hungry, play and rest as Hunger, Mood, and Energy drift — local-only, no ads.
             </p>
             <!-- OctoBuddy v0.8.1 APK served directly from this site for reliable mobile downloads -->
-            <div class="apk-cta" data-apk-url="downloads/octobuddy-0.8.1-release.apk" aria-live="polite">
+            <div class="apk-cta" data-apk-url="downloads/octobuddy-0.8.1-release.apk">
               <div class="apk-cta-header">
-                <span class="apk-status">APK pending</span>
+                <span class="apk-status apk-status--ready">APK ready</span>
                 <span class="card-tag">Android download</span>
               </div>
-              <p class="apk-copy">Download OctoBuddy v0.8.1 directly from this site.</p>
-              <a class="btn btn-primary apk-download" aria-disabled="true" tabindex="-1">APK coming soon</a>
-              <p class="apk-note">v0.8.1 · Android 8.0+ (API 26) · ~15 MB release-signed sideload APK (not on Play Store yet). Allow “Install unknown apps” for your browser if prompted. Authorized use only.</p>
+              <p class="apk-copy">Download OctoBuddy v0.8.1 for Android directly from this site.</p>
+              <a class="btn btn-primary apk-download" href="downloads/octobuddy-0.8.1-release.apk" download="octobuddy-0.8.1-release.apk" type="application/vnd.android.package-archive">Get the app / Download APK</a>
+              <p class="apk-note">v0.8.1 · Android 8.0+ (API 26) · ~15&nbsp;MB release-signed sideload APK (not on Play Store yet). Allow “Install unknown apps” for your browser if prompted. Authorized use only.</p>
               <a class="card-link" href="https://github.com/Evil0ctopus/octobuddy/releases/tag/v0.8.1" rel="noopener noreferrer">GitHub Release page (backup) →</a>
             </div>
             <a class="card-link" href="https://github.com/Evil0ctopus/octobuddy" rel="noopener noreferrer">View on GitHub →</a>
@@ -110,20 +111,24 @@
   </footer>
 
 <script>
-  // Enable the CTA for the APK served directly from this site.
+  // Safety net: ensure Pages-hosted APK CTA stays wired if markup is ever reset to pending.
   document.querySelectorAll('[data-apk-url]').forEach(function (cta) {
     var url = (cta.dataset.apkUrl || '').trim();
     var link = cta.querySelector('.apk-download');
     if (!url || !link) return;
-
-    link.href = url;
-    link.download = 'octobuddy-0.8.1-release.apk';
-    link.type = 'application/vnd.android.package-archive';
-    link.removeAttribute('aria-disabled');
-    link.removeAttribute('tabindex');
-    link.textContent = 'Get the app / Download APK';
-    cta.querySelector('.apk-status').textContent = 'APK ready';
-    cta.querySelector('.apk-copy').textContent = 'Download OctoBuddy v0.8.1 for Android directly from this site.';
+    if (!link.getAttribute('href')) {
+      link.href = url;
+      link.download = 'octobuddy-0.8.1-release.apk';
+      link.type = 'application/vnd.android.package-archive';
+      link.removeAttribute('aria-disabled');
+      link.removeAttribute('tabindex');
+      link.textContent = 'Get the app / Download APK';
+    }
+    var status = cta.querySelector('.apk-status');
+    if (status && /pending/i.test(status.textContent || '')) {
+      status.textContent = 'APK ready';
+      status.classList.add('apk-status--ready');
+    }
   });
 </script>
 

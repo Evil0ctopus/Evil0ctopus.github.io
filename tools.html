@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Birth Sky — see the night sky from your birth place and time, plus a symbolic natal chart. Browser-only curiosity tool by Evil0ctopus.">
+  <title>Tools · Birth Sky · Evil0ctopus</title>
+  <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg-hex"></div>
+    <div class="site-bg-vignette"></div>
+    <span class="site-bg-node n1"></span>
+    <span class="site-bg-node n2"></span>
+    <span class="site-bg-node n3"></span>
+    <span class="site-bg-node n4"></span>
+    <span class="site-bg-node n5"></span>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="" role="presentation">
+        <span class="logo-text">Evil0ctopus</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About</a>
+        <a href="education.html">Education</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="flash.html">Flash</a>
+        <a href="tools.html" aria-current="page">Tools</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="tools-heading">
+      <div class="section-inner">
+        <h1 id="tools-heading">Tools</h1>
+        <p class="section-intro">
+          Small browser-side experiments — curiosity first, no accounts, no backend.
+        </p>
+
+        <article class="tool-card" id="birth-sky" aria-labelledby="birth-sky-heading">
+          <header class="tool-card-header">
+            <p class="eyebrow">Wow-factor · astronomy + classic wheel</p>
+            <h2 id="birth-sky-heading">Birth Sky</h2>
+            <p class="tool-lede">
+              Where was the sky when you arrived? Enter a birth date, optional time, and place.
+              You’ll get an <strong>astronomical night-sky map</strong> for that location and moment,
+              plus a <strong>symbolic natal chart</strong> wheel for fun — not a prediction, not destiny, not science.
+            </p>
+            <p class="privacy-note" role="note">
+              Privacy: birth date/time stay in your browser — they are never form-POSTed to this site.
+              Network calls go to OpenStreetMap Nominatim (geocoding) and to Wikimedia/Wikipedia
+              (on-this-day history and optional place snippets). Only calendar month/day appear in
+              URL paths, and place names in search queries. Timezone is resolved locally from
+              coordinates. Nothing is stored or uploaded to this site.
+            </p>
+          </header>
+
+          <form id="birth-sky-form" class="birth-form" novalidate>
+            <div class="birth-form-grid">
+              <div class="field">
+                <label class="field-label" for="birth-date">Birth date <span class="req">required</span></label>
+                <input class="field-input" type="date" id="birth-date" name="date" required>
+              </div>
+              <div class="field">
+                <label class="field-label" for="birth-time">Birth time <span class="opt">optional</span></label>
+                <input class="field-input" type="time" id="birth-time" name="time">
+                <p class="field-hint">Unknown? Leave blank — we assume local noon.</p>
+              </div>
+              <div class="field field-span">
+                <label class="field-label" for="birth-place">Place of birth <span class="req">required</span></label>
+                <input class="field-input" type="text" id="birth-place" name="place"
+                       placeholder="e.g. Potosi, Missouri" required autocomplete="off">
+              </div>
+            </div>
+
+            <div id="place-results" class="place-results" hidden></div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="generate-btn">Generate Birth Sky</button>
+              <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+            </div>
+          </form>
+
+          <div id="loading" class="loading-panel" hidden aria-live="polite">
+            <span class="loading-spinner" aria-hidden="true"></span>
+            Looking up place, painting the sky, and gathering a few special facts…
+          </div>
+
+          <div id="results" class="results" hidden>
+            <p id="results-meta" class="results-meta"></p>
+            <div class="results-panels">
+              <section class="panel panel-sky" aria-labelledby="sky-heading">
+                <h3 id="sky-heading">Night sky <span class="panel-tag">astronomy</span></h3>
+                <p class="panel-note">Interactive planetarium for that place and time — stars, planets, constellations.</p>
+                <div id="starmap" class="starmap" role="img" aria-label="Astronomical sky map for the selected birth place and time"></div>
+              </section>
+              <section class="panel panel-chart" aria-labelledby="chart-heading">
+                <h3 id="chart-heading">Natal chart <span class="panel-tag panel-tag-astro">symbolic astrology</span></h3>
+                <p class="panel-note">Classic wheel of Sun, Moon, and planets in zodiac signs — curiosity only, not scientific prediction.</p>
+                <div id="natal-chart" class="natal-chart" aria-label="Symbolic natal chart wheel"></div>
+                <ul id="planet-list" class="planet-list"></ul>
+              </section>
+            </div>
+
+            <section id="special-facts" class="panel panel-facts" aria-labelledby="facts-heading">
+              <h3 id="facts-heading">What made this moment special</h3>
+              <p class="panel-note">
+                A handful of real sky notes for that exact place and time, plus “on this day” history
+                for the same calendar date (not necessarily your birth year). No invented headlines.
+              </p>
+              <div id="special-facts-loading" class="facts-loading" hidden>
+                <span class="loading-spinner" aria-hidden="true"></span>
+                Gathering astronomy and history notes…
+              </div>
+              <ol id="special-facts-list" class="special-facts-list"></ol>
+              <p id="special-facts-note" class="facts-attrib" hidden></p>
+            </section>
+          </div>
+
+          <footer class="tool-credits">
+            <h3 class="credits-heading">Credits</h3>
+            <ul>
+              <li>Sky map: <a href="https://slowe.github.io/VirtualSky/" rel="noopener noreferrer">VirtualSky</a> (Stuart Lowe / LCO) — educational planetarium.</li>
+              <li>Planet positions &amp; sky facts: <a href="https://github.com/cosinekitty/astronomy" rel="noopener noreferrer">Astronomy Engine</a> (cosinekitty).</li>
+              <li>Geocoding: <a href="https://nominatim.openstreetmap.org/" rel="noopener noreferrer">OpenStreetMap Nominatim</a>.</li>
+              <li>Timezone from coordinates: <a href="https://github.com/darkskyapp/tz-lookup-oss" rel="noopener noreferrer">tz-lookup</a> (local).</li>
+              <li>On-this-day history &amp; place snippets: <a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener noreferrer">Wikimedia / Wikipedia</a> APIs (CC BY-SA content).</li>
+            </ul>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="draft-note">Evil0ctopus · built in public</p>
+      <p class="footer-support"><a href="https://paypal.me/Evil0ctopus" rel="noopener noreferrer">Support this work on PayPal</a></p>
+      <p class="copyright">© Evil0ctopus</p>
+    </div>
+  </footer>
+
+  <script>var module = { exports: {} };</script>
+  <script src="assets/vendor/tz-lookup/tz.js"></script>
+  <script>window.tzlookup = module.exports; module = undefined;</script>
+  <script src="assets/vendor/virtualsky/stuquery.min.js"></script>
+  <script src="assets/vendor/virtualsky/virtualsky.min.js"></script>
+  <script src="assets/vendor/astronomy/astronomy.browser.min.js"></script>
+  <script src="birth-sky.js"></script>
+</body>
+</html>
