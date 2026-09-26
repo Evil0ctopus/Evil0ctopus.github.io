@@ -10,13 +10,9 @@
 </head>
 <body>
   <div class="site-bg" aria-hidden="true">
-    <div class="site-bg-hex"></div>
+    <div class="site-bg-fallback"></div>
+    <canvas class="site-bg-canvas" width="1" height="1"></canvas>
     <div class="site-bg-vignette"></div>
-    <span class="site-bg-node n1"></span>
-    <span class="site-bg-node n2"></span>
-    <span class="site-bg-node n3"></span>
-    <span class="site-bg-node n4"></span>
-    <span class="site-bg-node n5"></span>
   </div>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -51,8 +47,18 @@
             </div>
             <h3><a href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">wigglefish</a></h3>
             <p>
-              Passive Wi-Fi and BLE field scanner: ESP32-C5 plus an Android USB controller. Metadata-only observation for authorized environments — no joining networks, deauth, or injection. Built to practice wireless awareness the right way.
+              Passive Wi-Fi and BLE field scanner: ESP32-C5 plus an Android USB controller for Identify/Flash and Survey/Wardrive (map, exports). Metadata-only observation for authorized environments — no joining networks, deauth, injection, or offensive RF.
             </p>
+            <div class="apk-cta" data-apk-url="downloads/wigglefish-0.4.0.apk">
+              <div class="apk-cta-header">
+                <span class="apk-status apk-status--ready">APK ready</span>
+                <span class="card-tag">Android download</span>
+              </div>
+              <p class="apk-copy">Download Wigglefish 0.4.0 for Android directly from this site.</p>
+              <a class="btn btn-primary apk-download" href="downloads/wigglefish-0.4.0.apk" download="wigglefish-0.4.0.apk" type="application/vnd.android.package-archive">Download Android APK</a>
+              <p class="apk-note">v0.4.0 · Android 8.0+ (API 26) · ~7&nbsp;MB sideload APK (not on Play Store). Allow “Install unknown apps” for your browser if prompted. Passive / authorized use only.</p>
+              <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish/releases/tag/android-v0.4.0" rel="noopener noreferrer">Release notes →</a>
+            </div>
             <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">View on GitHub →</a>
           </li>
           <li class="project-card">
@@ -144,5 +150,6 @@
   });
 </script>
 
+  <script src="bg-ocean.js" defer></script>
 </body>
 </html>

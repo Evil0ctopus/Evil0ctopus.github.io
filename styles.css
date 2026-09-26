@@ -22,6 +22,19 @@
   --header-h: 3.75rem;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace;
+  /* Living cyber digital ocean (bg-ocean.js) — tweak intensity here */
+  --bg-ocean-opacity: 0.93;
+  --bg-ocean-current-alpha: 0.58;
+  --bg-ocean-speed: 1;
+  --bg-ocean-particle-density: 1.15;
+}
+
+/* Mobile: scale down particle/scene density for perf */
+@media (max-width: 640px) {
+  :root {
+    --bg-ocean-particle-density: 0.75;
+    --bg-ocean-current-alpha: 0.5;
+  }
 }
 
 *,
@@ -1030,7 +1043,7 @@ a:hover {
 }
 
 
-/* Hex pulse animated background */
+/* Living cyber digital ocean background (canvas via bg-ocean.js) */
 .site-bg {
   position: fixed;
   inset: 0;
@@ -1040,65 +1053,52 @@ a:hover {
   background: var(--bg);
 }
 
-.site-bg-hex {
+.site-bg-canvas {
   position: absolute;
-  inset: -20%;
-  opacity: 0.22;
-  background-image:
-    linear-gradient(30deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
-    linear-gradient(150deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
-    linear-gradient(30deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
-    linear-gradient(150deg, rgba(34, 211, 238, 0.35) 12%, transparent 12.5%, transparent 87%, rgba(34, 211, 238, 0.35) 87.5%, rgba(34, 211, 238, 0.35)),
-    linear-gradient(60deg, rgba(8, 145, 178, 0.2) 25%, transparent 25.5%, transparent 75%, rgba(8, 145, 178, 0.2) 75%, rgba(8, 145, 178, 0.2)),
-    linear-gradient(60deg, rgba(8, 145, 178, 0.2) 25%, transparent 25.5%, transparent 75%, rgba(8, 145, 178, 0.2) 75%, rgba(8, 145, 178, 0.2));
-  background-size: 40px 70px, 40px 70px, 40px 70px, 40px 70px, 40px 70px, 40px 70px;
-  background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
-  animation: site-hex-pulse 8s ease-in-out infinite;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .site-bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 30%, rgba(11, 15, 20, 0.75) 100%);
+  /* Strong edge darken so richer mid-ground ocean stays readable under content */
+  background: radial-gradient(ellipse 66% 56% at 50% 34%, transparent 12%, rgba(8, 12, 18, 0.55) 66%, rgba(5, 8, 12, 0.9) 100%);
 }
 
-.site-bg-node {
+/* Static fallback if JS fails: soft underwater depth + current suggestion */
+.site-bg-fallback {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  border: 1px solid rgba(34, 211, 238, 0.45);
-  border-radius: 2px;
-  background: rgba(34, 211, 238, 0.12);
-  animation: site-node-pulse 8s ease-in-out infinite;
+  inset: 0;
+  opacity: 0.55;
+  background:
+    linear-gradient(180deg, rgba(34, 211, 238, 0.18) 0%, transparent 20%, transparent 58%, rgba(15, 118, 110, 0.16) 100%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(103, 232, 249, 0.16), transparent 55%),
+    radial-gradient(ellipse 90% 35% at 50% 100%, rgba(15, 118, 110, 0.22), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 40px,
+      rgba(34, 211, 238, 0.08) 40px,
+      rgba(34, 211, 238, 0.08) 41px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 72px,
+      rgba(34, 211, 238, 0.05) 72px,
+      rgba(34, 211, 238, 0.05) 73px
+    );
+  background-position: center, center, center, center, center;
+  transform-origin: 50% 0%;
+  transform: perspective(520px) rotateX(12deg) scale(1.15);
 }
 
-.site-bg-node.n1 { top: 18%; left: 14%; animation-delay: 0s; }
-.site-bg-node.n2 { top: 32%; right: 18%; animation-delay: 1.5s; }
-.site-bg-node.n3 { bottom: 22%; left: 22%; animation-delay: 3s; }
-.site-bg-node.n4 { bottom: 28%; right: 12%; animation-delay: 4.5s; }
-.site-bg-node.n5 { top: 55%; left: 48%; animation-delay: 2s; }
-
-@keyframes site-hex-pulse {
-  0%, 100% { opacity: 0.14; filter: brightness(0.9); }
-  50% { opacity: 0.28; filter: brightness(1.15); }
-}
-
-@keyframes site-node-pulse {
-  0%, 100% { opacity: 0.35; box-shadow: 0 0 0 transparent; }
-  50% { opacity: 0.9; box-shadow: 0 0 12px rgba(34, 211, 238, 0.35); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-bg-hex {
-    animation: none;
-    opacity: 0.18;
-    filter: none;
-  }
-  .site-bg-node {
-    animation: none;
-    opacity: 0.45;
-    box-shadow: none;
-  }
+.site-bg.has-live-ocean .site-bg-fallback,
+.site-bg.has-live-landscape .site-bg-fallback {
+  display: none;
 }
 
 .site-header,

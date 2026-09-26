@@ -11,13 +11,9 @@
 </head>
 <body>
   <div class="site-bg" aria-hidden="true">
-    <div class="site-bg-hex"></div>
+    <div class="site-bg-fallback"></div>
+    <canvas class="site-bg-canvas" width="1" height="1"></canvas>
     <div class="site-bg-vignette"></div>
-    <span class="site-bg-node n1"></span>
-    <span class="site-bg-node n2"></span>
-    <span class="site-bg-node n3"></span>
-    <span class="site-bg-node n4"></span>
-    <span class="site-bg-node n5"></span>
   </div>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -53,7 +49,7 @@
           <strong>Authorized use only.</strong>
           Flash firmware only on hardware you own or are explicitly permitted to install on.
           <strong>wigglefish</strong> is metadata-only / passive observation in authorized environments — no joining networks, deauth, or injection.
-          Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button.
+          Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button. Android companion app: download from <a href="projects.html">Projects</a> (Wigglefish 0.4.0).
         </p>
 
         <p id="catalog-load-error" class="catalog-auth" hidden></p>
@@ -105,6 +101,7 @@
     type="module"
     src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
   ></script>
+  <script src="bg-ocean.js" defer></script>
   <script src="flash-catalog.js" defer></script>
 </body>
 </html>
