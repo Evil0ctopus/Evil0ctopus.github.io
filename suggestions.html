@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Suggestions — leave feature ideas and feedback for the Evil0ctopus site and tools.">
+  <title>Suggestions · Evil0ctopus</title>
+  <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg-fallback"></div>
+    <canvas class="site-bg-canvas" width="1" height="1"></canvas>
+    <div class="site-bg-vignette"></div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/brand-mark.jpg" width="40" height="40" alt="" role="presentation">
+        <span class="logo-text">Evil0ctopus</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="about.html">About</a>
+        <a href="education.html">Education</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="flash.html">Flash</a>
+        <a href="tools.html">Tools</a>
+        <a href="suggestions.html" aria-current="page">Suggestions</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="suggestions" class="section" aria-labelledby="suggestions-heading">
+      <div class="section-inner">
+        <h2 id="suggestions-heading">Suggestions</h2>
+        <p class="section-intro">
+          Leave a feature idea, bug note, or anything useful for the site and tools. Keep it civil.
+        </p>
+        <p class="suggestions-moderation muted small">
+          Posts go through GitHub Discussions (Ideas). Evil0ctopus can edit or remove anything inappropriate. Signing in with GitHub is required to comment.
+        </p>
+        <p class="suggestions-alt">
+          Prefer chat?
+          <a href="https://discord.gg/CSm7JPf8J" rel="noopener noreferrer">Join the Discord</a>
+          instead.
+        </p>
+
+        <div class="giscus-wrap">
+          <div class="giscus"></div>
+          <script src="https://giscus.app/client.js"
+                  data-repo="Evil0ctopus/Evil0ctopus.github.io"
+                  data-repo-id="R_kgDOUrtn_Q"
+                  data-category="Ideas"
+                  data-category-id="DIC_kwDOUrtn_c4DGjcm"
+                  data-mapping="specific"
+                  data-term="Site suggestion box"
+                  data-strict="0"
+                  data-reactions-enabled="1"
+                  data-emit-metadata="0"
+                  data-input-position="top"
+                  data-theme="dark"
+                  data-lang="en"
+                  data-loading="lazy"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="draft-note">Evil0ctopus · built in public</p>
+      <p class="footer-support"><a href="https://paypal.me/Evil0ctopus" rel="noopener noreferrer">Support this work on PayPal</a></p>
+      <p class="copyright">© Evil0ctopus</p>
+    </div>
+  </footer>
+
+  <script src="bg-ocean.js" defer></script>
+</body>
+</html>
