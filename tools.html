@@ -55,9 +55,10 @@
             <p class="privacy-note" role="note">
               Privacy: birth date/time stay in your browser — they are never form-POSTed to this site.
               Network calls go to OpenStreetMap Nominatim (geocoding) and to Wikimedia/Wikipedia
-              (on-this-day history and optional place snippets). Only calendar month/day appear in
-              URL paths, and place names in search queries. Timezone is resolved locally from
-              coordinates. Nothing is stored or uploaded to this site.
+              (on-this-day history, shared-birthday lists, and optional place snippets). Only calendar
+              month/day appear in URL paths, and place names in search queries. Timezone is resolved
+              locally from coordinates. Cultural-calendar notes (Wheel of the Year, Chinese zodiac)
+              are computed in your browser. Nothing is stored or uploaded to this site.
             </p>
           </header>
 
@@ -94,7 +95,19 @@
           </div>
 
           <div id="results" class="results" hidden>
+            <section id="results-hero" class="results-hero" aria-labelledby="hero-heading">
+              <p class="hero-kicker">Birth Sky moment</p>
+              <h3 id="hero-heading" class="hero-date"></h3>
+              <p id="hero-place" class="hero-place"></p>
+              <p id="hero-fact" class="hero-fact"></p>
+              <div class="hero-actions">
+                <button type="button" class="btn btn-secondary" id="share-card-btn">Save share card</button>
+                <p id="share-card-status" class="share-card-status" role="status" aria-live="polite" hidden></p>
+              </div>
+            </section>
+
             <p id="results-meta" class="results-meta"></p>
+
             <div class="results-panels">
               <section class="panel panel-sky" aria-labelledby="sky-heading">
                 <h3 id="sky-heading">Night sky <span class="panel-tag">astronomy</span></h3>
@@ -103,9 +116,10 @@
               </section>
               <section class="panel panel-chart" aria-labelledby="chart-heading">
                 <h3 id="chart-heading">Natal chart <span class="panel-tag panel-tag-astro">symbolic astrology</span></h3>
-                <p class="panel-note">Classic wheel of Sun, Moon, and planets in zodiac signs — curiosity only, not scientific prediction.</p>
+                <p class="panel-note">Classic wheel of Sun, Moon, and planets in zodiac signs — curiosity only, not scientific prediction. Tap a body below for a one-line sky note (altitude / horizon), not a personality reading.</p>
                 <div id="natal-chart" class="natal-chart" aria-label="Symbolic natal chart wheel"></div>
                 <ul id="planet-list" class="planet-list"></ul>
+                <div id="planet-depth" class="planet-depth" hidden role="region" aria-live="polite"></div>
               </section>
             </div>
 
@@ -120,7 +134,44 @@
                 Gathering astronomy and history notes…
               </div>
               <ol id="special-facts-list" class="special-facts-list"></ol>
+              <details id="more-facts" class="more-facts" hidden>
+                <summary>More facts</summary>
+                <ol id="more-facts-list" class="special-facts-list more-facts-list"></ol>
+              </details>
               <p id="special-facts-note" class="facts-attrib" hidden></p>
+            </section>
+
+            <section id="famous-births" class="panel panel-births" aria-labelledby="births-heading" hidden>
+              <h3 id="births-heading">Shared birthdays <span class="panel-tag panel-tag-soft">calendar date</span></h3>
+              <p class="panel-note">
+                People Wikipedia lists as born on this <strong>month and day</strong> (any year) —
+                not a claim about your birth year. Sourced from Wikimedia “on this day” births.
+              </p>
+              <div id="famous-births-loading" class="facts-loading" hidden>
+                <span class="loading-spinner" aria-hidden="true"></span>
+                Looking up shared birthdays…
+              </div>
+              <ul id="famous-births-list" class="famous-births-list"></ul>
+              <p id="famous-births-note" class="facts-attrib" hidden></p>
+            </section>
+
+            <section id="traditions" class="panel panel-traditions" aria-labelledby="traditions-heading" hidden>
+              <h3 id="traditions-heading">Cultural calendars</h3>
+              <p class="panel-note">
+                Optional seasonal and calendar notes for curiosity — not a statement about your beliefs,
+                and not a ranking of traditions. Only modern neo-pagan / Wiccan-leaning Wheel of the Year
+                markers and Chinese zodiac (by year) in this pass.
+              </p>
+              <div class="traditions-grid">
+                <div class="tradition-block" aria-labelledby="pagan-heading">
+                  <h4 id="pagan-heading">Pagan / Wiccan-leaning <span class="tradition-label">Wheel of the Year</span></h4>
+                  <p id="pagan-body" class="tradition-body"></p>
+                </div>
+                <div class="tradition-block" aria-labelledby="chinese-heading">
+                  <h4 id="chinese-heading">Chinese <span class="tradition-label">zodiac by year</span></h4>
+                  <p id="chinese-body" class="tradition-body"></p>
+                </div>
+              </div>
             </section>
           </div>
 
@@ -128,10 +179,12 @@
             <h3 class="credits-heading">Credits</h3>
             <ul>
               <li>Sky map: <a href="https://slowe.github.io/VirtualSky/" rel="noopener noreferrer">VirtualSky</a> (Stuart Lowe / LCO) — educational planetarium.</li>
-              <li>Planet positions &amp; sky facts: <a href="https://github.com/cosinekitty/astronomy" rel="noopener noreferrer">Astronomy Engine</a> (cosinekitty).</li>
+              <li>Planet positions, sky facts &amp; seasons: <a href="https://github.com/cosinekitty/astronomy" rel="noopener noreferrer">Astronomy Engine</a> (cosinekitty).</li>
               <li>Geocoding: <a href="https://nominatim.openstreetmap.org/" rel="noopener noreferrer">OpenStreetMap Nominatim</a>.</li>
               <li>Timezone from coordinates: <a href="https://github.com/darkskyapp/tz-lookup-oss" rel="noopener noreferrer">tz-lookup</a> (local).</li>
-              <li>On-this-day history &amp; place snippets: <a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener noreferrer">Wikimedia / Wikipedia</a> APIs (CC BY-SA content).</li>
+              <li>On-this-day history, births &amp; place snippets: <a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener noreferrer">Wikimedia / Wikipedia</a> APIs (CC BY-SA content).</li>
+              <li>Chinese zodiac animal &amp; element: local year-cycle math (sexagenary stem/branch style), with an approximate Chinese New Year cutoff — not a full lunar calendar conversion.</li>
+              <li>Wheel of the Year sabbat markers: traditional fixed dates plus astronomical solstice/equinox times from Astronomy Engine when available.</li>
             </ul>
           </footer>
         </article>

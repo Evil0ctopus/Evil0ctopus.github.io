@@ -451,3 +451,317 @@
 .facts-attrib a {
   color: var(--accent);
 }
+
+/* —— Hero landing after generate —— */
+
+.results-hero {
+  margin: 0 0 1.25rem;
+  padding: 1.25rem 1.2rem 1.35rem;
+  background:
+    radial-gradient(ellipse at top right, rgba(34, 211, 238, 0.14), transparent 55%),
+    var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  border-top: 3px solid var(--accent);
+}
+
+.hero-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero-date {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.hero-place {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.hero-fact {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  border-radius: var(--radius-sm);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.share-card-status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.share-card-status[hidden] {
+  display: none !important;
+}
+
+/* —— Ranked facts / more disclosure —— */
+
+.special-facts-list li.is-hero {
+  border-color: rgba(34, 211, 238, 0.45);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.12);
+}
+
+.special-facts-list li.is-hero::before {
+  content: "★";
+  font-size: 0.7rem;
+}
+
+.more-facts {
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.more-facts[hidden] {
+  display: none !important;
+}
+
+.more-facts > summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+
+.more-facts > summary::-webkit-details-marker {
+  display: none;
+}
+
+.more-facts > summary::before {
+  content: "+ ";
+  font-weight: 700;
+}
+
+.more-facts[open] > summary::before {
+  content: "− ";
+}
+
+.more-facts-list {
+  margin-top: 0.65rem;
+}
+
+.more-facts-list li::before {
+  /* Continue numbering visually as secondary; keep simple */
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+}
+
+/* —— Planet depth on tap —— */
+
+.planet-list li {
+  flex-wrap: wrap;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.planet-list li:hover,
+.planet-list li:focus-within {
+  border-color: var(--accent);
+}
+
+.planet-list li.is-open {
+  border-color: var(--accent);
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.planet-list button.pl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.planet-list button.pl-row:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.planet-depth {
+  margin-top: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  border-radius: var(--radius-sm);
+}
+
+.planet-depth[hidden] {
+  display: none !important;
+}
+
+.planet-depth-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planet-list li {
+    transition: none;
+  }
+}
+
+/* —— Famous / shared births —— */
+
+.panel-births {
+  margin-top: 1.25rem;
+}
+
+.panel-tag-soft {
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+}
+
+.famous-births-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+@media (min-width: 640px) {
+  .famous-births-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.famous-births-list li {
+  padding: 0.7rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.birth-name {
+  display: block;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.birth-year {
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.birth-why {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.births-empty {
+  margin: 0.35rem 0 0;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+/* —— Cultural calendars / traditions —— */
+
+.panel-traditions {
+  margin-top: 1.25rem;
+}
+
+.traditions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+@media (min-width: 720px) {
+  .traditions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tradition-block {
+  padding: 0.85rem 0.95rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.tradition-block h4 {
+  margin: 0 0 0.55rem;
+  font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.tradition-label {
+  display: inline-block;
+  padding: 0.12rem 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+}
+
+.tradition-body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.tradition-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
