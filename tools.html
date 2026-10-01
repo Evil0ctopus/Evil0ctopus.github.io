@@ -37,33 +37,36 @@
   </header>
 
   <main id="main">
-    <section class="section" aria-labelledby="tools-heading">
-      <div class="section-inner">
-        <h1 id="tools-heading">Tools</h1>
-        <p class="section-intro">
-          Small browser-side experiments — curiosity first, no accounts, no backend.
-        </p>
-
+    <section class="section birth-sky-section" aria-labelledby="birth-sky-heading">
+      <div class="section-inner birth-sky-inner">
         <article class="tool-card" id="birth-sky" aria-labelledby="birth-sky-heading">
-          <header class="tool-card-header">
-            <p class="eyebrow">Wow-factor · astronomy + classic wheel</p>
-            <h2 id="birth-sky-heading">Birth Sky</h2>
+          <header class="tool-card-header birth-sky-header">
+            <p class="eyebrow">Astronomy / a personal sky archive</p>
+            <h1 id="birth-sky-heading" class="birth-sky-title">Birth Sky</h1>
             <p class="tool-lede">
-              Where was the sky when you arrived? Enter a birth date, optional time, and place.
-              You’ll get an <strong>astronomical night-sky map</strong> for that location and moment,
-              plus a <strong>symbolic natal chart</strong> wheel for fun — not a prediction, not destiny, not science.
-            </p>
-            <p class="privacy-note" role="note">
-              Privacy: birth date/time stay in your browser — they are never form-POSTed to this site.
-              Network calls go to OpenStreetMap Nominatim (geocoding) and to Wikimedia/Wikipedia
-              (on-this-day history, shared-birthday lists, and optional place snippets). Only calendar
-              month/day appear in URL paths, and place names in search queries. Timezone is resolved
-              locally from coordinates. Cultural-calendar notes (Wheel of the Year, Chinese zodiac)
-              are computed in your browser. Nothing is stored or uploaded to this site.
+              One place. One moment. See the astronomical sky above it, with a symbolic chart for curiosity — not prediction.
             </p>
           </header>
 
+          <details class="privacy-disclosure">
+            <summary>
+              <span class="privacy-indicator" aria-hidden="true"></span>
+              <span><strong>Privacy first</strong> · Exact birth date/time stay here; only the matched chart week and place lookup are sent to their sources.</span>
+            </summary>
+            <p class="privacy-note" role="note">
+              Birth date and time are never form-POSTed to this site. The chart week is matched in your browser;
+              only that chart date is requested from the public Billboard data archive. Place names are sent to
+              OpenStreetMap Nominatim for geocoding and may be used in Wikimedia/Wikipedia lookups. Calendar
+              month/day appear in Wikimedia URL paths. Timezone and cultural-calendar notes are computed locally.
+              Nothing is stored by this site.
+            </p>
+          </details>
+
           <form id="birth-sky-form" class="birth-form" novalidate>
+            <div class="birth-form-heading">
+              <p class="birth-form-index"><span>01</span> / THE MOMENT</p>
+              <h2>Set your coordinates in time</h2>
+            </div>
             <div class="birth-form-grid">
               <div class="field">
                 <label class="field-label" for="birth-date">Birth date <span class="req">required</span></label>
@@ -142,6 +145,28 @@
               <p id="special-facts-note" class="facts-attrib" hidden></p>
             </section>
 
+            <section id="top-songs" class="panel panel-songs" aria-labelledby="top-songs-heading" hidden>
+              <div class="songs-heading-row">
+                <div>
+                  <p class="songs-kicker">The week in sound</p>
+                  <h3 id="top-songs-heading">Top 5 songs</h3>
+                </div>
+                <span class="panel-tag">U.S. Hot 100</span>
+              </div>
+              <p id="top-songs-meta" class="panel-note"></p>
+              <div id="top-songs-loading" class="facts-loading" hidden>
+                <span class="loading-spinner" aria-hidden="true"></span>
+                Looking up the chart for that week…
+              </div>
+              <ol id="top-songs-list" class="top-songs-list" hidden></ol>
+              <p id="top-songs-status" class="facts-attrib" role="status" aria-live="polite" hidden></p>
+              <p class="songs-source">
+                Historical chart data:
+                <a href="https://github.com/mhollingshead/billboard-hot-100" target="_blank" rel="noopener noreferrer">unofficial public archive</a> ·
+                <a id="top-songs-official-link" href="https://www.billboard.com/charts/hot-100/" target="_blank" rel="noopener noreferrer">Billboard chart</a>
+              </p>
+            </section>
+
             <section id="famous-births" class="panel panel-births" aria-labelledby="births-heading" hidden>
               <h3 id="births-heading">Shared birthdays <span class="panel-tag panel-tag-soft">calendar date</span></h3>
               <p class="panel-note">
@@ -184,6 +209,7 @@
               <li>Geocoding: <a href="https://nominatim.openstreetmap.org/" rel="noopener noreferrer">OpenStreetMap Nominatim</a>.</li>
               <li>Timezone from coordinates: <a href="https://github.com/darkskyapp/tz-lookup-oss" rel="noopener noreferrer">tz-lookup</a> (local).</li>
               <li>On-this-day history, births &amp; place snippets: <a href="https://www.mediawiki.org/wiki/API:Main_page" rel="noopener noreferrer">Wikimedia / Wikipedia</a> APIs (CC BY-SA content).</li>
+              <li>Historical U.S. Hot 100 chart data: <a href="https://github.com/mhollingshead/billboard-hot-100" rel="noopener noreferrer">mhollingshead/billboard-hot-100</a> (unofficial archive); chart rankings link to Billboard.</li>
               <li>Chinese zodiac animal &amp; element: local year-cycle math (sexagenary stem/branch style), with an approximate Chinese New Year cutoff — not a full lunar calendar conversion.</li>
               <li>Wheel of the Year sabbat markers: traditional fixed dates plus astronomical solstice/equinox times from Astronomy Engine when available.</li>
             </ul>
