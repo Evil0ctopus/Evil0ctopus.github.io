@@ -7,6 +7,7 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const catalogPath = path.join(root, "firmware", "firmware-catalog.json");
 const errors = [];
+let readyBuildCount = 0;
 
 function report(message) {
   errors.push(message);
@@ -56,6 +57,10 @@ function validateReadyItem(item) {
     report(item.id + ": manifest must contain at least one build.");
     return;
   }
+  if (!item.hardwareProfile || !item.hardwareProfile.model) {
+    report(item.id + ": ready entries need an exact target model in hardwareProfile.");
+  }
+  const release = item.latestRelease;
 
   manifest.builds.forEach((build, buildIndex) => {
     const buildLabel = item.id + " build " + (buildIndex + 1);
@@ -83,16 +88,21 @@ function validateReadyItem(item) {
       if (binary.length === 0) {
         report(buildLabel + ": binary must not be empty: " + part.path);
       }
+      const actualSha256 = crypto.createHash("sha256").update(binary).digest("hex");
       if (part.sha256) {
-        const actual = crypto.createHash("sha256").update(binary).digest("hex");
-        if (actual.toLowerCase() !== String(part.sha256).toLowerCase()) {
+        if (actualSha256.toLowerCase() !== String(part.sha256).toLowerCase()) {
           report(buildLabel + ": SHA-256 mismatch for " + part.path + ".");
+        }
+      }
+      if (release && release.downloadUrl) {
+        const releaseAsset = path.basename(new URL(release.downloadUrl).pathname);
+        if (path.basename(part.path) === releaseAsset && actualSha256.toLowerCase() !== String(release.sha256 || "").toLowerCase()) {
+          report(buildLabel + ": local release binary does not match latestRelease.sha256.");
         }
       }
     });
   });
 
-  const release = item.latestRelease;
   if (!release || typeof release.version !== "string" || !release.version.trim()) {
     report(item.id + ": ready entries need latestRelease.version.");
     return;
@@ -105,9 +115,6 @@ function validateReadyItem(item) {
   }
   if (!/^[0-9a-f]{64}$/i.test(release.sha256 || "")) {
     report(item.id + ": latestRelease.sha256 must be a 64-character SHA-256.");
-  }
-  if (!Array.isArray(item.testedOn) || item.testedOn.length === 0) {
-    report(item.id + ": ready entries need at least one testedOn board revision.");
   }
 }
 
@@ -163,7 +170,10 @@ try {
           report(item.id + ": verified hardware status needs verifiedOn, evidenceUrl, and testedOn revisions.");
         }
       }
-      if (item.status === "ready") validateReadyItem(item);
+      if (item.status === "ready") {
+        readyBuildCount++;
+        validateReadyItem(item);
+      }
     });
   }
 } catch (error) {
@@ -175,5 +185,5 @@ if (errors.length) {
   errors.forEach((error) => console.error("- " + error));
   process.exitCode = 1;
 } else {
-  console.log("Firmware catalog valid. No ready local builds require artifact checks yet.");
+  console.log("Firmware catalog valid. Checked " + readyBuildCount + " ready local build" + (readyBuildCount === 1 ? "." : "s."));
 }

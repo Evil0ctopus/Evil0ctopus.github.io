@@ -180,8 +180,8 @@
       "manifestUrl": "firmware/Pocket-Pirate-CYD/manifest.json",
       "upstreamUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD",
       "license": "See repository",
-      "authorizedUseNote": "Flash only hardware you own. Local Install will activate when a published manifest ships.",
-      "status": "pending",
+      "authorizedUseNote": "Flash only a Hosyond N16R8 ESP32-S3 Cheap Black Display that matches this profile. Factory installation may erase existing software. This site has not independently hardware-tested this release.",
+      "status": "ready",
       "tags": [
         "evil0ctopus",
         "cyd",

@@ -17,8 +17,10 @@ firmware/
   wigglefish/
     manifest.json     # ESP Web Tools manifest (required to enable Install)
     *.bin             # firmware parts referenced by the manifest
+  Pocket-Pirate-CYD/
+    manifest.json     # ESP32-S3 / v0.5.7 merged factory image
+    *.bin             # exact upstream release asset, checked by CI
   cores3_weather_console/   # future
-  Pocket-Pirate-CYD/        # future
 ```
 
 ## Enabling the install button
@@ -34,7 +36,7 @@ Do **not** commit placeholder or empty `.bin` files. Ship real builds from Repo 
 
 Each catalog entry may include `hardwareProfile`, `hardwareVerification`, `latestRelease`, `releaseHistory`, `releaseHistoryUrl`, and `gallery` fields. Keep unknown board revisions marked as not verified; a successful compile is not evidence of a tested flash. Gallery images need descriptive alt text and a caption that says whether they show the board or only its firmware UI.
 
-For a `ready` entry, add the real manifest and every referenced non-empty binary under this repository. Record the build version/date, source commit, SHA-256, and exact tested board revision in `firmware/firmware-catalog.json`. Optional release asset URLs are shown as manual downloads; do not add one until that release asset exists.
+For a `ready` entry, add the real manifest and every referenced non-empty binary under this repository. Record the build version/date, source commit, SHA-256, exact target model, and flash offset in `firmware/firmware-catalog.json`. `ready` means this site has a validated local install package; it does not mean this catalog independently tested a physical flash. Keep `hardwareVerification` at `not-verified` until a real board revision has been tested and evidence recorded. Optional release asset URLs are shown as manual downloads; do not add one until that release asset exists.
 
 Validate locally with:
 

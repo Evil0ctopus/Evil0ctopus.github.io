@@ -28,11 +28,11 @@
       case "ready":
         return "Ready";
       case "pending":
-        return "Local installer pending";
+        return "Install not ready here";
       case "coming-soon":
-        return "Coming soon";
+        return "Not available yet";
       case "link-out":
-        return "Upstream / draft";
+        return "Separate project";
       default:
         return status || "Unknown";
     }
@@ -293,9 +293,9 @@
     els.btnDisabled.hidden = mode !== "pending" && mode !== "soon";
     els.btnLinkOut.hidden = mode !== "linkout";
     if (mode === "pending") {
-      els.btnDisabled.textContent = "Connect & install (local package pending)";
+      els.btnDisabled.textContent = "Install not available here yet";
     } else if (mode === "soon") {
-      els.btnDisabled.textContent = "Coming soon";
+      els.btnDisabled.textContent = "Not available yet";
     }
   }
 
@@ -363,6 +363,7 @@
       '<dt>SHA-256</dt><dd><code>' + escapeHtml(release.sha256 || "Not recorded") + "</code></dd>" +
       '<dt>Image / offset</dt><dd>' + escapeHtml(release.assetKind || "Not recorded") + " · " + escapeHtml(release.flashOffset || "Not recorded") + "</dd>" +
       "</dl>" +
+      '<p class="release-explainer">The SHA-256 code is a file fingerprint you can compare to confirm a download was not changed.</p>' +
       (release.downloadUrl ? '<a class="release-download" href="' + escapeHtml(release.downloadUrl) + '" target="_blank" rel="noopener noreferrer" download data-upstream-confirm data-firmware-download>Download latest firmware</a>' : "") +
       (releasesUrl ? '<a class="release-history-link release-all-link" href="' + escapeHtml(releasesUrl) + '" target="_blank" rel="noopener noreferrer">All releases</a>' : "") +
       historyHtml + "</section>"
@@ -373,11 +374,11 @@
     if (item.installMethod !== "esp-web-tools") return "";
     return (
       '<details class="preflight-panel"><summary>Pre-flash checklist</summary>' +
-      '<p>All checks must be confirmed before a local install can start.</p>' +
-      '<label><input type="checkbox" data-preflight> Exact board model and revision match the selected firmware.</label>' +
-      '<label><input type="checkbox" data-preflight> This is my board, or I have permission to flash it.</label>' +
-      '<label><input type="checkbox" data-preflight> I have backed up needed data; flashing may erase existing contents.</label>' +
-      '<label><input type="checkbox" data-preflight> I am using desktop Chrome or Edge over HTTPS.</label>' +
+      '<p>Check each box before connecting your device.</p>' +
+      '<label><input type="checkbox" data-preflight> The name and screen on my device match the details above.</label>' +
+      '<label><input type="checkbox" data-preflight> This is my device, or I have permission to change its software.</label>' +
+      '<label><input type="checkbox" data-preflight> I saved anything important; installation may erase the device.</label>' +
+      '<label><input type="checkbox" data-preflight> I am on a computer using Chrome or Edge and a USB data cable.</label>' +
       '<p id="preflight-status" class="preflight-status" role="status" aria-live="polite">Complete each check to enable installation.</p>' +
       "</details>"
     );
@@ -406,9 +407,9 @@
       step.classList.toggle("is-current", index === state.demoStep);
     });
     var messages = [
-      "Step 1 of 3: Confirm the selected board identity. No device is queried.",
-      "Step 2 of 3: A serial-port selection is simulated. The browser is not asked for a port.",
-      "Step 3 of 3: Preview complete. No connection was made and no firmware was written.",
+      "Step 1 of 3: Check the selected device name. No device is connected.",
+      "Step 2 of 3: Imagine choosing a USB device. This preview does not open a device picker.",
+      "Step 3 of 3: Preview complete. Nothing was connected, erased, or changed.",
     ];
     els.demoStatus.textContent = messages[state.demoStep] || messages[0];
     els.demoNext.textContent = state.demoStep >= 2 ? "Close demo" : "Next demo step";
@@ -417,11 +418,11 @@
   function renderDetail(item) {
     if (!item) {
       els.detail.innerHTML =
-        '<div class="detail-placeholder">Select a firmware card to inspect install options, chip family, and authorized-use notes.</div>';
+        '<div class="detail-placeholder">Choose a device name to see its match notes, release files, and next steps.</div>';
       // re-bind action hosts that live inside detail — recreate structure
       els.detail.innerHTML =
         '<p class="detail-kicker">Flash hub · detail</p>' +
-        '<div class="detail-placeholder">Select a firmware card to inspect install options, chip family, and authorized-use notes.</div>' +
+        '<div class="detail-placeholder">Choose a device name to see its match notes, release files, and next steps.</div>' +
         '<div id="detail-body" hidden></div>';
       return;
     }
@@ -491,7 +492,7 @@
       '<span slot="not-allowed" class="flash-slot-msg">Flashing needs HTTPS or localhost.</span>' +
       "</esp-web-install-button>" +
       "</div>" +
-      '<button type="button" id="btn-install-disabled" class="btn btn-primary" disabled aria-disabled="true" hidden>Coming soon</button>' +
+      '<button type="button" id="btn-install-disabled" class="btn btn-primary" disabled aria-disabled="true" hidden>Install not available here yet</button>' +
       '<a id="btn-link-out" class="btn btn-secondary" href="#" rel="noopener noreferrer" target="_blank" data-upstream-confirm hidden>Review upstream installer</a>' +
       '<button type="button" id="btn-demo" class="btn btn-ghost" aria-expanded="false" aria-controls="demo-panel">Preview demo</button>' +
       (upstream
@@ -536,28 +537,28 @@
         els.btnLinkOut.hidden = !(item.upstreamUrl || item.repoUrl);
       }
       hint.textContent =
-        "Draft entry only. This catalog does not verify its installer or board compatibility; review upstream details before continuing.";
+        "This firmware belongs to a separate project and will not install through this page. Check that project's device instructions before continuing.";
       return;
     }
 
     if (status === "coming-soon" || method === "coming-soon") {
       setInstallVisibility("soon");
       hint.textContent =
-        "Packaging for browser install is not published yet. Watch the GitHub repo for releases.";
+        "A browser install file is not available here yet. Open Project / docs to check for a manual download.";
       return;
     }
 
     if (method === "uf2") {
       setInstallVisibility("soon");
       hint.textContent =
-        "UF2 install path reserved for future non-ESP MCU families. Not active in v1.";
+        "This device uses a different install method that this page does not support yet. Open Project / docs for instructions.";
       return;
     }
 
     // ESP Web Tools: Install only when status=ready AND a valid manifest exists
     if (method === "esp-web-tools") {
       setInstallVisibility("pending");
-      hint.textContent = "Probing for published manifest…";
+      hint.textContent = "Checking whether this site has an install file for this device…";
       probeManifest(item.manifestUrl).then(function (manifestUrl) {
         if (state.selectedId !== item.id) return;
         if (status === "ready" && manifestUrl) {
@@ -567,22 +568,17 @@
           }
           updatePreflight();
           hint.textContent =
-            "Chrome or Edge · HTTPS · complete the pre-flash checklist before connecting. Manifest: " +
-            manifestUrl;
+            "Install file found. Use desktop Chrome or Edge on this secure page and complete the checklist before connecting.";
           return;
         }
         setInstallVisibility("pending");
         if (els.espInstall) els.espInstall.removeAttribute("manifest");
         if (status === "ready" && !manifestUrl) {
           hint.textContent =
-            "Status is ready but manifest is missing or invalid" +
-            (item.manifestUrl ? " (" + item.manifestUrl + ")" : "") +
-            ".";
+            "The file needed to install this firmware is missing or failed its check. Do not connect the device; open Project / docs for help.";
         } else {
           hint.textContent =
-            "Install stays inactive until status=ready and a published manifest exists" +
-            (item.manifestUrl ? " at " + item.manifestUrl : "") +
-            ".";
+            "This site does not have an install file for this device yet. You can still review its release files and project instructions below.";
         }
       });
       return;
