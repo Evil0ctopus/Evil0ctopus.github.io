@@ -12,6 +12,8 @@
     category: "all",
     query: "",
     selectedId: null,
+    compareIds: [],
+    demoStep: -1,
     manifestCache: Object.create(null),
   };
 
@@ -26,7 +28,7 @@
       case "ready":
         return "Ready";
       case "pending":
-        return "Pending firmware";
+        return "Local installer pending";
       case "coming-soon":
         return "Coming soon";
       case "link-out":
@@ -90,9 +92,35 @@
           return false;
         }
         return res.json().then(function (data) {
-          var ok = data && Array.isArray(data.builds) && data.builds.length > 0;
-          state.manifestCache[url] = ok ? url : false;
-          return state.manifestCache[url];
+          var builds = data && Array.isArray(data.builds) ? data.builds : [];
+          var validBuilds = builds.filter(function (build) {
+            return build && typeof build.chipFamily === "string" && Array.isArray(build.parts) && build.parts.length > 0;
+          });
+          if (!validBuilds.length) return false;
+
+          var parts = [];
+          validBuilds.forEach(function (build) {
+            build.parts.forEach(function (part) {
+              if (!part || typeof part.path !== "string" || !Number.isFinite(Number(part.offset)) || Number(part.offset) < 0) {
+                parts.push(Promise.resolve(false));
+                return;
+              }
+              var binaryUrl = new URL(part.path, new URL(url, window.location.href));
+              if (binaryUrl.origin !== window.location.origin) {
+                parts.push(Promise.resolve(false));
+                return;
+              }
+              parts.push(fetch(binaryUrl.href, { method: "HEAD", cache: "no-store" }).then(function (binary) {
+                return binary.ok;
+              }).catch(function () { return false; }));
+            });
+          });
+
+          return Promise.all(parts).then(function (partResults) {
+            var ok = partResults.length > 0 && partResults.every(Boolean);
+            state.manifestCache[url] = ok ? url : false;
+            return state.manifestCache[url];
+          });
         });
       })
       .catch(function () {
@@ -158,7 +186,7 @@
         (item.tags || []).indexOf("evil0ctopus") !== -1 ||
         (item.tags || []).indexOf("own-project") !== -1;
       html +=
-        '<li><button type="button" class="firmware-card' +
+        '<li><div class="firmware-list-row"><button type="button" class="firmware-card' +
         (own ? " firmware-card--own" : "") +
         (selected ? " is-selected" : "") +
         '" data-id="' +
@@ -188,9 +216,75 @@
         (draft ? '<span class="tag-pill tag-pill--draft">draft</span>' : "") +
         tagsHtml +
         "</div>" +
-        "</button></li>";
+        "</button><label class=\"compare-toggle\"><input type=\"checkbox\" data-compare-id=\"" +
+        escapeHtml(item.id) +
+        "\"" +
+        (state.compareIds.indexOf(item.id) !== -1 ? " checked" : "") +
+        (state.compareIds.length >= 3 && state.compareIds.indexOf(item.id) === -1 ? " disabled" : "") +
+        "><span>Compare</span></label></div></li>";
     });
     els.list.innerHTML = html;
+  }
+
+  function renderFinder() {
+    var html = '<option value="">Browse all boards</option>';
+    (state.catalog.items || []).forEach(function (item) {
+      html +=
+        '<option value="' +
+        escapeHtml(item.id) +
+        '">' +
+        escapeHtml(item.boardLabel || item.name) +
+        " · " +
+        escapeHtml(item.chipFamily || "Unknown chip") +
+        "</option>";
+    });
+    els.finder.innerHTML = html;
+  }
+
+  function hardwareProfile(item) {
+    var profile = item.hardwareProfile || {};
+    return {
+      model: profile.model || item.boardLabel || "Not specified",
+      chip: profile.chip || item.chipNote || item.chipFamily || "Not specified",
+      display: profile.display || "Not specified",
+      usb: profile.usb || "Not specified",
+      flash: profile.flash || "Not specified",
+      tested: (item.hardwareVerification || state.catalog.defaults.hardwareVerification || {}).label || "Verification status not recorded",
+    };
+  }
+
+  function renderCompare() {
+    var items = state.compareIds.map(findItem).filter(Boolean);
+    els.compare.hidden = items.length < 2;
+    if (items.length < 2) {
+      els.compareTable.innerHTML = "";
+      return;
+    }
+
+    var rows = [
+      ["Board", function (item) { return hardwareProfile(item).model; }],
+      ["Chip", function (item) { return hardwareProfile(item).chip; }],
+      ["Display", function (item) { return hardwareProfile(item).display; }],
+      ["USB", function (item) { return hardwareProfile(item).usb; }],
+      ["Flash notes", function (item) { return hardwareProfile(item).flash; }],
+      ["Tested on", function (item) { return Array.isArray(item.testedOn) && item.testedOn.length ? item.testedOn.join(", ") : "No hardware test recorded"; }],
+      ["Install status", function (item) { return statusLabel(item.status); }],
+      ["Hardware verification", function (item) { return hardwareProfile(item).tested; }],
+      ["Local release", function (item) { return item.latestRelease || "No local release published"; }],
+    ];
+    var html = '<table class="compare-table"><thead><tr><th scope="col">Specification</th>';
+    items.forEach(function (item) {
+      html += '<th scope="col">' + escapeHtml(item.name) + "</th>";
+    });
+    html += "</tr></thead><tbody>";
+    rows.forEach(function (row) {
+      html += "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th>";
+      items.forEach(function (item) {
+        html += "<td>" + escapeHtml(row[1](item)) + "</td>";
+      });
+      html += "</tr>";
+    });
+    els.compareTable.innerHTML = html + "</tbody></table>";
   }
 
   function setInstallVisibility(mode) {
@@ -199,10 +293,125 @@
     els.btnDisabled.hidden = mode !== "pending" && mode !== "soon";
     els.btnLinkOut.hidden = mode !== "linkout";
     if (mode === "pending") {
-      els.btnDisabled.textContent = "Connect & install (waiting on firmware)";
+      els.btnDisabled.textContent = "Connect & install (local package pending)";
     } else if (mode === "soon") {
       els.btnDisabled.textContent = "Coming soon";
     }
+  }
+
+  function renderHardwarePassport(item) {
+    var profile = hardwareProfile(item);
+    var verification = item.hardwareVerification || state.catalog.defaults.hardwareVerification || {};
+    var testedOn = Array.isArray(item.testedOn) ? item.testedOn : [];
+    var gallery = Array.isArray(item.gallery) ? item.gallery[0] : null;
+    var visual = gallery
+      ? '<figure class="board-visual"><img src="' +
+        escapeHtml(gallery.src) +
+        '" alt="' +
+        escapeHtml(gallery.alt || "Firmware screen preview") +
+        '" loading="lazy" decoding="async"><figcaption>' +
+        escapeHtml(gallery.caption || "Project image") +
+        "</figcaption></figure>"
+      : '<p class="board-visual-empty">No verified board image is recorded for this entry.</p>';
+
+    return (
+      '<section class="hardware-passport" aria-labelledby="passport-heading">' +
+      '<div class="passport-heading-row"><div><p class="detail-kicker">Compatibility passport</p>' +
+      '<h3 id="passport-heading">Hardware details</h3></div>' +
+      '<span class="verification-badge verification-badge--unverified">' +
+      escapeHtml(verification.label || "Hardware verification not recorded") +
+      "</span></div>" +
+      '<dl class="passport-grid">' +
+      '<dt>Exact model</dt><dd>' + escapeHtml(profile.model) + "</dd>" +
+      '<dt>Chip</dt><dd>' + escapeHtml(profile.chip) + "</dd>" +
+      '<dt>Display</dt><dd>' + escapeHtml(profile.display) + "</dd>" +
+      '<dt>USB / flash</dt><dd>' + escapeHtml(profile.usb) + " · " + escapeHtml(profile.flash) + "</dd>" +
+      '<dt>Tested on</dt><dd>' + escapeHtml(testedOn.length ? testedOn.join(", ") : "No hardware test recorded") + "</dd>" +
+      "</dl>" +
+      visual +
+      '<p class="verification-note">' +
+      escapeHtml(verification.note || "Verify the exact board revision against upstream documentation before installing.") +
+      "</p></section>"
+    );
+  }
+
+  function renderReleaseDetails(item) {
+    var release = item.latestRelease || {};
+    var releasesUrl = item.releaseHistoryUrl || (item.repoUrl ? item.repoUrl.replace(/\/$/, "") + "/releases" : "");
+    var releaseUrl = release.releaseUrl || releasesUrl;
+    var history = Array.isArray(item.releaseHistory) ? item.releaseHistory : [];
+    var historyHtml = history.length
+      ? '<ol class="release-history">' + history.map(function (entry) {
+          return '<li><strong>' + escapeHtml(entry.version || "Version") + "</strong> · " +
+            escapeHtml(entry.date || "Date not recorded") +
+            (entry.assetUrl ? ' · <a href="' + escapeHtml(entry.assetUrl) + '" target="_blank" rel="noopener noreferrer" data-upstream-confirm data-firmware-download>Firmware asset</a>' : "") +
+            (entry.notes ? '<span>' + escapeHtml(entry.notes) + "</span>" : "") +
+            "</li>";
+        }).join("") + "</ol>"
+      : '<p class="release-empty">No local firmware release is published for this entry yet.</p>';
+
+    return (
+      '<section class="release-passport" aria-labelledby="release-heading">' +
+      '<div class="passport-heading-row"><div><p class="detail-kicker">Release record</p>' +
+      '<h3 id="release-heading">Firmware history</h3></div>' +
+      (releaseUrl ? '<a class="release-history-link" href="' + escapeHtml(releaseUrl) + '" target="_blank" rel="noopener noreferrer">Latest release</a>' : "") +
+      "</div>" +
+      '<dl class="release-grid">' +
+      '<dt>Version</dt><dd>' + escapeHtml(release.version || "Not published") + "</dd>" +
+      '<dt>Built</dt><dd>' + escapeHtml(release.builtAt || "Not recorded") + "</dd>" +
+      '<dt>Source commit</dt><dd><code>' + escapeHtml(release.commit || "Not recorded") + "</code></dd>" +
+      '<dt>SHA-256</dt><dd><code>' + escapeHtml(release.sha256 || "Not recorded") + "</code></dd>" +
+      '<dt>Image / offset</dt><dd>' + escapeHtml(release.assetKind || "Not recorded") + " · " + escapeHtml(release.flashOffset || "Not recorded") + "</dd>" +
+      "</dl>" +
+      (release.downloadUrl ? '<a class="release-download" href="' + escapeHtml(release.downloadUrl) + '" target="_blank" rel="noopener noreferrer" download data-upstream-confirm data-firmware-download>Download latest firmware</a>' : "") +
+      (releasesUrl ? '<a class="release-history-link release-all-link" href="' + escapeHtml(releasesUrl) + '" target="_blank" rel="noopener noreferrer">All releases</a>' : "") +
+      historyHtml + "</section>"
+    );
+  }
+
+  function renderPreflight(item) {
+    if (item.installMethod !== "esp-web-tools") return "";
+    return (
+      '<details class="preflight-panel"><summary>Pre-flash checklist</summary>' +
+      '<p>All checks must be confirmed before a local install can start.</p>' +
+      '<label><input type="checkbox" data-preflight> Exact board model and revision match the selected firmware.</label>' +
+      '<label><input type="checkbox" data-preflight> This is my board, or I have permission to flash it.</label>' +
+      '<label><input type="checkbox" data-preflight> I have backed up needed data; flashing may erase existing contents.</label>' +
+      '<label><input type="checkbox" data-preflight> I am using desktop Chrome or Edge over HTTPS.</label>' +
+      '<p id="preflight-status" class="preflight-status" role="status" aria-live="polite">Complete each check to enable installation.</p>' +
+      "</details>"
+    );
+  }
+
+  function updatePreflight() {
+    var checks = els.detail.querySelectorAll("[data-preflight]");
+    var ready = checks.length > 0;
+    checks.forEach(function (check) {
+      if (!check.checked) ready = false;
+    });
+    var activate = els.espInstall && els.espInstall.querySelector('[slot="activate"]');
+    var status = $("preflight-status");
+    if (activate) activate.disabled = !ready;
+    if (status) {
+      status.textContent = ready
+        ? "Checks complete. You can continue with the browser installer."
+        : "Complete each check to enable installation.";
+    }
+  }
+
+  function renderDemo() {
+    var steps = els.demoPanel.querySelectorAll("#demo-steps li");
+    steps.forEach(function (step, index) {
+      step.classList.toggle("is-complete", index < state.demoStep);
+      step.classList.toggle("is-current", index === state.demoStep);
+    });
+    var messages = [
+      "Step 1 of 3: Confirm the selected board identity. No device is queried.",
+      "Step 2 of 3: A serial-port selection is simulated. The browser is not asked for a port.",
+      "Step 3 of 3: Preview complete. No connection was made and no firmware was written.",
+    ];
+    els.demoStatus.textContent = messages[state.demoStep] || messages[0];
+    els.demoNext.textContent = state.demoStep >= 2 ? "Close demo" : "Next demo step";
   }
 
   function renderDetail(item) {
@@ -268,34 +477,50 @@
           "</a></dd>"
         : "") +
       "</dl>" +
+      renderHardwarePassport(item) +
+      renderReleaseDetails(item) +
       '<p class="detail-auth" role="note"><strong>Authorized use.</strong> ' +
       escapeHtml(auth) +
       "</p>" +
+      renderPreflight(item) +
       '<div class="detail-actions" id="detail-actions">' +
       '<div id="esp-install-host" class="esp-install-host" hidden>' +
       '<esp-web-install-button id="esp-install" class="esp-install">' +
-      '<button type="button" slot="activate" class="btn btn-primary">Connect &amp; install</button>' +
+      '<button type="button" slot="activate" class="btn btn-primary" disabled>Connect &amp; install</button>' +
       '<span slot="unsupported" class="flash-slot-msg">Web Serial unavailable — use Chrome or Edge on desktop.</span>' +
       '<span slot="not-allowed" class="flash-slot-msg">Flashing needs HTTPS or localhost.</span>' +
       "</esp-web-install-button>" +
       "</div>" +
       '<button type="button" id="btn-install-disabled" class="btn btn-primary" disabled aria-disabled="true" hidden>Coming soon</button>' +
-      '<a id="btn-link-out" class="btn btn-secondary" href="#" rel="noopener noreferrer" target="_blank" hidden>Open upstream installer</a>' +
+      '<a id="btn-link-out" class="btn btn-secondary" href="#" rel="noopener noreferrer" target="_blank" data-upstream-confirm hidden>Review upstream installer</a>' +
+      '<button type="button" id="btn-demo" class="btn btn-ghost" aria-expanded="false" aria-controls="demo-panel">Preview demo</button>' +
       (upstream
         ? '<a class="btn btn-ghost" href="' +
           escapeHtml(upstream) +
           '" rel="noopener noreferrer" target="_blank">Project / docs</a>'
         : "") +
       "</div>" +
-      '<p class="detail-hint" id="detail-hint"></p>';
+      '<p class="detail-hint" id="detail-hint"></p>' +
+      '<section id="demo-panel" class="demo-panel" aria-labelledby="demo-heading" hidden>' +
+      '<p class="demo-kicker">SIMULATION ONLY · NO USB ACCESS · NO FLASHING</p>' +
+      '<h3 id="demo-heading">Practice the install flow</h3>' +
+      '<ol id="demo-steps"><li>Confirm the selected board identity.</li><li>Simulate choosing a serial port.</li><li>Review a simulated completion state.</li></ol>' +
+      '<p id="demo-status" role="status" aria-live="polite">This preview never requests a serial port and never writes firmware.</p>' +
+      '<button type="button" id="demo-next" class="btn btn-secondary">Start demo</button>' +
+      "</section>";
 
     // refresh element refs after re-render
     els.espHost = $("esp-install-host");
     els.espInstall = $("esp-install");
     els.btnDisabled = $("btn-install-disabled");
     els.btnLinkOut = $("btn-link-out");
+    els.btnDemo = $("btn-demo");
+    els.demoPanel = $("demo-panel");
+    els.demoStatus = $("demo-status");
+    els.demoNext = $("demo-next");
     els.hint = $("detail-hint");
 
+    state.demoStep = -1;
     updateActions(item);
   }
 
@@ -311,7 +536,7 @@
         els.btnLinkOut.hidden = !(item.upstreamUrl || item.repoUrl);
       }
       hint.textContent =
-        "Draft catalog entry — not wired to a local ESP Web Tools manifest. Opens the upstream installer / page.";
+        "Draft entry only. This catalog does not verify its installer or board compatibility; review upstream details before continuing.";
       return;
     }
 
@@ -340,8 +565,9 @@
           if (els.espInstall) {
             els.espInstall.setAttribute("manifest", manifestUrl);
           }
+          updatePreflight();
           hint.textContent =
-            "Chrome or Edge · connect board over USB · then Connect & install. Manifest: " +
+            "Chrome or Edge · HTTPS · complete the pre-flash checklist before connecting. Manifest: " +
             manifestUrl;
           return;
         }
@@ -391,6 +617,89 @@
       if (!card) return;
       selectItem(card.getAttribute("data-id"));
     });
+
+    els.list.addEventListener("change", function (e) {
+      var checkbox = e.target.closest("input[data-compare-id]");
+      if (!checkbox) return;
+      var id = checkbox.getAttribute("data-compare-id");
+      if (checkbox.checked) {
+        if (state.compareIds.length >= 3) {
+          checkbox.checked = false;
+          return;
+        }
+        if (state.compareIds.indexOf(id) === -1) state.compareIds.push(id);
+      } else {
+        state.compareIds = state.compareIds.filter(function (compareId) { return compareId !== id; });
+      }
+      renderList();
+      renderCompare();
+    });
+
+    els.finder.addEventListener("change", function () {
+      var item = findItem(els.finder.value);
+      if (!item) {
+        els.finderStatus.textContent = "Select a board to open its passport.";
+        return;
+      }
+      state.category = "all";
+      state.query = "";
+      els.search.value = "";
+      renderFilters();
+      selectItem(item.id);
+      els.finderStatus.textContent = "Showing catalog details for " + item.boardLabel + ". Check its exact revision before installing.";
+    });
+
+    els.compareClear.addEventListener("click", function () {
+      state.compareIds = [];
+      renderList();
+      renderCompare();
+    });
+
+    els.detail.addEventListener("change", function (e) {
+      if (e.target.matches("[data-preflight]")) updatePreflight();
+    });
+
+    els.detail.addEventListener("click", function (e) {
+      var upstreamLink = e.target.closest("[data-upstream-confirm]");
+      if (upstreamLink) {
+        e.preventDefault();
+        els.upstreamContinue.href = upstreamLink.href;
+        var isFirmwareDownload = upstreamLink.hasAttribute("data-firmware-download");
+        $("upstream-dialog-title").textContent = isFirmwareDownload ? "Download upstream firmware?" : "Open upstream firmware?";
+        $("upstream-dialog-copy").textContent = isFirmwareDownload
+          ? "This file is hosted by the upstream project, not this site. Verify the exact board revision, image type, and checksum before using it; a mismatched image can make a board unusable."
+          : "This draft entry is not wired to the local installer. Review the upstream project's board support and instructions before flashing.";
+        els.upstreamContinue.textContent = isFirmwareDownload ? "Continue to firmware file" : "Review upstream project";
+        els.upstreamDialog.showModal();
+        return;
+      }
+
+      if (e.target.closest("#btn-demo")) {
+        state.demoStep = 0;
+        els.demoPanel.hidden = false;
+        els.btnDemo.setAttribute("aria-expanded", "true");
+        renderDemo();
+        return;
+      }
+
+      if (e.target.closest("#demo-next")) {
+        if (state.demoStep >= 2) {
+          state.demoStep = -1;
+          els.demoPanel.hidden = true;
+          els.btnDemo.setAttribute("aria-expanded", "false");
+          return;
+        }
+        state.demoStep++;
+        renderDemo();
+      }
+    });
+
+    els.upstreamCancel.addEventListener("click", function () {
+      els.upstreamDialog.close();
+    });
+    els.upstreamContinue.addEventListener("click", function () {
+      els.upstreamDialog.close();
+    });
   }
 
   function initDom() {
@@ -400,6 +709,14 @@
     els.count = $("catalog-count");
     els.detail = $("catalog-detail");
     els.loadError = $("catalog-load-error");
+    els.finder = $("board-finder-select");
+    els.finderStatus = $("board-finder-status");
+    els.compare = $("compare-panel");
+    els.compareTable = $("compare-table-wrap");
+    els.compareClear = $("compare-clear");
+    els.upstreamDialog = $("upstream-dialog");
+    els.upstreamContinue = $("upstream-continue");
+    els.upstreamCancel = $("upstream-cancel");
   }
 
   function boot() {
@@ -413,9 +730,11 @@
       .then(function (data) {
         state.catalog = data;
         renderFilters();
+        renderFinder();
         var first = (data.items && data.items[0]) || null;
         if (first) state.selectedId = first.id;
         renderList();
+        renderCompare();
         renderDetail(first);
         if (els.loadError) els.loadError.hidden = true;
       })

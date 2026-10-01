@@ -53,6 +53,34 @@
           Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button. Android companion app: download from <a href="projects.html">Projects</a> (Wigglefish 0.4.0).
         </p>
 
+        <details class="flash-guide">
+          <summary>Install guide and recovery</summary>
+          <div class="flash-guide-content">
+            <ol>
+              <li>Match the exact board model and display revision. Similar-looking CYD boards can use different chips, displays, and flash layouts.</li>
+              <li>Use a desktop version of Chrome or Edge over HTTPS, and a known data-capable USB cable.</li>
+              <li>Back up anything you need. A factory install may erase the board's current firmware and stored data.</li>
+              <li>Connect only after reviewing the selected firmware's board notes and authorized-use terms. Follow the board maker's boot-mode instructions if prompted.</li>
+            </ol>
+            <p>If a connection fails, disconnect the board, check its exact revision and USB cable, then retry from a fresh browser tab. Do not try a binary intended for a different chip or board variant. Local recovery/build instructions are in each linked project repository.</p>
+          </div>
+        </details>
+
+        <section class="board-finder" aria-labelledby="board-finder-heading">
+          <div class="board-finder-copy">
+            <p class="finder-kicker">01 / Match your hardware</p>
+            <h3 id="board-finder-heading">Find your board</h3>
+            <p>Choose a catalog board to inspect its chip and compatibility notes. A match is not a claim of hardware verification.</p>
+          </div>
+          <div class="board-finder-control">
+            <label for="board-finder-select">Board or device</label>
+            <select id="board-finder-select" class="catalog-select">
+              <option value="">Browse all boards</option>
+            </select>
+            <p id="board-finder-status" role="status" aria-live="polite">Select a board to open its passport.</p>
+          </div>
+        </section>
+
         <p id="catalog-load-error" class="catalog-auth" hidden></p>
 
         <div class="catalog-toolbar">
@@ -69,6 +97,18 @@
           </div>
           <div id="catalog-filters" class="catalog-filters" role="toolbar" aria-label="Category filters"></div>
         </div>
+
+        <section id="compare-panel" class="compare-panel" aria-labelledby="compare-heading" hidden>
+          <div class="compare-heading-row">
+            <div>
+              <p class="finder-kicker">02 / Compare</p>
+              <h3 id="compare-heading">Board comparison</h3>
+            </div>
+            <button id="compare-clear" class="catalog-text-button" type="button">Clear comparison</button>
+          </div>
+          <div id="compare-table-wrap" class="compare-table-wrap"></div>
+          <p class="compare-note">Comparison summarizes catalog data only. Verify the board revision and upstream documentation before installing.</p>
+        </section>
 
         <div class="catalog-meta-bar">
           <span id="catalog-count" class="count">Loading catalog…</span>
@@ -89,6 +129,18 @@
       </div>
     </section>
   </main>
+
+  <dialog id="upstream-dialog" class="flash-dialog" aria-labelledby="upstream-dialog-title">
+    <form method="dialog">
+      <p class="finder-kicker">Leaving this catalog</p>
+      <h2 id="upstream-dialog-title">Open upstream firmware?</h2>
+      <p id="upstream-dialog-copy">This draft entry is not wired to the local installer. Review the upstream project's board support and instructions before flashing.</p>
+      <div class="flash-dialog-actions">
+        <button id="upstream-cancel" class="catalog-text-button" type="button">Stay here</button>
+        <a id="upstream-continue" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Review upstream project</a>
+      </div>
+    </form>
+  </dialog>
 
   <footer class="site-footer">
     <div class="footer-inner">

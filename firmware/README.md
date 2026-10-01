@@ -30,6 +30,20 @@ The Flash UI probes `firmware/<board>/manifest.json` at page load.
 
 Do **not** commit placeholder or empty `.bin` files. Ship real builds from Repo Builder (or your release pipeline) only.
 
+## Compatibility and release metadata
+
+Each catalog entry may include `hardwareProfile`, `hardwareVerification`, `latestRelease`, `releaseHistory`, `releaseHistoryUrl`, and `gallery` fields. Keep unknown board revisions marked as not verified; a successful compile is not evidence of a tested flash. Gallery images need descriptive alt text and a caption that says whether they show the board or only its firmware UI.
+
+For a `ready` entry, add the real manifest and every referenced non-empty binary under this repository. Record the build version/date, source commit, SHA-256, and exact tested board revision in `firmware/firmware-catalog.json`. Optional release asset URLs are shown as manual downloads; do not add one until that release asset exists.
+
+Validate locally with:
+
+```sh
+node scripts/validate-firmware-catalog.js
+```
+
+The same validator runs on pushes and pull requests through `.github/workflows/validate-firmware-catalog.yml`. It checks catalog references, gallery files, ready manifests, matching chip families, local binary paths, optional part checksums, and required release/test evidence. The browser independently checks that same-origin binaries exist before exposing the local installer.
+
 ## Example manifest (ESP32-C5 / wigglefish)
 
 Paths are relative to the manifest. Prefer a single merged binary when using ESP-IDF v4+:
