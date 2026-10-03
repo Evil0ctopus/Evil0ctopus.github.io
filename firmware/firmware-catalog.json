@@ -121,18 +121,18 @@
       "license": "MIT",
       "authorizedUseNote": "M5Stack CoreS3 only (16 MB flash / ESP32-S3); not Core, Core2, or a generic S3 board. Flash only hardware you own. Installation replaces firmware and filesystem assets. Erasing the device also removes saved Wi-Fi credentials and preferences; record your settings first.",
       "status": "ready",
-      "version": "2026.10.02-95751da",
-      "sourceCommit": "95751da734ea286910d528a2259663ccf61b92b1",
+      "version": "2026.10.02-bf33e50",
+      "sourceCommit": "bf33e50b17afc80532bc753a80a694b93911c3fd",
       "downloadUrl": "firmware/cores3_weather_console/manifest.json",
       "buildInfoUrl": "firmware/cores3_weather_console/build-info.json",
       "latestRelease": {
-        "version": "2026.10.02-95751da",
-        "builtAt": "2026-10-03T02:11:13.676Z",
-        "commit": "95751da734ea286910d528a2259663ccf61b92b1",
-        "sha256": "9947b8f38b79aefde737d2694796627db074a1e1fe644d0c87b0d9b16be69b94",
+        "version": "2026.10.02-bf33e50",
+        "builtAt": "2026-10-03T04:05:03.721Z",
+        "commit": "bf33e50b17afc80532bc753a80a694b93911c3fd",
+        "sha256": "9ed5adccdaec8f11af47f1906ee38bd8faca9237bb3eaba0aa4f1055c94e2d37",
         "assetKind": "Multi-part install; this fingerprint is for the application only. Manifest and build details list all required parts.",
         "flashOffset": "Application at 0x010000; SPIFFS at 0xC90000",
-        "releaseUrl": "https://github.com/Evil0ctopus/cores3_weather_console/commit/95751da734ea286910d528a2259663ccf61b92b1"
+        "releaseUrl": "https://github.com/Evil0ctopus/cores3_weather_console/commit/bf33e50b17afc80532bc753a80a694b93911c3fd"
       },
       "installSteps": [
         "Use desktop Chrome or Edge on HTTPS with a USB-C data cable. Close serial monitors and other apps using the device.",

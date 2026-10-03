@@ -163,6 +163,14 @@ test("release parts are nonempty, fit actual partitions, and match recorded SHA-
   const info = JSON.parse(fs.readFileSync(path.join(folder, "build-info.json")));
   assert.equal(info.sourceCommit, weather.sourceCommit);
   assert.equal(info.version, manifest.version);
+  assert.equal(weather.version, manifest.version);
+  assert.equal(weather.latestRelease.version, manifest.version);
+  assert.equal(weather.latestRelease.commit, info.sourceCommit);
+  assert.equal(weather.latestRelease.builtAt, info.builtAt);
+  assert.equal(weather.latestRelease.sha256, info.files["firmware.bin"].sha256);
+  const firmware = fs.readFileSync(path.join(folder, "firmware.bin"));
+  assert.ok(firmware.includes(Buffer.from(info.sourceCommit.slice(0, 7))),
+    "Application must contain the recorded source revision, not just updated metadata");
   const partitions = fs.readFileSync(path.join(folder, "partitions.bin"));
   const ranges = [];
   for (let offset = 0; partitions.readUInt16LE(offset) === 0x50aa; offset += 32) {

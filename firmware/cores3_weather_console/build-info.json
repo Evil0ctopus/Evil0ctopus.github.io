@@ -1,9 +1,9 @@
 {
   "name": "Weather Atlas",
-  "version": "2026.10.02-95751da",
+  "version": "2026.10.02-bf33e50",
   "sourceRepository": "https://github.com/Evil0ctopus/cores3_weather_console",
-  "sourceCommit": "95751da734ea286910d528a2259663ccf61b92b1",
-  "builtAt": "2026-10-03T02:11:13.676Z",
+  "sourceCommit": "bf33e50b17afc80532bc753a80a694b93911c3fd",
+  "builtAt": "2026-10-03T04:05:03.721Z",
   "environment": "m5stack-cores3",
   "partitionScheme": "default_16MB.csv",
   "toolchain": {
@@ -12,7 +12,7 @@
     "framework": "Arduino-ESP32 3.3.9",
     "compiler": "xtensa-esp-elf 14.2.0+20260121",
     "libraries": {
-      "M5Unified": "0.2.24",
+      "M5Unified": "0.2.25",
       "M5GFX": "0.2.32",
       "lvgl": "8.4.0",
       "AsyncTCP": "3.3.2",
@@ -40,8 +40,8 @@
     },
     "firmware.bin": {
       "offset": 65536,
-      "bytes": 2021264,
-      "sha256": "9947b8f38b79aefde737d2694796627db074a1e1fe644d0c87b0d9b16be69b94"
+      "bytes": 2021408,
+      "sha256": "9ed5adccdaec8f11af47f1906ee38bd8faca9237bb3eaba0aa4f1055c94e2d37"
     },
     "spiffs.bin": {
       "offset": 13172736,

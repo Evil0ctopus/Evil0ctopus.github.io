@@ -1,6 +1,6 @@
 {
   "name": "Weather Atlas",
-  "version": "2026.10.02-95751da",
+  "version": "2026.10.02-bf33e50",
   "new_install_prompt_erase": true,
   "builds": [
     {

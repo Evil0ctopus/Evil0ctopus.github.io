@@ -1,10 +1,11 @@
 # Weather Atlas browser-install package
 
 The current feature scope is complete. This package is built from
-[cores3_weather_console commit 95751da](https://github.com/Evil0ctopus/cores3_weather_console/commit/95751da734ea286910d528a2259663ccf61b92b1),
+[cores3_weather_console commit bf33e50](https://github.com/Evil0ctopus/cores3_weather_console/commit/bf33e50b17afc80532bc753a80a694b93911c3fd),
 not a placeholder or a claim of a separately tagged upstream release.
 
-- Website package version: `2026.10.02-95751da`.
+- Website package version: `2026.10.02-bf33e50`.
+- Includes the Wi-Fi password editor fix from [commit 3081436](https://github.com/Evil0ctopus/cores3_weather_console/commit/308143649889ba6cdf5f1d7906356eadbbeee599): the full keyboard and separate Cancel/Save row fit on the CoreS3 display without overlap or scrolling.
 - Target: **M5Stack CoreS3**, ESP32-S3, 16 MB flash, 8 MB PSRAM.
 - License: MIT; see the pinned source repository's license.
 - [Manifest](manifest.json) includes firmware **and** SPIFFS (themes, boot artwork, audio, device web portal).
@@ -61,7 +62,7 @@ Use a clean checkout of the intended source revision:
 ```powershell
 git clone https://github.com/Evil0ctopus/cores3_weather_console.git
 Set-Location cores3_weather_console
-git checkout --detach 95751da734ea286910d528a2259663ccf61b92b1
+git checkout --detach bf33e50b17afc80532bc753a80a694b93911c3fd
 pio run -e m5stack-cores3
 pio run -e m5stack-cores3 -t buildfs
 ```
@@ -87,3 +88,8 @@ From the website root, run `node --test tests\flash-catalog.test.cjs`, preview t
 installer over localhost, then perform a physical browser install and first-boot
 smoke test. Commit/push the complete website package for GitHub Pages deployment.
 Never publish placeholder binaries or credentials.
+
+Pushing source changes to `cores3_weather_console` does not update this website's
+compiled install package automatically. Rebuild and publish all parts and matching
+metadata here for each source update; confirm the live manifest version and binary
+checksums after GitHub Pages deploys.
