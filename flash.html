@@ -39,12 +39,10 @@
   <main id="main">
     <section id="flash" class="section" aria-labelledby="flash-heading">
       <div class="section-inner flash-catalog">
-        <h2 id="flash-heading">Flash firmware</h2>
+        <h1 id="flash-heading">Flash firmware</h1>
         <p class="section-intro">
-          Browse the multi-chip firmware catalog, filter by category, then install over USB with
-          <a href="https://esphome.github.io/esp-web-tools/" rel="noopener noreferrer">ESP Web Tools</a>
-          when a release is ready.
-          <strong>Chrome or Edge required</strong> (Web Serial). No desktop flasher needed.
+          Choose your device, check that the firmware matches it, then follow the steps shown here.
+          You can browse on a phone without connecting anything. Installing requires desktop Chrome or Edge and a USB data cable.
         </p>
         <p class="catalog-auth" role="note">
           <strong>Weather Atlas is ready.</strong> The complete current build for M5Stack CoreS3 includes
@@ -53,11 +51,45 @@
           erasing also clears saved credentials and settings.
         </p>
         <p class="catalog-auth" role="note">
+          <strong>Before you connect:</strong> Do not guess between similar-looking board models.
           <strong>Authorized use only.</strong>
           Flash firmware only on hardware you own or are explicitly permitted to install on.
           <strong>wigglefish</strong> is metadata-only / passive observation in authorized environments — no joining networks, deauth, or injection.
           Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button. Android companion app: download from <a href="projects.html">Projects</a> (Wigglefish 0.4.0).
         </p>
+
+        <section class="board-finder" aria-labelledby="board-finder-heading">
+          <div class="board-finder-copy">
+            <p class="finder-kicker">STEP 1 / Choose your device</p>
+            <h3 id="board-finder-heading">What board is yours?</h3>
+            <p>Look for the name on the board, box, or store listing. Choose it below to see matching notes.</p>
+          </div>
+          <div class="board-finder-control">
+            <label for="board-finder-select">Board name</label>
+            <select id="board-finder-select" class="catalog-select">
+              <option value="">Choose a board</option>
+            </select>
+            <p id="board-finder-status" role="status" aria-live="polite">Not sure? Leave this blank and browse the list below.</p>
+          </div>
+        </section>
+
+        <section class="flash-start" aria-labelledby="flash-start-heading">
+          <p class="finder-kicker">NEXT / Check before installing</p>
+          <h2 id="flash-start-heading">Take a moment to confirm the match</h2>
+          <ol class="flash-start-steps">
+            <li><span class="start-step-number">2</span><div><h3>Check the hardware details</h3><p>Compare the screen and chip notes with your device. “Not hardware-verified” means we have not tested this exact board. If anything differs, stop and check the project instructions.</p></div></li>
+            <li><span class="start-step-number">3</span><div><h3>Check what the status means</h3><p><strong>Ready</strong> means this site has an install file for this device. <strong>Install not ready here</strong> means you cannot install through this page yet; a separate release download may still be available.</p></div></li>
+            <li><span class="start-step-number">4</span><div><h3>Get ready to connect</h3><p>Installing needs a computer, Chrome or Edge, and a USB data cable. The safety checklist appears before the site talks to your board.</p></div></li>
+          </ol>
+          <details class="flash-terms">
+            <summary>What do “chip,” “firmware,” and “factory image” mean?</summary>
+            <dl>
+              <dt>Chip</dt><dd>The small processor inside the board. Firmware must be built for the right chip.</dd>
+              <dt>Firmware</dt><dd>The software that runs on the board.</dd>
+              <dt>Factory image</dt><dd>A complete first-install file. It may erase the board’s existing software and saved settings.</dd>
+            </dl>
+          </details>
+        </section>
 
         <p id="catalog-load-error" class="catalog-auth" hidden></p>
 
@@ -68,7 +100,7 @@
               id="catalog-search"
               class="catalog-search"
               type="search"
-              placeholder="Search name, chip, tags…"
+              placeholder="Try a board name, e.g. Pocket-Pirate-CYD"
               autocomplete="off"
               spellcheck="false"
             >
@@ -76,14 +108,26 @@
           <div id="catalog-filters" class="catalog-filters" role="toolbar" aria-label="Category filters"></div>
         </div>
 
+        <section id="compare-panel" class="compare-panel" aria-labelledby="compare-heading" hidden>
+          <div class="compare-heading-row">
+            <div>
+              <p class="finder-kicker">02 / Compare</p>
+              <h3 id="compare-heading">Board comparison</h3>
+            </div>
+            <button id="compare-clear" class="catalog-text-button" type="button">Clear comparison</button>
+          </div>
+          <div id="compare-table-wrap" class="compare-table-wrap"></div>
+          <p class="compare-note">Comparison summarizes catalog data only. Verify the board revision and upstream documentation before installing.</p>
+        </section>
+
         <div class="catalog-meta-bar">
-          <span id="catalog-count" class="count">Loading catalog…</span>
-          <span>Data · <code>firmware/firmware-catalog.json</code></span>
+          <span id="catalog-count" class="count">Loading available firmware…</span>
         </div>
 
         <div class="catalog-layout">
           <section aria-labelledby="list-heading">
-            <h3 id="list-heading" class="visually-hidden">Firmware list</h3>
+            <h3 id="list-heading" class="catalog-list-heading">Choose your device</h3>
+            <p class="catalog-list-hint">Select a row to see its match notes, release options, and next steps.</p>
             <ul id="firmware-list" class="firmware-list" aria-label="Firmware catalog"></ul>
           </section>
 
@@ -92,9 +136,42 @@
             <div class="detail-placeholder">Loading…</div>
           </aside>
         </div>
+
+        <details class="catalog-scope">
+          <summary>What is included in this catalog?</summary>
+          <div class="catalog-scope-content">
+            <p><strong>wigglefish</strong> is for passive Wi-Fi and BLE observation in authorized environments. It does not join networks, deauthenticate, or inject traffic. Its Android companion app is on the <a href="projects.html">Projects page</a> (Wigglefish 0.4.0).</p>
+            <p>Some CYD entries belong to other projects. They are clearly marked and open that project’s own page; this site does not install them.</p>
+            <p>Browser installation requires desktop Chrome or Edge and a secure page connection. No connection is made until you choose a board and start the install flow.</p>
+          </div>
+        </details>
+
+        <details class="flash-guide">
+          <summary>I need help connecting or recovering my board</summary>
+          <div class="flash-guide-content">
+            <ol>
+              <li>Use desktop Chrome or Edge and a USB cable that supports data, not charging only.</li>
+              <li>Back up anything you need. A factory image may erase the board’s current software and saved settings.</li>
+              <li>Connect only after the selected board and its notes match your device. If asked, follow the board maker’s instructions to enter boot mode.</li>
+            </ol>
+            <p>If the connection fails, unplug the board, check the cable and exact model, then try again. Never use a file made for a different chip or board. For recovery steps, open the selected project’s documentation.</p>
+          </div>
+        </details>
       </div>
     </section>
   </main>
+
+  <dialog id="upstream-dialog" class="flash-dialog" aria-labelledby="upstream-dialog-title">
+    <form method="dialog">
+      <p class="finder-kicker">Leaving this catalog</p>
+      <h2 id="upstream-dialog-title">Open upstream firmware?</h2>
+      <p id="upstream-dialog-copy">This draft entry is not wired to the local installer. Review the upstream project's board support and instructions before flashing.</p>
+      <div class="flash-dialog-actions">
+        <button id="upstream-cancel" class="catalog-text-button" type="button">Stay here</button>
+        <a id="upstream-continue" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Review upstream project</a>
+      </div>
+    </form>
+  </dialog>
 
   <footer class="site-footer">
     <div class="footer-inner">

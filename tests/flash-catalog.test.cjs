@@ -21,10 +21,12 @@ function response(data, status = 200, length = "100") {
   };
 }
 
-async function boot({ hash = "", manifestData = manifest, binaryStatus = 200, binaryLength = "100" } = {}) {
+async function boot({ hash = "", manifestData = manifest, binaryStatus = 200, binaryLength = "100", catalogData = catalog } = {}) {
   const elements = new Map();
   const listeners = {};
   const requests = [];
+  const checks = Array.from({ length: 4 }, () => ({ checked: false }));
+  const activate = { disabled: true };
   function getElement(id) {
     if (!elements.has(id)) {
       elements.set(id, {
@@ -36,6 +38,8 @@ async function boot({ hash = "", manifestData = manifest, binaryStatus = 200, bi
         addEventListener(event, callback) { listeners[id + ":" + event] = callback; },
         setAttribute(name, value) { this.attributes[name] = value; },
         removeAttribute(name) { delete this.attributes[name]; },
+        querySelectorAll() { return checks; },
+        querySelector() { return activate; },
       });
     }
     return elements.get(id);
@@ -54,14 +58,17 @@ async function boot({ hash = "", manifestData = manifest, binaryStatus = 200, bi
     URL, Promise, Number,
     fetch: async (url, options) => {
       requests.push({ url, method: options.method || "GET" });
-      if (url === "firmware/firmware-catalog.json") return response(catalog);
+      if (url === "firmware/firmware-catalog.json") return response(catalogData);
       if (url === weather.manifestUrl) return response(manifestData);
+      if (url === "firmware/Pocket-Pirate-CYD/manifest.json") {
+        return response(JSON.parse(fs.readFileSync(path.join(root, url))));
+      }
       if (options.method === "HEAD") return response(null, binaryStatus, binaryLength);
       return response(null, 404);
     },
   });
   await new Promise((resolve) => setImmediate(resolve));
-  return { getElement, requests, listeners, location };
+  return { getElement, requests, listeners, location, checks, activate };
 }
 
 test("Weather Atlas defaults to ready and checks every published firmware part", async () => {
@@ -81,11 +88,29 @@ test("project deep links select Weather Atlas directly", async () => {
 });
 
 test("pending and coming-soon projects remain disabled", async () => {
+  const catalogData = structuredClone(catalog);
+  const pocket = catalogData.items.find((item) => item.id === "Pocket-Pirate-CYD");
+  pocket.status = "coming-soon";
+  pocket.installMethod = "coming-soon";
   for (const id of ["wigglefish", "Pocket-Pirate-CYD"]) {
-    const app = await boot({ hash: "#" + id });
+    const app = await boot({ hash: "#" + id, catalogData });
     assert.equal(app.getElement("esp-install-host").hidden, true);
     assert.equal(app.getElement("btn-install-disabled").hidden, false);
     assert.equal(app.getElement("esp-install").attributes.manifest, undefined);
+  }
+});
+
+test("ready installers require the preserved pre-flash checklist", async () => {
+  for (const id of ["cores3_weather_console", "Pocket-Pirate-CYD"]) {
+    const app = await boot({ hash: "#" + id });
+    assert.equal(app.getElement("esp-install-host").hidden, false);
+    assert.equal(app.activate.disabled, true);
+    app.checks.forEach((check) => { check.checked = true; });
+    app.listeners["catalog-detail:change"]({ target: { matches: () => true } });
+    assert.equal(app.activate.disabled, false);
+    app.checks[0].checked = false;
+    app.listeners["catalog-detail:change"]({ target: { matches: () => true } });
+    assert.equal(app.activate.disabled, true);
   }
 });
 
@@ -126,10 +151,10 @@ test("hash navigation selects a different project and clears catalog filters", a
   const app = await boot();
   app.getElement("catalog-search").value = "weather";
   app.listeners["catalog-search:input"]();
-  app.location.hash = "#Pocket-Pirate-CYD";
+  app.location.hash = "#wigglefish";
   app.listeners.hashchange();
   assert.equal(app.getElement("catalog-search").value, "");
-  assert.match(app.getElement("catalog-detail").innerHTML, /Pocket-Pirate-CYD/);
+  assert.match(app.getElement("catalog-detail").innerHTML, /wigglefish/);
   assert.equal(app.getElement("esp-install-host").hidden, true);
 });
 

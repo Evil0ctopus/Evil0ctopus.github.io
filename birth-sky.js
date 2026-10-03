@@ -54,6 +54,12 @@
   var famousBirthsList = document.getElementById('famous-births-list');
   var famousBirthsLoading = document.getElementById('famous-births-loading');
   var famousBirthsNote = document.getElementById('famous-births-note');
+  var topSongsSection = document.getElementById('top-songs');
+  var topSongsMeta = document.getElementById('top-songs-meta');
+  var topSongsLoading = document.getElementById('top-songs-loading');
+  var topSongsList = document.getElementById('top-songs-list');
+  var topSongsStatus = document.getElementById('top-songs-status');
+  var topSongsOfficialLink = document.getElementById('top-songs-official-link');
   var traditionsSection = document.getElementById('traditions');
   var paganBodyEl = document.getElementById('pagan-body');
   var chineseBodyEl = document.getElementById('chinese-body');
@@ -61,6 +67,9 @@
   var planetarium = null;
   var pendingPlaces = null;
   var selectedPlace = null;
+  var billboardDatesPromise = null;
+  var topSongsRequestId = 0;
+  var BILLBOARD_ARCHIVE_URL = 'https://raw.githubusercontent.com/mhollingshead/billboard-hot-100/main';
   /** @type {null|{placeDisplay:string,dateStr:string,localLabel:string,heroFact:string,famousLine:string,when:Date,lat:number,lon:number,placements:Array,skyNotes:Object}} */
   var lastSession = null;
   var brandImg = null;
@@ -1024,6 +1033,24 @@
     if (famousBirthsSection) famousBirthsSection.hidden = true;
   }
 
+  function clearTopSongs() {
+    topSongsRequestId++;
+    if (topSongsSection) topSongsSection.hidden = true;
+    if (topSongsMeta) topSongsMeta.textContent = '';
+    if (topSongsLoading) topSongsLoading.hidden = true;
+    if (topSongsList) {
+      topSongsList.innerHTML = '';
+      topSongsList.hidden = true;
+    }
+    if (topSongsStatus) {
+      topSongsStatus.hidden = true;
+      topSongsStatus.textContent = '';
+    }
+    if (topSongsOfficialLink) {
+      topSongsOfficialLink.href = 'https://www.billboard.com/charts/hot-100/';
+    }
+  }
+
   function clearTraditions() {
     if (traditionsSection) traditionsSection.hidden = true;
     if (paganBodyEl) paganBodyEl.innerHTML = '';
@@ -1237,6 +1264,122 @@
     if (famousBirthsLoading) famousBirthsLoading.hidden = false;
     var result = await fetchFamousBirths(month, day);
     renderFamousBirths(result);
+  }
+
+  async function findBillboardChartDate(birthDate) {
+    if (!billboardDatesPromise) {
+      billboardDatesPromise = fetch(BILLBOARD_ARCHIVE_URL + '/valid_dates.json', {
+        cache: 'force-cache'
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Chart dates unavailable (' + res.status + ').');
+          return res.json();
+        })
+        .then(function (dates) {
+          if (!Array.isArray(dates)) throw new Error('Chart date archive is invalid.');
+          return dates;
+        })
+        .catch(function (error) {
+          billboardDatesPromise = null;
+          throw error;
+        });
+    }
+
+    var dates = await billboardDatesPromise;
+    var chartDate = null;
+    for (var i = 0; i < dates.length; i++) {
+      if (dates[i] >= birthDate) {
+        chartDate = dates[i];
+        break;
+      }
+    }
+    if (!chartDate) return null;
+
+    var birthParts = birthDate.split('-').map(Number);
+    var chartParts = chartDate.split('-').map(Number);
+    var dayDelta = Math.round(
+      (Date.UTC(chartParts[0], chartParts[1] - 1, chartParts[2]) -
+        Date.UTC(birthParts[0], birthParts[1] - 1, birthParts[2])) /
+        86400000
+    );
+    return dayDelta >= 0 && dayDelta <= 6 ? chartDate : null;
+  }
+
+  async function populateTopSongs(birthDate) {
+    if (!topSongsSection) return;
+
+    var requestId = ++topSongsRequestId;
+    topSongsSection.hidden = false;
+    topSongsLoading.hidden = false;
+    topSongsList.hidden = true;
+    topSongsList.innerHTML = '';
+    topSongsStatus.hidden = true;
+    topSongsStatus.textContent = '';
+    topSongsMeta.textContent = 'Chart week containing ' + formatHeroDate(birthDate) + '.';
+
+    function showUnavailable(message) {
+      if (requestId !== topSongsRequestId) return;
+      topSongsLoading.hidden = true;
+      topSongsList.hidden = true;
+      topSongsStatus.hidden = false;
+      topSongsStatus.textContent = message;
+    }
+
+    try {
+      var chartDate = await findBillboardChartDate(birthDate);
+      if (requestId !== topSongsRequestId) return;
+      if (!chartDate) {
+        showUnavailable('No archived U.S. Hot 100 chart was found for that birthday week.');
+        return;
+      }
+
+      var response = await fetch(
+        BILLBOARD_ARCHIVE_URL + '/date/' + chartDate + '.json',
+        { cache: 'force-cache' }
+      );
+      if (!response.ok) throw new Error('Chart unavailable (' + response.status + ').');
+      var chart = await response.json();
+      if (requestId !== topSongsRequestId) return;
+      if (!chart || chart.date !== chartDate || !Array.isArray(chart.data)) {
+        throw new Error('Chart response is invalid.');
+      }
+
+      var songs = chart.data
+        .filter(function (song) {
+          return song && typeof song.song === 'string' && typeof song.artist === 'string';
+        })
+        .sort(function (a, b) {
+          return Number(a.this_week) - Number(b.this_week);
+        })
+        .slice(0, 5);
+      if (songs.length < 5) throw new Error('Chart does not contain five ranked songs.');
+
+      topSongsMeta.textContent =
+        'Chart week containing ' +
+        formatHeroDate(birthDate) +
+        ' · chart dated ' +
+        formatHeroDate(chartDate) +
+        '.';
+      topSongsOfficialLink.href =
+        'https://www.billboard.com/charts/hot-100/' + chartDate + '/';
+      topSongsList.innerHTML = songs
+        .map(function (song) {
+          return (
+            '<li><span class="song-rank">' +
+            ('0' + escapeHtml(song.this_week)).slice(-2) +
+            '</span><span class="song-main"><span class="song-title">' +
+            escapeHtml(song.song) +
+            '</span><span class="song-artist">' +
+            escapeHtml(song.artist) +
+            '</span></span></li>'
+          );
+        })
+        .join('');
+      topSongsLoading.hidden = true;
+      topSongsList.hidden = false;
+    } catch (error) {
+      showUnavailable('The chart archive could not be reached. Try again later.');
+    }
   }
 
   function showPlacePicker(places) {
@@ -1465,6 +1608,7 @@
     clearFamousBirths();
     clearTraditions();
     clearSpecialFacts();
+    clearTopSongs();
 
     try {
       var dateStr = dateInput.value;
@@ -1523,6 +1667,7 @@
           populateFamousBirths(built.month, built.day).catch(function () {
             renderFamousBirths({ ok: false, people: [] });
           });
+          populateTopSongs(dateStr);
         } catch (err) {
           setLoading(false);
           showError(err.message || String(err));
@@ -1620,6 +1765,7 @@
     }
     clearSpecialFacts();
     clearFamousBirths();
+    clearTopSongs();
     clearTraditions();
     lastSession = null;
     selectedPlace = null;

@@ -1,0 +1,17 @@
+{
+  "name": "Pocket-Pirate-CYD",
+  "version": "v0.5.7",
+  "new_install_prompt_erase": true,
+  "new_install_improv_wait_time": 0,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "Pocket-Pirate-CYD-cheap-black-display.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

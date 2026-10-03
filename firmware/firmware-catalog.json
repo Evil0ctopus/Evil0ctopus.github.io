@@ -3,7 +3,12 @@
   "version": 1,
   "updated": "2026-10-02",
   "defaults": {
-    "authorizedUseNote": "Authorized use only. Flash firmware you own or are explicitly permitted to install. Third-party entries are catalog placeholders \u2014 not wired into this site's Install button until reviewed."
+    "authorizedUseNote": "Authorized use only. Flash firmware you own or are explicitly permitted to install. Third-party entries are catalog placeholders \u2014 not wired into this site's Install button until reviewed.",
+    "hardwareVerification": {
+      "status": "not-verified",
+      "label": "Not hardware-verified by this catalog",
+      "note": "A published source repository or successful build is not the same as a verified flash on this exact board revision."
+    }
   },
   "categories": [
     {
@@ -72,6 +77,13 @@
       "boardLabel": "ESP32-C5 (wigglefish target)",
       "chipFamily": "ESP32-C5",
       "chipNote": "ESP32-C5 \u00b7 dual-band capable target board",
+      "hardwareProfile": {
+        "model": "ESP32-C5 target board; exact PCB revision not specified",
+        "display": "Not specified",
+        "usb": "CH343 USB-serial bridge; connector variant not specified",
+        "flash": "Not verified for this catalog"
+      },
+      "releaseHistoryUrl": "https://github.com/Evil0ctopus/wigglefish/releases",
       "mcuFamily": "esp32",
       "installMethod": "esp-web-tools",
       "manifestUrl": "firmware/wigglefish/manifest.json",
@@ -95,6 +107,13 @@
       "boardLabel": "M5Stack CoreS3",
       "chipFamily": "ESP32-S3",
       "chipNote": "ESP32-S3 \u00b7 CoreS3",
+      "hardwareProfile": {
+        "model": "M5Stack CoreS3",
+        "display": "2.0-inch 320 x 240 capacitive touch IPS",
+        "usb": "USB-C native USB CDC; data cable required",
+        "flash": "16 MB flash / 8 MB PSRAM; multi-part firmware and SPIFFS package"
+      },
+      "releaseHistoryUrl": "https://github.com/Evil0ctopus/cores3_weather_console/releases",
       "mcuFamily": "esp32",
       "installMethod": "esp-web-tools",
       "manifestUrl": "firmware/cores3_weather_console/manifest.json",
@@ -106,6 +125,15 @@
       "sourceCommit": "95751da734ea286910d528a2259663ccf61b92b1",
       "downloadUrl": "firmware/cores3_weather_console/manifest.json",
       "buildInfoUrl": "firmware/cores3_weather_console/build-info.json",
+      "latestRelease": {
+        "version": "2026.10.02-95751da",
+        "builtAt": "2026-10-03T02:11:13.676Z",
+        "commit": "95751da734ea286910d528a2259663ccf61b92b1",
+        "sha256": "9947b8f38b79aefde737d2694796627db074a1e1fe644d0c87b0d9b16be69b94",
+        "assetKind": "Multi-part install; this fingerprint is for the application only. Manifest and build details list all required parts.",
+        "flashOffset": "Application at 0x010000; SPIFFS at 0xC90000",
+        "releaseUrl": "https://github.com/Evil0ctopus/cores3_weather_console/commit/95751da734ea286910d528a2259663ccf61b92b1"
+      },
       "installSteps": [
         "Use desktop Chrome or Edge on HTTPS with a USB-C data cable. Close serial monitors and other apps using the device.",
         "Connect your M5Stack CoreS3, choose Connect & install, and select its USB serial port. Keep it connected until installation completes.",
@@ -130,14 +158,52 @@
       "category": "cyd",
       "boardLabel": "ESP32-S3 CYD 2.8\u2033",
       "chipFamily": "ESP32-S3",
-      "chipNote": "ESP32-S3 \u00b7 Cheap Yellow Display class",
+      "chipNote": "ESP32-S3 \u00b7 2.8-inch Cheap Black Display",
+      "hardwareProfile": {
+        "model": "Hosyond N16R8 ESP32-S3 Cheap Black Display (CYD)",
+        "display": "2.8-inch TFT touchscreen",
+        "usb": "USB-C",
+        "flash": "16 MB flash; factory image at 0x0; app-only image is for OTA"
+      },
+      "gallery": [
+        {
+          "src": "assets/pocket-pirate-cyd-preview.png",
+          "alt": "Pocket-Pirate-CYD firmware screen preview",
+          "caption": "Firmware screen preview from the project repository; not a photograph of the board."
+        }
+      ],
+      "releaseHistoryUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD/releases",
+      "latestRelease": {
+        "version": "v0.5.7",
+        "builtAt": "2026-09-28T22:20:35Z",
+        "commit": "db50199d46df34c12797c9ff8a836bee1e16e7b3",
+        "sha256": "45b6b08630f85ac10d933ef118dd133f8a14f47b924078d6f3d23aada2d5fddc",
+        "assetKind": "Merged factory image (bootloader + partitions + app)",
+        "flashOffset": "0x0",
+        "downloadUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD/releases/download/v0.5.7/Pocket-Pirate-CYD-cheap-black-display.bin",
+        "releaseUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD/releases/tag/v0.5.7"
+      },
+      "releaseHistory": [
+        {
+          "version": "v0.5.6",
+          "date": "2026-09-28",
+          "notes": "Crow's Nest detail, Watch, and Save CSV",
+          "assetUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD/releases/download/v0.5.6/Pocket-Pirate-CYD-cheap-black-display.bin"
+        },
+        {
+          "version": "v0.5.5",
+          "date": "2026-09-28",
+          "notes": "Reliable touch edges during SPI display updates",
+          "assetUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD/releases/download/v0.5.5/Pocket-Pirate-CYD-cheap-black-display.bin"
+        }
+      ],
       "mcuFamily": "esp32",
-      "installMethod": "coming-soon",
-      "manifestUrl": null,
+      "installMethod": "esp-web-tools",
+      "manifestUrl": "firmware/Pocket-Pirate-CYD/manifest.json",
       "upstreamUrl": "https://github.com/Evil0ctopus/Pocket-Pirate-CYD",
       "license": "See repository",
-      "authorizedUseNote": "Flash only hardware you own. Local Install will activate when a published manifest ships.",
-      "status": "coming-soon",
+      "authorizedUseNote": "Flash only a Hosyond N16R8 ESP32-S3 Cheap Black Display that matches this profile. Factory installation may erase existing software. This site has not independently hardware-tested this release.",
+      "status": "ready",
       "tags": [
         "evil0ctopus",
         "cyd",

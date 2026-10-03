@@ -765,3 +765,436 @@
   color: var(--text);
   font-weight: 600;
 }
+
+/* Birth Sky observatory layout */
+.birth-sky-section {
+  padding: 2rem 0 4rem;
+}
+
+.birth-sky-inner {
+  max-width: 74rem;
+}
+
+.tool-card {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.tool-card-header {
+  margin: 0;
+  padding: 1.8rem 0 1.45rem;
+  border-bottom: 1px solid rgba(103, 232, 249, 0.22);
+}
+
+.birth-sky-header .eyebrow {
+  margin-bottom: 0.7rem;
+  color: #f2c078;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.birth-sky-title {
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.65rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.tool-lede {
+  max-width: 43rem;
+  margin: 0.8rem 0 0;
+  color: #bdcbd8;
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.privacy-disclosure {
+  margin: 1rem 0 1.2rem;
+  border: 1px solid rgba(242, 192, 120, 0.28);
+  border-left: 3px solid #f2c078;
+  background: rgba(15, 24, 30, 0.76);
+}
+
+.privacy-disclosure summary {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 0.9rem;
+  color: #d5e0e8;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.privacy-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.privacy-indicator {
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  background: #f2c078;
+  transform: rotate(45deg);
+}
+
+.privacy-disclosure summary strong {
+  color: #f2c078;
+  font-weight: 700;
+}
+
+.privacy-note {
+  margin: 0;
+  padding: 0 0.9rem 0.9rem 2.1rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: 0;
+  font-size: 0.85rem;
+}
+
+#birth-sky-form {
+  padding: 1.35rem 1.45rem 1.2rem;
+  background: rgba(10, 16, 22, 0.88);
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  border-radius: 8px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24);
+}
+
+.birth-form-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  margin-bottom: 1.1rem;
+}
+
+.birth-form-index {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #f2c078;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.birth-form-index span {
+  color: var(--text);
+}
+
+.birth-form-heading h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.birth-form-grid {
+  gap: 1rem 1.15rem;
+}
+
+.field-label {
+  color: #d5e0e8;
+  font-size: 0.83rem;
+}
+
+.field-input {
+  min-height: 3rem;
+  border-color: #334651;
+  background: #090e13;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.field-input:hover {
+  border-color: rgba(103, 232, 249, 0.62);
+}
+
+.field-input:focus-visible {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.14);
+}
+
+.field-hint {
+  font-size: 0.78rem;
+}
+
+.form-actions {
+  align-items: center;
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(103, 232, 249, 0.14);
+}
+
+#generate-btn {
+  min-width: 12rem;
+}
+
+.place-results {
+  background: #0b1117;
+}
+
+.loading-panel[hidden] {
+  display: none !important;
+}
+
+.results {
+  margin-top: 1.5rem;
+}
+
+.results-hero {
+  padding: 1.5rem 1.55rem;
+  background: linear-gradient(112deg, rgba(8, 89, 105, 0.34), rgba(14, 22, 28, 0.96) 60%, rgba(111, 76, 39, 0.16));
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+}
+
+.hero-kicker {
+  color: #f2c078;
+  font-family: var(--mono);
+  letter-spacing: 0.1em;
+}
+
+.hero-date {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.hero-place {
+  margin-bottom: 1rem;
+}
+
+.hero-fact {
+  background: rgba(7, 13, 18, 0.74);
+  border-color: rgba(242, 192, 120, 0.26);
+}
+
+.results-meta {
+  background: rgba(9, 14, 19, 0.8);
+  border-left-color: #f2c078;
+}
+
+.results-panels {
+  gap: 1rem;
+}
+
+.panel {
+  padding: 1.15rem;
+  background: rgba(10, 16, 22, 0.92);
+  border-color: rgba(103, 232, 249, 0.18);
+  border-radius: 6px;
+}
+
+.panel h3 {
+  font-size: 1.08rem;
+}
+
+.starmap {
+  border-color: rgba(103, 232, 249, 0.24);
+  border-radius: 4px;
+}
+
+.tool-credits {
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+}
+
+@media (max-width: 639px) {
+  .birth-sky-section {
+    padding-top: 1rem;
+  }
+
+  .tool-card-header {
+    padding: 1.2rem 0 1.1rem;
+  }
+
+  .birth-sky-title {
+    font-size: 2.65rem;
+  }
+
+  .tool-lede {
+    font-size: 1rem;
+  }
+
+  .privacy-disclosure summary {
+    align-items: flex-start;
+    font-size: 0.83rem;
+  }
+
+  #birth-sky-form {
+    padding: 1rem;
+  }
+
+  .birth-form-heading {
+    display: block;
+  }
+
+  .birth-form-heading h2 {
+    margin-top: 0.35rem;
+    font-size: 1.2rem;
+  }
+
+  #generate-btn {
+    width: 100%;
+  }
+
+  .results-hero {
+    padding: 1.1rem;
+  }
+
+  .hero-date {
+    font-size: 1.65rem;
+  }
+
+  .panel {
+    padding: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .birth-sky-header {
+    animation: birth-sky-enter 520ms ease-out both;
+  }
+
+  #birth-sky-form {
+    animation: birth-sky-enter 520ms 90ms ease-out both;
+  }
+}
+
+@keyframes birth-sky-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-songs {
+  margin-top: 1rem;
+  border-color: rgba(242, 192, 120, 0.28);
+}
+
+.songs-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.songs-kicker {
+  margin: 0 0 0.2rem;
+  color: #f2c078;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.panel-songs .songs-heading-row h3 {
+  display: block;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.panel-songs .panel-tag {
+  flex: 0 0 auto;
+  color: #f2c078;
+  background: rgba(242, 192, 120, 0.08);
+  border: 1px solid rgba(242, 192, 120, 0.32);
+}
+
+.top-songs-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.top-songs-list[hidden] {
+  display: none !important;
+}
+
+.top-songs-list li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-content: start;
+  gap: 0.45rem;
+  min-width: 0;
+  min-height: 5.3rem;
+  padding: 0.7rem 0.65rem;
+  background: linear-gradient(145deg, rgba(17, 34, 40, 0.92), rgba(10, 16, 22, 0.92));
+  border: 1px solid rgba(103, 232, 249, 0.16);
+  border-top: 2px solid rgba(242, 192, 120, 0.65);
+}
+
+.song-rank {
+  color: #f2c078;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.song-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.song-title {
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.song-artist {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.songs-source {
+  margin: 0.8rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 760px) {
+  .top-songs-list {
+    grid-template-columns: 1fr;
+  }
+
+  .top-songs-list li {
+    grid-template-columns: 2.35rem minmax(0, 1fr);
+    min-height: 0;
+    padding: 0.7rem 0.75rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .songs-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+}
