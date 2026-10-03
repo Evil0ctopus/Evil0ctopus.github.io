@@ -1,0 +1,52 @@
+{
+  "name": "Weather Atlas",
+  "version": "2026.10.02-95751da",
+  "sourceRepository": "https://github.com/Evil0ctopus/cores3_weather_console",
+  "sourceCommit": "95751da734ea286910d528a2259663ccf61b92b1",
+  "builtAt": "2026-10-03T02:11:13.676Z",
+  "environment": "m5stack-cores3",
+  "partitionScheme": "default_16MB.csv",
+  "toolchain": {
+    "platform": "espressif32 55.3.39",
+    "platformRepository": "https://github.com/pioarduino/platform-espressif32",
+    "framework": "Arduino-ESP32 3.3.9",
+    "compiler": "xtensa-esp-elf 14.2.0+20260121",
+    "libraries": {
+      "M5Unified": "0.2.24",
+      "M5GFX": "0.2.32",
+      "lvgl": "8.4.0",
+      "AsyncTCP": "3.3.2",
+      "ESPAsyncWebServer": "3.6.0",
+      "ArduinoJson": "7.4.3",
+      "PNGdec": "1.1.6",
+      "Adafruit NeoPixel": "1.15.5"
+    }
+  },
+  "files": {
+    "bootloader.bin": {
+      "offset": 0,
+      "bytes": 19984,
+      "sha256": "b41be55ae9a52aeeb21645c51b86c14027f84c2c91bf67bee6aa0e1b15d18e8b"
+    },
+    "partitions.bin": {
+      "offset": 32768,
+      "bytes": 3072,
+      "sha256": "bd0f7954aca2ef7d925ee21aaa1f3dc8822d1d6ce5cbbd26a135e5886bfff6ce"
+    },
+    "boot_app0.bin": {
+      "offset": 57344,
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+    },
+    "firmware.bin": {
+      "offset": 65536,
+      "bytes": 2021264,
+      "sha256": "9947b8f38b79aefde737d2694796627db074a1e1fe644d0c87b0d9b16be69b94"
+    },
+    "spiffs.bin": {
+      "offset": 13172736,
+      "bytes": 3538944,
+      "sha256": "c59deb872cbd024f48d628f7a417468198cc6e1c6263aa861ecfc216e391114a"
+    }
+  }
+}

@@ -506,7 +506,8 @@ a:hover {
   line-height: 1.3;
 }
 
-.status-badge--apk {
+.status-badge--apk,
+.status-badge--complete {
   color: #042f2e;
   background: rgba(52, 211, 153, 0.85);
   border-color: var(--success-muted);

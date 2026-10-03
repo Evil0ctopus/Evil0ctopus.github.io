@@ -1,7 +1,7 @@
 {
   "$schemaNote": "Evil0ctopus Flash catalog. v1 = ESP family only. mcuFamily + installMethod leave room for non-ESP installers later (e.g. uf2, link-out toolchains).",
   "version": 1,
-  "updated": "2026-09-25",
+  "updated": "2026-10-02",
   "defaults": {
     "authorizedUseNote": "Authorized use only. Flash firmware you own or are explicitly permitted to install. Third-party entries are catalog placeholders \u2014 not wired into this site's Install button until reviewed."
   },
@@ -89,22 +89,35 @@
     },
     {
       "id": "cores3_weather_console",
-      "name": "cores3_weather_console",
-      "shortDescription": "M5Stack CoreS3 (ESP32-S3) weather console: live atmospheric data, radar-style UI, and touch display as embedded systems practice.",
+      "name": "Weather Atlas",
+      "shortDescription": "Complete current feature scope: live weather, forecasts, radar, ten original themes, and synchronized touch/web System controls for M5Stack CoreS3. Includes firmware and all filesystem assets.",
       "category": "desk",
       "boardLabel": "M5Stack CoreS3",
       "chipFamily": "ESP32-S3",
       "chipNote": "ESP32-S3 \u00b7 CoreS3",
       "mcuFamily": "esp32",
-      "installMethod": "coming-soon",
-      "manifestUrl": null,
+      "installMethod": "esp-web-tools",
+      "manifestUrl": "firmware/cores3_weather_console/manifest.json",
       "upstreamUrl": "https://github.com/Evil0ctopus/cores3_weather_console",
-      "license": "See repository",
-      "authorizedUseNote": "Flash only hardware you own. Firmware packaging for ESP Web Tools is not published yet.",
-      "status": "coming-soon",
+      "license": "MIT",
+      "authorizedUseNote": "M5Stack CoreS3 only (16 MB flash / ESP32-S3); not Core, Core2, or a generic S3 board. Flash only hardware you own. Installation replaces firmware and filesystem assets. Erasing the device also removes saved Wi-Fi credentials and preferences; record your settings first.",
+      "status": "ready",
+      "version": "2026.10.02-95751da",
+      "sourceCommit": "95751da734ea286910d528a2259663ccf61b92b1",
+      "downloadUrl": "firmware/cores3_weather_console/manifest.json",
+      "buildInfoUrl": "firmware/cores3_weather_console/build-info.json",
+      "installSteps": [
+        "Use desktop Chrome or Edge on HTTPS with a USB-C data cable. Close serial monitors and other apps using the device.",
+        "Connect your M5Stack CoreS3, choose Connect & install, and select its USB serial port. Keep it connected until installation completes.",
+        "If no port appears, try another data cable or USB port. To enter download mode, hold the CoreS3 reset button for 3 seconds until the green LED lights, release it, then reconnect in the installer.",
+        "After installation, reset the device if it does not restart automatically. Open Home > System > WiFi to connect to a 2.4 GHz network.",
+        "In System > Location & Weather, enter a US ZIP or city/state and confirm the resolved place. Leave the API key blank for Open-Meteo, or supply your own AccuWeather key.",
+        "Find the device IP in System > Device & Diagnostics and open it from a browser on the same trusted network for the local control panel. Do not expose the device portal to the public internet."
+      ],
       "tags": [
         "evil0ctopus",
         "weather",
+        "atlas",
         "cores3",
         "esp32-s3",
         "own-project"

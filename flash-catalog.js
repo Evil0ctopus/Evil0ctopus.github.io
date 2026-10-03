@@ -78,27 +78,47 @@
     return null;
   }
 
-  function probeManifest(url) {
-    if (!url) return Promise.resolve(false);
+  function probeManifest(url, chipFamily) {
+    if (!url) return Promise.resolve({ error: "No manifest URL configured." });
     if (state.manifestCache[url] !== undefined) {
-      return Promise.resolve(state.manifestCache[url]);
+      return state.manifestCache[url];
     }
-    return fetch(url, { method: "GET", cache: "no-store" })
+    state.manifestCache[url] = fetch(url, { method: "GET", cache: "no-store" })
       .then(function (res) {
-        if (!res.ok) {
-          state.manifestCache[url] = false;
-          return false;
+        if (!res.ok) throw new Error("Manifest HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var build = data && Array.isArray(data.builds) && data.builds.find(function (candidate) {
+          return candidate.chipFamily === chipFamily;
+        });
+        if (!build || !Array.isArray(build.parts) || !build.parts.length) {
+          throw new Error("Manifest has no firmware parts for " + chipFamily + ".");
         }
-        return res.json().then(function (data) {
-          var ok = data && Array.isArray(data.builds) && data.builds.length > 0;
-          state.manifestCache[url] = ok ? url : false;
-          return state.manifestCache[url];
+        var manifestUrl = new URL(url, document.baseURI);
+        return Promise.all(build.parts.map(function (part) {
+          if (!part || typeof part.path !== "string" || !part.path.trim() ||
+              !Number.isSafeInteger(part.offset) || part.offset < 0) {
+            throw new Error("Manifest contains an invalid firmware part.");
+          }
+          var binaryUrl = new URL(part.path, manifestUrl);
+          return fetch(binaryUrl.href, { method: "HEAD", cache: "no-store" })
+            .then(function (res) {
+              var length = res.headers.get("content-length");
+              if (!res.ok || (length !== null && Number(length) <= 0)) {
+                throw new Error("Firmware part missing or empty: " + part.path + " (HTTP " + res.status + ").");
+              }
+            });
+        })).then(function () {
+          return { url: url };
         });
       })
-      .catch(function () {
-        state.manifestCache[url] = false;
-        return false;
+      .catch(function (err) {
+        console.error("Firmware availability check failed:", url, err);
+        delete state.manifestCache[url];
+        return { error: err.message };
       });
+    return state.manifestCache[url];
   }
 
   function renderFilters() {
@@ -260,6 +280,11 @@
       "<dt>License</dt><dd>" +
       escapeHtml(item.license || "See upstream") +
       "</dd>" +
+      (item.version ? "<dt>Build</dt><dd>" + escapeHtml(item.version) + "</dd>" : "") +
+      (item.sourceCommit && repo
+        ? '<dt>Revision</dt><dd><a href="' + escapeHtml(repo + "/commit/" + item.sourceCommit) +
+          '" rel="noopener noreferrer" target="_blank">' + escapeHtml(item.sourceCommit.slice(0, 7)) + "</a></dd>"
+        : "") +
       (repo
         ? "<dt>Source</dt><dd><a href=\"" +
           escapeHtml(repo) +
@@ -271,6 +296,11 @@
       '<p class="detail-auth" role="note"><strong>Authorized use.</strong> ' +
       escapeHtml(auth) +
       "</p>" +
+      (item.installSteps && item.installSteps.length
+        ? '<section class="detail-setup" aria-label="Installation and first boot"><h3>Installation &amp; first boot</h3><ol>' +
+          item.installSteps.map(function (step) { return "<li>" + escapeHtml(step) + "</li>"; }).join("") +
+          "</ol></section>"
+        : "") +
       '<div class="detail-actions" id="detail-actions">' +
       '<div id="esp-install-host" class="esp-install-host" hidden>' +
       '<esp-web-install-button id="esp-install" class="esp-install">' +
@@ -285,6 +315,13 @@
         ? '<a class="btn btn-ghost" href="' +
           escapeHtml(upstream) +
           '" rel="noopener noreferrer" target="_blank">Project / docs</a>'
+        : "") +
+      (item.downloadUrl
+        ? '<a class="btn btn-ghost" href="' + escapeHtml(item.downloadUrl) + '" download>Download manifest</a>'
+        : "") +
+      (item.buildInfoUrl
+        ? '<a class="btn btn-ghost" href="' + escapeHtml(item.buildInfoUrl) +
+          '" rel="noopener noreferrer" target="_blank">Build details / SHA-256</a>'
         : "") +
       "</div>" +
       '<p class="detail-hint" id="detail-hint"></p>';
@@ -332,26 +369,25 @@
     // ESP Web Tools: Install only when status=ready AND a valid manifest exists
     if (method === "esp-web-tools") {
       setInstallVisibility("pending");
-      hint.textContent = "Probing for published manifest…";
-      probeManifest(item.manifestUrl).then(function (manifestUrl) {
-        if (state.selectedId !== item.id) return;
-        if (status === "ready" && manifestUrl) {
+      hint.textContent = "Checking manifest and firmware files…";
+      var installElement = els.espInstall;
+      probeManifest(item.manifestUrl, item.chipFamily).then(function (result) {
+        if (state.selectedId !== item.id || els.espInstall !== installElement) return;
+        if (status === "ready" && result.url) {
           setInstallVisibility("ready");
           if (els.espInstall) {
-            els.espInstall.setAttribute("manifest", manifestUrl);
+            els.espInstall.setAttribute("manifest", result.url);
           }
           hint.textContent =
             "Chrome or Edge · connect board over USB · then Connect & install. Manifest: " +
-            manifestUrl;
+            result.url;
           return;
         }
         setInstallVisibility("pending");
         if (els.espInstall) els.espInstall.removeAttribute("manifest");
-        if (status === "ready" && !manifestUrl) {
+        if (status === "ready" && !result.url) {
           hint.textContent =
-            "Status is ready but manifest is missing or invalid" +
-            (item.manifestUrl ? " (" + item.manifestUrl + ")" : "") +
-            ".";
+            "Install unavailable: " + result.error + " Select this firmware again to retry.";
         } else {
           hint.textContent =
             "Install stays inactive until status=ready and a published manifest exists" +
@@ -367,12 +403,32 @@
   }
 
   function selectItem(id) {
+    if (!findItem(id)) return;
     state.selectedId = id;
+    history.replaceState(null, "", "#" + encodeURIComponent(id));
     renderList();
     renderDetail(findItem(id));
   }
 
+  function selectFromHash() {
+    var id;
+    try {
+      id = decodeURIComponent(location.hash.slice(1));
+    } catch (err) {
+      console.warn("Invalid firmware link:", err);
+      return false;
+    }
+    if (!findItem(id)) return false;
+    state.category = "all";
+    state.query = "";
+    els.search.value = "";
+    renderFilters();
+    selectItem(id);
+    return true;
+  }
+
   function bindEvents() {
+    window.addEventListener("hashchange", selectFromHash);
     els.filters.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-category]");
       if (!btn) return;
@@ -413,7 +469,9 @@
       .then(function (data) {
         state.catalog = data;
         renderFilters();
-        var first = (data.items && data.items[0]) || null;
+        if (selectFromHash()) return;
+        var first = (data.items || []).find(function (item) { return item.status === "ready"; }) ||
+          (data.items && data.items[0]) || null;
         if (first) state.selectedId = first.id;
         renderList();
         renderDetail(first);

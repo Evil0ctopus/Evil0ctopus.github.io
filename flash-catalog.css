@@ -419,6 +419,25 @@
   align-items: center;
 }
 
+#flash .detail-setup {
+  font-size: 0.84rem;
+  color: var(--cat-text);
+  margin-bottom: 1rem;
+}
+
+#flash .detail-setup h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+#flash .detail-setup ol {
+  padding-left: 1.3rem;
+}
+
+#flash .detail-setup li + li {
+  margin-top: 0.5rem;
+}
+
 #flash .detail-actions .btn {
   display: inline-flex;
   align-items: center;
