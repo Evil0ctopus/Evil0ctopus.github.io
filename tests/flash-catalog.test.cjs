@@ -63,6 +63,9 @@ async function boot({ hash = "", manifestData = manifest, binaryStatus = 200, bi
       if (url === "firmware/Pocket-Pirate-CYD/manifest.json") {
         return response(JSON.parse(fs.readFileSync(path.join(root, url))));
       }
+      if (url === "firmware/poseidon_adv/manifest.json") {
+        return response(JSON.parse(fs.readFileSync(path.join(root, url))));
+      }
       if (options.method === "HEAD") return response(null, binaryStatus, binaryLength);
       return response(null, 404);
     },
@@ -101,7 +104,7 @@ test("pending and coming-soon projects remain disabled", async () => {
 });
 
 test("ready installers require the preserved pre-flash checklist", async () => {
-  for (const id of ["cores3_weather_console", "Pocket-Pirate-CYD"]) {
+  for (const id of ["cores3_weather_console", "Pocket-Pirate-CYD", "poseidon_adv"]) {
     const app = await boot({ hash: "#" + id });
     assert.equal(app.getElement("esp-install-host").hidden, false);
     assert.equal(app.activate.disabled, true);
@@ -179,6 +182,7 @@ test("release parts are nonempty, fit actual partitions, and match recorded SHA-
       size: partitions.readUInt32LE(offset + 8),
       label: partitions.subarray(offset + 12, offset + 28).toString().replace(/\0.*$/, ""),
     });
+
   }
   const app = ranges.find((part) => part.label === "app0");
   const spiffs = ranges.find((part) => part.label === "spiffs");
@@ -202,4 +206,25 @@ test("release parts are nonempty, fit actual partitions, and match recorded SHA-
       assert.equal(binary.length, spiffs.size);
     }
   }
+});
+
+test("Deepwater is ready with the pinned factory image and separate Launcher safety guidance", async () => {
+  const item = catalog.items.find((entry) => entry.id === "poseidon_adv");
+  const packageManifest = JSON.parse(fs.readFileSync(path.join(root, item.manifestUrl)));
+  const part = packageManifest.builds[0].parts[0];
+  const binary = fs.readFileSync(path.join(root, path.dirname(item.manifestUrl), part.path));
+  assert.equal(packageManifest.version, "0.8.0");
+  assert.equal(packageManifest.builds[0].chipFamily, "ESP32-S3");
+  assert.equal(part.offset, 0);
+  assert.equal(binary.length, 2872832);
+  assert.equal(binary[0], 0xe9);
+  assert.ok(binary.includes(Buffer.from("0.8.0")));
+  assert.equal(crypto.createHash("sha256").update(binary).digest("hex"), part.sha256);
+  assert.equal(part.sha256, item.latestRelease.sha256);
+  assert.match(item.authorizedUseNote, /Do not use over Launcher/);
+  assert.ok(item.releaseHistory.some((release) => release.assetUrl.endsWith("/poseidon-launcher.bin")));
+  const app = await boot({ hash: "#poseidon_adv" });
+  assert.equal(app.getElement("esp-install").attributes.manifest, item.manifestUrl);
+  assert.equal(app.activate.disabled, true);
+  assert.match(app.getElement("catalog-detail").innerHTML, /Do not use over Launcher/);
 });

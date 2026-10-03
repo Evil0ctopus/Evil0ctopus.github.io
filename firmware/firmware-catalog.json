@@ -1,7 +1,7 @@
 {
   "$schemaNote": "Evil0ctopus Flash catalog. v1 = ESP family only. mcuFamily + installMethod leave room for non-ESP installers later (e.g. uf2, link-out toolchains).",
   "version": 1,
-  "updated": "2026-10-02",
+  "updated": "2026-10-03",
   "defaults": {
     "authorizedUseNote": "Authorized use only. Flash firmware you own or are explicitly permitted to install. Third-party entries are catalog placeholders \u2014 not wired into this site's Install button until reviewed.",
     "hardwareVerification": {
@@ -211,6 +211,67 @@
         "handheld",
         "own-project"
       ]
+    },
+    {
+      "id": "poseidon_adv",
+      "name": "POSEIDON Advanced - Deepwater",
+      "shortDescription": "v0.8.0 navy/cyan redesign with original icons, skippable boot reveal, readable menus and scrollable help for Cardputer-Adv. Browser install is standalone only; Launcher users need the app-only release.",
+      "category": "evil0ctopus",
+      "boardLabel": "M5Stack Cardputer-Adv",
+      "chipFamily": "ESP32-S3",
+      "chipNote": "ESP32-S3; Cardputer-Adv only, not CoreS3 or a generic S3 board",
+      "hardwareProfile": {
+        "model": "M5Stack Cardputer-Adv",
+        "display": "240 x 135 TFT with physical keyboard",
+        "usb": "USB-C native USB; data cable required",
+        "flash": "8 MB; merged standalone factory image at 0x0 replaces partitions. Not for Launcher/Meshtastic layouts."
+      },
+      "hardwareVerification": {
+        "status": "not-verified",
+        "label": "Deepwater UI hardware-tested; this factory install not independently tested",
+        "note": "Safe UI navigation and app-only installation were verified on a Cardputer-Adv with a custom Launcher/Meshtastic layout. The same UI source passed; the version-bumped 0.8.0 standalone factory flash was not repeated. No transmit/destructive-feature testing is claimed."
+      },
+      "gallery": [
+        {
+          "src": "assets/deepwater-cover.png",
+          "alt": "POSEIDON Deepwater navy and cyan menu with original pixel-aligned icons",
+          "caption": "Actual LCD readback from the verified Deepwater UI, arranged as a release cover; not a photograph of the board."
+        }
+      ],
+      "releaseHistoryUrl": "https://github.com/Evil0ctopus/poseidon_adv/releases",
+      "latestRelease": {
+        "version": "0.8.0 Deepwater",
+        "builtAt": "2026-10-03",
+        "commit": "206bbaaa58ea1651a99f18054537175140cbc94d",
+        "sha256": "7745c9802fb90202ca83fc46f8256ced01ed1eb9e60a961c6fba519aa99351ca",
+        "assetKind": "Merged standalone factory image; never use over Launcher/Meshtastic",
+        "flashOffset": "0x0",
+        "downloadUrl": "https://github.com/Evil0ctopus/poseidon_adv/releases/download/v0.8.0/poseidon-factory.bin",
+        "releaseUrl": "https://github.com/Evil0ctopus/poseidon_adv/releases/tag/v0.8.0"
+      },
+      "releaseHistory": [
+        {
+          "version": "0.8.0 Deepwater - Launcher app only",
+          "date": "2026-10-03",
+          "notes": "For existing Launcher setups: install with Launcher's SD/WebUI app installer. Do not write at 0x0 or replace partitions. SHA-256: 5a647017a406e576399cb6dcf9f73a835987fe2dc533ffd6fc78f8337b3a9cc8.",
+          "assetUrl": "https://github.com/Evil0ctopus/poseidon_adv/releases/download/v0.8.0/poseidon-launcher.bin"
+        }
+      ],
+      "mcuFamily": "esp32",
+      "installMethod": "esp-web-tools",
+      "manifestUrl": "firmware/poseidon_adv/manifest.json",
+      "upstreamUrl": "https://github.com/Evil0ctopus/poseidon_adv",
+      "license": "MIT",
+      "authorizedUseNote": "Educational and authorized lab use only. STANDALONE FACTORY INSTALL: replaces the flash layout. Do not use over Launcher, Meshtastic or any multi-app setup; use the app-only Launcher download through Launcher's own installer. Back up data and confirm the exact Cardputer-Adv model before connecting.",
+      "installSteps": [
+        "Confirm this is a Cardputer-Adv intended for standalone installation. Stop if it currently has Launcher, Meshtastic or another multi-app layout; use the app-only Launcher release instead.",
+        "Back up important data and settings. Close serial monitors and M5Burner. Use desktop Chrome or Edge on HTTPS with a USB-C data cable.",
+        "Complete the pre-flash checklist, choose Connect & install and select the Cardputer serial port. Factory installation replaces the partition layout.",
+        "Keep USB connected until installation completes. Reset if needed; Deepwater boots to the main menu. Existing saved non-default themes may remain selected.",
+        "Use arrow keys and Enter to navigate, help for controls, and display settings for large text and reduced motion. Operate research features only on owned or explicitly authorized systems."
+      ],
+      "status": "ready",
+      "tags": ["evil0ctopus", "deepwater", "cardputer-adv", "esp32-s3", "own-project"]
     },
     {
       "id": "cyd-aura",

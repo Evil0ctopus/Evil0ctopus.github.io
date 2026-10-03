@@ -74,3 +74,11 @@ See [ESP Web Tools docs](https://esphome.github.io/esp-web-tools/) for multi-par
 pinned source revision, build commands, offsets, checksums, first boot, and update procedure.
 The installer includes the filesystem; firmware-only uploads omit the artwork/audio/web interface.
 CoreS3 only (16 MB flash, 8 MB PSRAM), not Core/Core2 or arbitrary ESP32-S3 boards.
+
+## POSEIDON Advanced - Deepwater
+
+[Deepwater package notes](poseidon_adv/README.md) pin v0.8.0's standalone
+factory image, source revision and SHA-256. The Flash hub's `#poseidon_adv`
+entry installs that image at `0x0` for a standalone Cardputer-Adv only.
+Never use this factory installer over Launcher/Meshtastic; the release record
+also links to the separate app-only Launcher download.
