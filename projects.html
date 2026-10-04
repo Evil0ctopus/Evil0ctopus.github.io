@@ -59,10 +59,11 @@
                 <span class="apk-status apk-status--ready">Comic preview ready</span>
                 <span class="card-tag">Android test build</span>
               </div>
-              <p class="apk-copy">Download the comic UI preview tested on October 3, 2026.</p>
+              <p class="apk-copy">Download the comic UI preview, updated October 4, 2026 with radar animation restart fixes.</p>
               <a class="btn btn-primary apk-download" href="downloads/wigglefish-comic-preview-2026-10-03.apk" download="wigglefish-comic-preview-2026-10-03.apk" type="application/vnd.android.package-archive">Download comic preview APK</a>
               <p class="apk-note">Android 8.0+ (API 26) · ~19&nbsp;MB debug-signed sideload APK. Internal version 0.1.0 / build 5; not a production release or a version upgrade to 0.4.0. Installs separately as <code>com.wigglefish.android.lumitest</code>, leaving the regular app untouched. Allow “Install unknown apps” for your browser if prompted.</p>
-              <p class="apk-note">Ten emulator UI tests pass at normal size and at 360dp with 130% text, including 1,000-row scrolling, contrast, and reduced motion. Two motion tests also pass with Android animations disabled. Installed on a Samsung phone for user testing; physical-device performance and USB behavior are not certified.</p>
+              <p class="apk-note">Eleven emulator UI tests pass at normal size and at 360dp with 130% text, including radar window-visibility restart, 1,000-row scrolling, contrast, and reduced motion. Two motion tests also pass with Android animations disabled. The earlier comic build was installed on a Samsung phone for user testing; this radar update is emulator-verified, not yet phone-verified.</p>
+              <p class="apk-note">Radar and Lumi animation loops restart when the window becomes visible and motion refreshes on resume. If animations are deliberately disabled, the radar shows PAUSED and explains whether Paint reduced motion or Android settings are responsible.</p>
               <p class="apk-note">Passive survey is the default; USB opens only after Connect. Optional active lab tools may transmit or capture traffic and must only be used in an isolated, authorized environment. UI effects never initiate device commands.</p>
               <a class="card-link" href="downloads/wigglefish-comic-preview-2026-10-03.apk.sha256" download>APK SHA-256 checksum →</a>
               <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish/blob/main/android/README.md" rel="noopener noreferrer">Comic UI guide and test details →</a>
