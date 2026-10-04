@@ -16,8 +16,25 @@ test("comic preview download is real and matches its published checksum", () => 
   assert.equal(checksum, crypto.createHash("sha256").update(apk).digest("hex") + "  " + apkName);
   assert.ok(projects.includes('data-apk-url="downloads/' + apkName + '"'));
   assert.ok(projects.includes('href="downloads/' + apkName + '"'));
-  assert.ok(projects.includes('download="' + apkName + '"'));
+  assert.ok(projects.includes('download="wigglefish-nightly-2026-10-04.apk"'));
   assert.ok(projects.includes('href="downloads/' + apkName + '.sha256"'));
+});
+
+test("flash hub offers the actual nightly APK with safe Android installation steps", () => {
+  const flash = fs.readFileSync(path.join(root, "flash.html"), "utf8");
+  assert.ok(flash.includes('id="wigglefish-android"'));
+  assert.ok(flash.includes('href="downloads/' + apkName + '"'));
+  assert.ok(flash.includes('download="wigglefish-nightly-2026-10-04.apk"'));
+  assert.ok(flash.includes('type="application/vnd.android.package-archive"'));
+  assert.ok(flash.includes('href="downloads/' + apkName + '.sha256"'));
+  assert.ok(flash.includes("may still contain bugs"));
+  assert.ok(flash.includes("Install unknown apps"));
+  assert.ok(flash.includes("Android performs installation only after your confirmation"));
+  assert.ok(flash.includes("does not flash a board"));
+  assert.ok(flash.includes("com.wigglefish.android.lumitest"));
+  assert.ok(projects.includes('href="flash.html#wigglefish-android"'));
+  assert.ok(projects.includes("Nightly build available"));
+  assert.ok(!projects.includes("not yet phone-verified"));
 });
 
 test("preview is disclosed honestly and old Wigglefish download is removed", () => {

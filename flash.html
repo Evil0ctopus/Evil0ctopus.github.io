@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Flash ESP firmware from the Evil0ctopus multi-chip catalog with ESP Web Tools.">
-  <title>Flash firmware · Evil0ctopus</title>
+  <meta name="description" content="Install the Wigglefish Android nightly build or flash ESP firmware with ESP Web Tools.">
+  <title>Install apps &amp; flash firmware · Evil0ctopus</title>
   <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="flash-catalog.css">
@@ -39,11 +39,27 @@
   <main id="main">
     <section id="flash" class="section" aria-labelledby="flash-heading">
       <div class="section-inner flash-catalog">
-        <h1 id="flash-heading">Flash firmware</h1>
+        <h1 id="flash-heading">Install apps &amp; flash firmware</h1>
         <p class="section-intro">
-          Choose your device, check that the firmware matches it, then follow the steps shown here.
-          You can browse on a phone without connecting anything. Installing requires desktop Chrome or Edge and a USB data cable.
+          Installing on an Android phone? Use the nightly APK below. Installing on an ESP board?
+          Choose matching firmware from the catalog; board flashing requires desktop Chrome or Edge and a USB data cable.
         </p>
+        <section id="wigglefish-android" class="flash-start" aria-labelledby="android-install-heading">
+          <p class="finder-kicker">ANDROID / Nightly build</p>
+          <h2 id="android-install-heading">Wigglefish comic UI nightly</h2>
+          <p><strong>Experimental build &mdash; may still contain bugs.</strong> October 4, 2026 nightly with comic paint palettes, Lumi, and radar animation restart fixes. Radar sweep verified on a Samsung phone with Paint motion enabled.</p>
+          <a class="btn btn-primary" href="downloads/wigglefish-comic-preview-2026-10-03.apk" download="wigglefish-nightly-2026-10-04.apk" type="application/vnd.android.package-archive">Install Android nightly / Download APK</a>
+          <p>Android 8.0+ &middot; ~19 MB debug-signed sideload APK &middot; internal version 0.1.0 / build 5. Installs separately as <code>com.wigglefish.android.lumitest</code>, leaving the regular app untouched. This is not a stable release or a version upgrade to 0.4.0.</p>
+          <ol>
+            <li>Open this page on your Android phone and tap the APK button above. On a computer, download it and transfer the APK to your phone.</li>
+            <li>Open the downloaded APK. If Android asks, allow <strong>Install unknown apps</strong> for the browser or file manager you used, then return to the installer and confirm <strong>Install</strong>. You can turn that permission off afterward.</li>
+            <li>Open Wigglefish. For the animated radar, enable <strong>Paint &gt; Motion</strong>; Android's reduced-motion setting is still respected.</li>
+          </ol>
+          <p>The browser downloads the APK; Android performs installation only after your confirmation. This does not flash a board, open a USB port, or require USB debugging. iPhones cannot install Android APKs.</p>
+          <p>Passive survey is the default. Optional active lab tools may transmit or capture traffic; use them only in an isolated, authorized environment.</p>
+          <a class="card-link" href="downloads/wigglefish-comic-preview-2026-10-03.apk.sha256" download>APK SHA-256 checksum</a>
+          <a class="card-link" href="projects.html#wigglefish">Screenshots and test details</a>
+        </section>
         <p class="catalog-auth" role="note">
           <strong>Weather Atlas is ready.</strong> The complete current build for M5Stack CoreS3 includes
           firmware plus artwork, audio, and web assets. <a href="#cores3_weather_console">Select Weather Atlas</a>
@@ -55,7 +71,7 @@
           <strong>Authorized use only.</strong>
           Flash firmware only on hardware you own or are explicitly permitted to install on.
           <strong>wigglefish</strong> is metadata-only / passive observation in authorized environments — no joining networks, deauth, or injection.
-          Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button. Android companion app: download the <a href="projects.html#wigglefish">Wigglefish comic UI preview</a>. The Android app also includes optional active lab tools; keep those restricted to an isolated, authorized environment.
+          Third-party CYD picks are <em>draft / not wired</em> placeholders: they open an upstream installer and do not activate the local Install button. For the Android companion, use the <a href="#wigglefish-android">Wigglefish nightly APK installer above</a>. The Android app also includes optional active lab tools; keep those restricted to an isolated, authorized environment.
         </p>
 
         <section class="board-finder" aria-labelledby="board-finder-heading">
@@ -140,7 +156,7 @@
         <details class="catalog-scope">
           <summary>What is included in this catalog?</summary>
           <div class="catalog-scope-content">
-            <p>The published <strong>wigglefish firmware</strong> is for passive Wi-Fi and BLE observation in authorized environments. Its Android companion <a href="projects.html#wigglefish">comic UI preview</a> is on the Projects page. The Android app includes optional active lab tools that may transmit or capture traffic; use them only in an isolated, authorized environment.</p>
+            <p>The published <strong>wigglefish firmware</strong> is for passive Wi-Fi and BLE observation in authorized environments. Its Android companion <a href="#wigglefish-android">nightly APK</a> installs separately through Android, not ESP Web Tools. The Android app includes optional active lab tools that may transmit or capture traffic; use them only in an isolated, authorized environment.</p>
             <p>Some CYD entries belong to other projects. They are clearly marked and open that project’s own page; this site does not install them.</p>
             <p>Browser installation requires desktop Chrome or Edge and a secure page connection. No connection is made until you choose a board and start the install flow.</p>
           </div>

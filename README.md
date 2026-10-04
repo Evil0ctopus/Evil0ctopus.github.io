@@ -15,13 +15,21 @@ Static multi-page HTML/CSS hiring-facing site, published via GitHub Pages from t
 | Education | `education.html` | WGU B.S. Cybersecurity & Information Assurance (in progress) |
 | Skills | `skills.html` | Skills & certifications (incl. CompTIA A+, lab practice) |
 | Projects | `projects.html` | Cards for Weather Atlas (current scope complete), wigglefish, Pocket-Pirate-CYD, poseidon_adv, OctoBuddy (+ APK CTA) |
-| Flash | `flash.html` | Multi-board ESP Web Tools flash hub driven by `firmware/firmware-catalog.json` |
+| Flash | `flash.html` | Android nightly APK installation guide plus multi-board ESP Web Tools flash hub driven by `firmware/firmware-catalog.json` |
 | Tools | `tools.html` | Browser-only experiments — **Birth Sky** (planetarium + classic wheel + on-this-day; no accounts / no backend) |
 | Contact | `contact.html` | Hire / contact — GitHub, PayPal, Discord (GitHub-only social until a vanity profile URL) |
 
 Shared chrome: `styles.css`, `assets/` (brand mark, icon, favicon), site background nodes.
 
 ## Flash hub
+
+The `flash.html#wigglefish-android` section downloads the Wigglefish nightly APK
+directly and explains Android's user-confirmed sideload installation. It does
+not use Web Serial, flash firmware, or require USB debugging. The October 4,
+2026 nightly may still contain bugs; it is debug-signed and uses the separate
+`com.wigglefish.android.lumitest` package. Its radar sweep was verified on a
+Samsung phone with Paint motion enabled. The existing APK URL is retained for
+download compatibility; the download filename and UI identify it as a nightly.
 
 Multi-board Flash UI powered by [ESP Web Tools](https://esphome.github.io/esp-web-tools/) (Chrome/Edge, Web Serial). Catalog lives in `firmware/firmware-catalog.json`; `flash-catalog.js` drives the card + detail UI.
 
@@ -48,8 +56,8 @@ Tests cover selection/deep links, pending/third-party behavior, broken release f
 ## Other assets
 
 - `downloads/` — OctoBuddy release APK and the separately installed
-  Wigglefish comic UI debug preview (October 3, 2026), with its SHA-256 checksum.
-  The preview is not a production release or a replacement for 0.4.0.
+  Wigglefish comic UI nightly (updated October 4, 2026), with its SHA-256 checksum.
+  The nightly is not a production release or a replacement for 0.4.0.
 - `assets/wigglefish-comic-ui-2026-10-03.png` — five-screen emulator preview on Projects.
 - `firmware/` — release manifests and bins for Flash (see `firmware/README.md`)
 - `previews/` — static preview assets
