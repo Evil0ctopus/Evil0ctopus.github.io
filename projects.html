@@ -49,21 +49,30 @@
               <span class="status-badge status-badge--android">Android</span>
               <span class="card-tag">ESP32-C5 · Android</span>
             </div>
-            <h3><a href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">wigglefish</a></h3>
+            <h3 id="wigglefish"><a href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">wigglefish</a></h3>
             <p>
-              Passive Wi-Fi and BLE field scanner: ESP32-C5 plus an Android USB controller for Identify/Flash and Survey/Wardrive (map, exports). Metadata-only observation for authorized environments — no joining networks, deauth, injection, or offensive RF.
+              Wi-Fi and BLE field scanner: ESP32-C5 plus an Android USB controller with readable signal cards, radar, and session exports. The new comic-style UI brings original Lumi artwork, four paint palettes, springy controls, and a compact layout for smaller screens.
             </p>
             <p class="hiring-takeaway"><span class="hiring-takeaway-label">Hiring takeaway:</span> Passive wireless observation plus Android/hardware integration for authorized environments.</p>
-            <div class="apk-cta" data-apk-url="downloads/wigglefish-0.4.0.apk">
+            <div class="apk-cta" data-apk-url="downloads/wigglefish-comic-preview-2026-10-03.apk">
               <div class="apk-cta-header">
-                <span class="apk-status apk-status--ready">APK ready</span>
-                <span class="card-tag">Android download</span>
+                <span class="apk-status apk-status--ready">Comic preview ready</span>
+                <span class="card-tag">Android test build</span>
               </div>
-              <p class="apk-copy">Download Wigglefish 0.4.0 for Android directly from this site.</p>
-              <a class="btn btn-primary apk-download" href="downloads/wigglefish-0.4.0.apk" download="wigglefish-0.4.0.apk" type="application/vnd.android.package-archive">Download Android APK</a>
-              <p class="apk-note">v0.4.0 · Android 8.0+ (API 26) · ~7&nbsp;MB sideload APK (not on Play Store). Allow “Install unknown apps” for your browser if prompted. Passive / authorized use only.</p>
-              <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish/releases/tag/android-v0.4.0" rel="noopener noreferrer">Release notes →</a>
+              <p class="apk-copy">Download the comic UI preview tested on October 3, 2026.</p>
+              <a class="btn btn-primary apk-download" href="downloads/wigglefish-comic-preview-2026-10-03.apk" download="wigglefish-comic-preview-2026-10-03.apk" type="application/vnd.android.package-archive">Download comic preview APK</a>
+              <p class="apk-note">Android 8.0+ (API 26) · ~19&nbsp;MB debug-signed sideload APK. Internal version 0.1.0 / build 5; not a production release or a version upgrade to 0.4.0. Installs separately as <code>com.wigglefish.android.lumitest</code>, leaving the regular app untouched. Allow “Install unknown apps” for your browser if prompted.</p>
+              <p class="apk-note">Ten emulator UI tests pass at normal size and at 360dp with 130% text, including 1,000-row scrolling, contrast, and reduced motion. Two motion tests also pass with Android animations disabled. Installed on a Samsung phone for user testing; physical-device performance and USB behavior are not certified.</p>
+              <p class="apk-note">Passive survey is the default; USB opens only after Connect. Optional active lab tools may transmit or capture traffic and must only be used in an isolated, authorized environment. UI effects never initiate device commands.</p>
+              <a class="card-link" href="downloads/wigglefish-comic-preview-2026-10-03.apk.sha256" download>APK SHA-256 checksum →</a>
+              <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish/blob/main/android/README.md" rel="noopener noreferrer">Comic UI guide and test details →</a>
             </div>
+            <figure class="wigglefish-preview">
+              <a href="assets/wigglefish-comic-ui-2026-10-03.png">
+                <img src="assets/wigglefish-comic-ui-2026-10-03.png" width="1350" height="630" loading="lazy" alt="Wigglefish comic UI: Discover, Radar, Tools, Insights, and Save screens with cyan, pink, and yellow inked panels.">
+              </a>
+              <figcaption>Original comic paintwork and Lumi artwork. Tap the preview to see all five screens full-size.</figcaption>
+            </figure>
             <a class="card-link" href="https://github.com/Evil0ctopus/wigglefish" rel="noopener noreferrer">View on GitHub →</a>
           </li>
           <li class="project-card">

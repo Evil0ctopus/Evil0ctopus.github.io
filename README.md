@@ -47,7 +47,10 @@ Tests cover selection/deep links, pending/third-party behavior, broken release f
 
 ## Other assets
 
-- `downloads/` — OctoBuddy release APK served from this site
+- `downloads/` — OctoBuddy release APK and the separately installed
+  Wigglefish comic UI debug preview (October 3, 2026), with its SHA-256 checksum.
+  The preview is not a production release or a replacement for 0.4.0.
+- `assets/wigglefish-comic-ui-2026-10-03.png` — five-screen emulator preview on Projects.
 - `firmware/` — release manifests and bins for Flash (see `firmware/README.md`)
 - `previews/` — static preview assets
 

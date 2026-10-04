@@ -30,6 +30,24 @@
 }
 
 /* Mobile: scale down particle/scene density for perf */
+.wigglefish-preview {
+  margin: 1.25rem 0;
+}
+
+.wigglefish-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.wigglefish-preview figcaption {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
 @media (max-width: 640px) {
   :root {
     --bg-ocean-particle-density: 0.75;
